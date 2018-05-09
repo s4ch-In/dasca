@@ -9,7 +9,9 @@ body {
   font-family: 'Helvetica', Times, serif;
   height: 100%;
 }
-
+.bdy td{
+  padding-top: 15px;
+}
 h3 {
   color: #000000;
 }

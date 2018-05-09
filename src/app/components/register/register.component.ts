@@ -23,9 +23,15 @@ import { NotificationsService } from 'angular2-notifications';
 export class RegisterComponent implements OnInit {
   sportsForm: boolean = true
   groundForm: boolean = false
+  personal: boolean = true
+  company: boolean = false
   registerForm: FormGroup;
   groundregForm: FormGroup;
   submited: boolean = false;
+  bal: number
+  tot: number = 0
+  amp: number = 0
+  totalAmount: FormControl
   @ViewChild('formDom') formDom: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
@@ -42,10 +48,17 @@ export class RegisterComponent implements OnInit {
 
     // console.log('printer : ', printer);
     //let todayDate = this.datePipe.transform(new Date(), 'shortTime');
+    // this.totalAmount = new FormControl('', Validators.required)
+    // this.amountPaid = new FormControl('', Validators.required)
     this.registerForm = this.formBuilder.group({
-      rcpType: new FormControl('SPORTS'),
       batch: new FormControl('MORNING'),
       time: new FormControl(),
+      membership: new FormGroup({
+        q1: new FormControl(''),
+        q2: new FormControl(''),
+        q3: new FormControl(''),
+        q4: new FormControl(''),
+      }),
       firstName: new FormControl('', Validators.required),
       middleName: new FormControl(),
       lastName: new FormControl('', Validators.required),
@@ -75,32 +88,67 @@ export class RegisterComponent implements OnInit {
       feesPaid: new FormControl('', Validators.required),
       coach: new FormControl(),
       secretary: new FormControl(),
-    });
-
-    this.groundregForm = this.formBuilder.group({
-      rcpType: new FormControl('GROUND'),
-      dateFromTo: new FormControl(),
-      gfirstName: new FormControl('', Validators.required),
-      gmiddleName: new FormControl(),
-      glastName: new FormControl('', Validators.required),
-      poc: new FormGroup({
-        pocfullName: new FormControl('', Validators.required),
-        pocmobileNo: new FormControl()
-      }),
+      totalAmount: new FormControl(0, Validators.required),
+      amountPaid: new FormControl(0, Validators.required),
+      balance: new FormControl(0, Validators.required),
+      narration: new FormControl('', Validators.required),
+      mode: new FormControl('CASH', Validators.required)
 
     });
 
-    // console.log('this.registerForm  : ', this.registerForm.value);
   }
   ngAfterViewInit() {
     this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
     // console.log('route : ', );
-
-
   }
   ngOnInit() {
+
+    this.groundregForm = this.formBuilder.group({
+      dateFromTo: new FormControl(),
+      regNo: new FormControl,
+      narration: new FormControl(),
+      balance: new FormControl(),
+      totalAmount: new FormControl(0, Validators.required),
+      amountPaid: new FormControl(0, Validators.required),
+      personal: new FormGroup({
+        name: new FormControl('', Validators.required),
+        contactNo: new FormControl('', Validators.required),
+        address: new FormControl('', Validators.required),
+      }),
+      company: new FormGroup({
+        name: new FormControl('', Validators.required),
+        address: new FormControl('', Validators.required),
+        contactNo: new FormControl('', Validators.required)
+      }),
+      poc: new FormGroup({
+        name: new FormControl('', Validators.required),
+        contactNo: new FormControl()
+      }),
+      category: new FormControl('p', Validators.required),
+      mode: new FormControl('CASH', Validators.required)
+
+    });
+
+    this.bal = this.tot - this.amp
+    // console.log('this.groundregForm  : ', this.groundregForm.value);
+
+    this.formControlValueChanged()
   }
 
+  formControlValueChanged() {
+    const companyControl = this.groundregForm.get('company');
+    this.groundregForm.get('category').valueChanges.subscribe(
+      (mode: string) => {
+        if (mode == 'c') {
+          companyControl.setValidators([Validators.required])
+        } else if (mode == 'p') {
+          companyControl.clearValidators()
+        }
+      });
+  }
+  registerg() {
+    console.log('this.groundregForm  : ', this.groundregForm.value);
+  }
   register(print: boolean) {
     // console.log('form.value :',form.value);
     let toastopt = {
@@ -137,7 +185,7 @@ export class RegisterComponent implements OnInit {
             console.log("Print Not Trigger")
           }
         } else {
-          console.error('Somethisg went Wrong! Please chech server responce.')
+          console.error('Somethisg went Wrong! Please check server responce.')
         }
       }, (error) => {
         // console.log('error', error);
@@ -156,10 +204,21 @@ export class RegisterComponent implements OnInit {
       console.log("*msg cancel btn pressed");
     }
   }
-
+  changeForm(status) {
+    this.sportsForm = status;
+  }
+  type(data) {
+    if (data == 'p') {
+      this.personal = true
+      this.company = false
+    } if (data == 'c') {
+      this.personal = false
+      this.company = true
+    }
+  }
   switchInput(event) {
     let name: string = event.srcElement.name;
-    let listInput = ['rcpType', 'batch', 'time', 'firstName', 'middleName', 'lastName', 'ffullName', 'foccupation', 'anualIncome', 'mobileNo', 'resNo', 'mfullName', 'moccupation', 'mmobileNo', 'dob', 'currentClass', 'school', 'address', 'heightInCms', 'weightInKg', 'coachingCampDetail', 'repSchoolTeam', 'prevParticipation', 'otehrAreaOfInterest', 'addincharge', 'feesPaid', 'coach', 'secretary'];
+    let listInput = ['batch', 'time', 'firstName', 'middleName', 'lastName', 'ffullName', 'foccupation', 'anualIncome', 'mobileNo', 'resNo', 'mfullName', 'moccupation', 'mmobileNo', 'dob', 'currentClass', 'school', 'address', 'heightInCms', 'weightInKg', 'coachingCampDetail', 'repSchoolTeam', 'prevParticipation', 'otehrAreaOfInterest', 'addincharge', 'feesPaid', 'coach', 'secretary'];
     if (name) {
       let length = listInput.indexOf(name);
       // console.log('selectedSection', this.selectedSection);

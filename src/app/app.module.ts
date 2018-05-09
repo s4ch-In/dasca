@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { DetailsComponent } from './components/details/details.component';
 import { DisableDirective } from './directives/disable.directive';
+import { NumberToWordsPipe } from './components/pipes/number-to-words.pipe';
 
 const appRoutes: Routes = [
   {
@@ -44,6 +45,7 @@ const appRoutes: Routes = [
     ListComponent,
     DetailsComponent,
     DisableDirective,
+    NumberToWordsPipe
   ],
   imports: [
     BrowserModule,

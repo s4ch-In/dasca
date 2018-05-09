@@ -12,11 +12,11 @@
     <div class="col-md-8 pb-3">
       <div class="row">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" id="sports" (click)="sportsForm = true;groundForm = false " value="SPORTS">
+          <input class="form-check-input" type="radio" id="sports" checked name="wform" (click)="changeForm(true)">
           <label class="form-check-label" for="sports">Sports</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" id="GROUND" (click)="groundForm =true;sportsForm = false;" value="Ground &amp; Other">
+          <input class="form-check-input" type="radio" id="ground" name="wform" (click)="changeForm(false)">
           <label class="form-check-label" for="ground">Ground</label>
         </div>
       </div>
@@ -24,7 +24,7 @@
     <div *ngIf="sportsForm">
       <strong>Sports</strong>
 
-      <form [formGroup]="registerForm" autocomplete="off" novalidate #formDom>
+      <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="register(false)" novalidate #formDom>
 
         <div class="mt-4">
 
@@ -49,6 +49,45 @@
               <label for="time">Time (24 Hours)</label>
               <input type="time" class="form-control" name="time" formControlName="time" (keydown.enter)="switchInput($event)" placeholder="Time">
             </div>
+          </div>
+          <div class="row">
+            <h6>Select Membership</h6>
+
+            <div class="col-md-4 pb-3 ml-4" formGroupName="membership">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="q1" formControlName="q1" value="April May June" id="amj">
+                <label class="form-check-label" for="amj">
+                  <span class="tile">April</span>
+                  <span class="tile">May</span>
+                  <span class="tile">June</span>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" name="q2" formControlName="q2" type="checkbox" value="July August September" id="jas">
+                <label class="form-check-label" for="jas">
+                  <span class="tile">July</span>
+                  <span class="tile">August</span>
+                  <span class="tile">September</span>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="q3" formControlName="q3" value="October November December" id="ond">
+                <label class="form-check-label" for="ond">
+                  <span class="tile">October</span>
+                  <span class="tile">November</span>
+                  <span class="tile">December</span>
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="q4" formControlName="q4" value="January February March" id="jfm">
+                <label class="form-check-label" for="jfm">
+                  <span class="tile">January</span>
+                  <span class="tile">February</span>
+                  <span class="tile">March</span>
+                </label>
+              </div>
+            </div>
+
           </div>
           <div class="row">
             <div class="col-sm-4 pb-3">
@@ -178,7 +217,72 @@
                 placeholder="Ex. Dance, Music, Drawing, Reading">
             </div>
           </div>
+          <div class="row mt-4">
+            <div class="col-md-8 pb-3">
+              <label for="batch">Mode of Payment</label>
+              <div class="form-group medium" formGroupControl="mode">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" checked formControlName="mode" (keydown.enter)="switchInput($event)"
+                      value="CASH"> CASH
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="CHEQUE"> CHEQUE
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="DD"> DD
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="CARD"> CARD
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="ONLINE"> ONLINE
+                  </label>
+                </div>
 
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+
+            <div class="col-sm-4 pb-3">
+              <label for="ta">Total Amount</label>
+              <input type="text" class="form-control" id="ta" name="totalAmount" [(ngModel)]="tot" formControlName="totalAmount" placeholder="Total Amount">
+              <!-- <div *ngIf="totalAmount.invalid &&  (totalAmount.dirty ||totalAmount.touched)" class="error-msg">
+                <div *ngIf="totalAmount.errors" class="alert alert-danger">
+                  Total amount required
+                </div>
+              </div> -->
+            </div>
+
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Amount Paid</label>
+              <input type="number" class="form-control" name="amountPaid" [(ngModel)]="amp" formControlName="amountPaid" placeholder="Amount Paid">
+              <!-- <div *ngIf="amountPaid.invalid &&  (amountPaid.dirty || amountPaid.touched)" class="error-msg">
+                <div *ngIf="amountPaid.errors" class="alert alert-danger">
+                  Amount Paid is required
+                </div>
+              </div> -->
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Balance</label>
+              <input readonly type="text" class="form-control" [(ngModel)]="bal" name="balance" formControlName="balance" value="{{tot - amp}}"
+                placeholder="Balance">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="narration">Narration</label>
+              <input type="text" class="form-control" name="narration" formControlName="narration" placeholder="Narration">
+            </div>
+
+          </div>
           <div class="row mt-4">
             <div class="col-sm-4 pb-3">
               <label for="addincharge">Admission Incharge</label>
@@ -203,61 +307,148 @@
             </div>
           </div>
         </div>
+        <div class="submit col-sm-12">
+          <button class="btn btn-success" type="submit">Save</button>
+          <button class="btn btn-success" (click)="register(true)">Save & Print</button>
+        </div>
       </form>
     </div>
 
-    <div *ngIf="groundForm">
-      <form [formGroup]="groundregForm" autocomplete="off" novalidate>
+    <div *ngIf="!sportsForm">
+      <form [formGroup]="groundregForm" autocomplete="off" (ngSubmit)="registerg()">
         <strong>Ground</strong>
         <div class="mt-4">
 
           <div class="row">
-            <div class="col-md-8 pb-3">
-              <div class="col-md-4 pb-3">
-                <label for="dateFromTo">Date &amp; Time (From to)</label>
-                <input type="text" class="form-control" name="dateFromTo" formControlName="dateFromTo" placeholder="Time">
+            <div class="col-md-4 pb-3">
+              <label for="dateFromTo">Date &amp; Time (From to)</label>
+              <input type="text" class="form-control" name="dateFromTo" #dpFull="bsDaterangepicker" bsDaterangepicker formControlName="dateFromTo"
+                [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY'}">
+            </div>
+          </div>
+
+          <div class="col-md-8 pb-3">
+            <div class="row">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="typep" checked name="category" formControlName="category" value="p" (click)="type('p')">
+                <label class="form-check-label" for="typep">Personal</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="typec" name="category" formControlName="category" value="c" (click)="type('c')">
+                <label class="form-check-label" for="typec">Company</label>
               </div>
             </div>
+          </div>
+          <div *ngIf="personal">
+            <div class="row" formGroupName="personal">
+              <div class="col-sm-4 pb-3">
+                <label for="">Name</label>
+                <input type="text" required class="form-control" name="name" formControlName="name" placeholder="Name">
 
+              </div>
+              <div class="col-sm-4 pb-3">
+                <label for="">Contact Number</label>
+                <input type="text" class="form-control" name="contactNo" formControlName="contactNo" placeholder="Contact Number">
+              </div>
+              <div class="col-sm-8 pb-3">
+                <label for="">Address</label>
+                <textarea type="text" class="form-control" name="address" formControlName="address" placeholder="Addpress"></textarea>
+
+              </div>
+
+            </div>
+          </div>
+          <div *ngIf="company">
+            <div class="row" formGroupName="company">
+              <div class="col-sm-4 pb-3">
+                <label for="">Company Name</label>
+                <input type="text" class="form-control" name="name" formControlName="name" placeholder="Company Name">
+              </div>
+              <div class="col-sm-4 pb-3">
+                <label for="">Contact Number</label>
+                <input type="text" class="form-control" name="contactNo" formControlName="contactNo" placeholder="Contact Number">
+              </div>
+              <div class="col-sm-8 pb-3">
+                <label for="">Address</label>
+                <textarea type="text" class="form-control" name="address" formControlName="address" placeholder="Addpress"></textarea>
+
+              </div>
+            </div>
+            <h4>Point of Contact</h4>
+            <div class="row" formGroupName="poc">
+              <div class="col-sm-4 pb-3">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name" formControlName="name" placeholder="Name">
+              </div>
+              <div class="col-sm-4 pb-3">
+                <label for="mobile">Mobile Number</label>
+                <input type="text" class="form-control" name="contactNo" formControlName="contactNo" placeholder="Mobile Number">
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-8 pb-3">
+              <label for="batch">Mode of Payment</label>
+              <div class="form-group medium" formGroupControl="mode">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" value="CASH"> CASH
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" value="CHEQUE"> CHEQUE
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" value="DD"> DD
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" value="CARD"> CARD
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="mode" formControlName="mode" value="ONLINE"> ONLINE
+                  </label>
+                </div>
+
+              </div>
+            </div>
           </div>
           <div class="row">
+
             <div class="col-sm-4 pb-3">
-              <label for="firstname">First Name</label>
-              <input type="text" class="form-control" name="firstName" formControlName="firstName" (keydown.enter)="switchInput($event)"
-                placeholder="First Name">
+              <label for="ta">Total Amount</label>
+              <input type="text" class="form-control" id="ta" name="totalAmount" [(ngModel)]="tot" formControlName="totalAmount" placeholder="Total Amount">
+              <!-- <div *ngIf="totalAmount.invalid &&  (totalAmount.dirty ||totalAmount.touched)" class="error-msg">
+          
+              </div> -->
+            </div>
+
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Amount Paid</label>
+              <input type="number" class="form-control" name="amountPaid" [(ngModel)]="amp" formControlName="amountPaid" placeholder="Amount Paid">
             </div>
             <div class="col-sm-4 pb-3">
-              <label for="middlename">Middle Name</label>
-              <input type="text" class="form-control" name="middleName" formControlName="middleName" (keydown.enter)="switchInput($event)"
-                placeholder="Middle Name">
+              <label for="mobile">Balance</label>
+              <input type="text" class="form-control" [(ngModel)]="bal" name="balance" formControlName="balance" value="{{tot - amp}}"
+                placeholder="Balance">
             </div>
             <div class="col-sm-4 pb-3">
-              <label for="lastname">Last Name</label>
-              <input type="text" class="form-control" name="lastName" formControlName="lastName" (keydown.enter)="switchInput($event)"
-                placeholder="Last Name">
+              <label for="narration">Narration</label>
+              <input type="text" class="form-control" name="narration" formControlName="narration" placeholder="Narration">
             </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-4 pb-3">
-              <label for="mobile">Mobile Number</label>
-              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
-                placeholder="Mobile Number">
-            </div>
-          </div>
-          <h4>Point of Contact</h4>
-          <div class="row">
-            <div class="col-sm-4 pb-3">
-              <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" formControlName="name" (keydown.enter)="switchInput($event)" placeholder="Name">
-            </div>
-            <div class="col-sm-4 pb-3">
-              <label for="mobile">Mobile Number</label>
-              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
-                placeholder="Mobile Number">
-            </div>
+
           </div>
 
-
+        </div>
+        <div class="submit col-sm-12">
+          <button class="btn btn-success" type="submit">Save</button>
+          <button class="btn btn-success" (click)="registerg(true)">Save & Print</button>
         </div>
       </form>
     </div>
@@ -265,9 +456,6 @@
     <div class="col-sm-12" *ngIf="submited">
       Form Submitted...
     </div>
-    <div class="submit col-sm-12">
-      <button class="btn btn-success" (click)="register(false)">Save</button>
-      <button class="btn btn-success" (click)="register(true)">Save & Print</button>
-    </div>
+
   </div>
 </div>
