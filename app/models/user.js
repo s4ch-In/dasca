@@ -4,7 +4,13 @@ const connection = mongoose.createConnection(Config.database);
 const Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
 
-const formSchema = new Schema({
+const userSchema = new Schema({
+  userId: {
+    type: Number,
+    unique: true,
+    sparse: true,
+    trim: true
+  },
   registrationNo: {
     type: Number
   },
@@ -29,10 +35,14 @@ const formSchema = new Schema({
     required: [true, 'Please enter last name'],
     uppercase: true
   },
+  mobileNo: {
+    type: String,
+    required: [true, "Please enter mobile number"]
+  },
   father: {
     ffullName: {
       type: String,
-      required: [true, "Please enter Father's name"],
+      // required: [true, "Please enter Father's name"],
       uppercase: true
     },
     foccupation: {
@@ -42,7 +52,7 @@ const formSchema = new Schema({
     fanualIncome: {
       type: Number
     },
-    mobileNo: {
+    fmobileNo: {
       type: String,
       required: [true, "Please enter Father's mobile number"]
     },
@@ -53,7 +63,7 @@ const formSchema = new Schema({
   mother: {
     mfullName: {
       type: String,
-      required: [true, "Please enter Mother's name"],
+      // required: [true, "Please enter Mother's name"],
       uppercase: true
     },
     moccupation: {
@@ -123,18 +133,29 @@ const formSchema = new Schema({
     type: String,
     required: [true, "Please enter Admission incharge"],
     uppercase: true
-  }
+  },
+  receipts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Receipt'
+  }]
 }, {
   timestamps: true
 });
 
 autoIncrement.initialize(connection);
-formSchema.plugin(autoIncrement.plugin, {
-  model: 'From',
+userSchema.plugin(autoIncrement.plugin, {
+  model: 'User',
   field: 'registrationNo',
   startAt: 1,
   incrementBy: 1
 });
 
+userSchema.plugin(autoIncrement.plugin, {
+  model: 'User',
+  field: 'userId',
+  startAt: 1111,
+  incrementBy: 1
+});
 
-module.exports = mongoose.model('Form', formSchema, 'form');
+
+module.exports = mongoose.model('Form', userSchema);
