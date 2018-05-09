@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+.detailForm .form-control:disabled, .form-control[disabled] {
+    background-color: rgb(63, 165, 255);
+    opacity: 1;
+    border: none;
+    font-size: 20px;
+    color: #fff !important;
+}
+.detailForm .row{
+    background: rgb(89, 176, 253);
+    border-radius: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4)
+}
+.detailForm label{
+    color: #fff;
+}
+/* .detailForm::-webkit-input-placeholder{
+    color: rgb(255, 250, 221) !important;
+} */
+ .detailForm .form-control[disabled]::-webkit-input-placeholder { 
+  color: transparent !important;
+}
+.detailForm input:disabled{
+    color: #fff !important;    
+}
+.detailForm input[type='radio']:disabled:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #d1d3d1;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+
+    .detailForm input[type='radio']:disabled:checked:after {
+        width: 15px;
+        height: 15px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #0081f9;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid white;
+    }
+    .navbar{
+        box-shadow: 0px 1px 3px rgba(0,0,0,0.4)
+    }
+    .navbar-brand{
+    
+    }

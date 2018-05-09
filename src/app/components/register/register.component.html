@@ -1,0 +1,273 @@
+<nav class="navbar fixed-top navbar-light bg-light">
+  <a class="navbar-brand text-primary" href="#">
+    <h3>DR. AMBEDKAR COLLEGE SPORTS ACADEMY</h3>
+  </a>
+  <button routerLink="/list" class="btn btn-primary">VIEW</button>
+</nav>
+<div class="container py-5">
+  <div class="col-md-12">
+
+    <hr class="my-3">
+    <span class="anchor"></span>
+    <div class="col-md-8 pb-3">
+      <div class="row">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="sports" (click)="sportsForm = true;groundForm = false " value="SPORTS">
+          <label class="form-check-label" for="sports">Sports</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" id="GROUND" (click)="groundForm =true;sportsForm = false;" value="Ground &amp; Other">
+          <label class="form-check-label" for="ground">Ground</label>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="sportsForm">
+      <strong>Sports</strong>
+
+      <form [formGroup]="registerForm" autocomplete="off" novalidate #formDom>
+
+        <div class="mt-4">
+
+          <div class="row">
+            <div class="col-md-8 pb-3">
+              <label for="batch">Batch</label>
+              <div class="form-group medium">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="batch" formControlName="batch" (keydown.enter)="switchInput($event)" value="MORNING"> Morning
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="batch" formControlName="batch" (keydown.enter)="switchInput($event)" value="EVENING"> Evening
+                  </label>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-4 pb-3">
+              <label for="time">Time (24 Hours)</label>
+              <input type="time" class="form-control" name="time" formControlName="time" (keydown.enter)="switchInput($event)" placeholder="Time">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="firstname">First Name</label>
+              <input type="text" class="form-control" name="firstName" formControlName="firstName" (keydown.enter)="switchInput($event)"
+                placeholder="First Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="middlename">Middle Name</label>
+              <input type="text" class="form-control" name="middleName" formControlName="middleName" (keydown.enter)="switchInput($event)"
+                placeholder="Middle Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="lastname">Last Name</label>
+              <input type="text" class="form-control" name="lastName" formControlName="lastName" (keydown.enter)="switchInput($event)"
+                placeholder="Last Name">
+            </div>
+          </div>
+          <h5 class="mt-4">Father's Information</h5>
+          <div class="row" formGroupName="father">
+            <div class="col-sm-8 pb-3">
+              <label for="fullname">Father's Name</label>
+              <input type="text" class="form-control" name="ffullName" formControlName="ffullName" (keydown.enter)="switchInput($event)"
+                placeholder="Father's Full Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="occ">Occupation</label>
+              <input type="text" class="form-control" name="foccupation" formControlName="foccupation" (keydown.enter)="switchInput($event)"
+                placeholder="Occupation">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="annualincome">Annual Income</label>
+              <input type="text" class="form-control" name="anualIncome" formControlName="anualIncome" (keydown.enter)="switchInput($event)"
+                placeholder="Annual Income">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="resno">Residential Number</label>
+              <input type="text" class="form-control" name="resNo" formControlName="resNo" (keydown.enter)="switchInput($event)" placeholder="Residential Number">
+            </div>
+          </div>
+          <h5 class="mt-4">Mother's Information</h5>
+          <div class="row" formGroupName="mother">
+            <div class="col-sm-4 pb-3">
+              <label for="mfullname">Mothers's Name</label>
+              <input type="text" class="form-control" name="mfullName" formControlName="mfullName" (keydown.enter)="switchInput($event)"
+                placeholder="Mothers's Full Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mocc">Occupation</label>
+              <input type="text" class="form-control" name="moccupation" formControlName="moccupation" (keydown.enter)="switchInput($event)"
+                placeholder="Occupation">
+            </div>
+
+            <div class="col-sm-4 pb-3">
+              <label for="mmobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mmobileNo" formControlName="mmobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
+
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-4 pb-3">
+              <label for="dob">Date of Birth</label>
+              <input type="date" class="form-control" name="dob" formControlName="dob" (keydown.enter)="switchInput($event)" placeholder="Date of Birth">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="cclass">Class in which studying</label>
+              <input type="text" class="form-control" name="currentClass" formControlName="currentClass" (keydown.enter)="switchInput($event)"
+                placeholder="Class in which studying">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="school">Name of School</label>
+              <input type="text" class="form-control" name="school" formControlName="school" (keydown.enter)="switchInput($event)" placeholder="School">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 pb-3">
+              <label for="addr">Address of correspondence</label>
+              <textarea name="address" formControlName="address" (keydown.enter)="switchInput($event)" class="form-control" placeholder="Address"></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="height">Height in CMS</label>
+              <input type="text" class="form-control" name="heightInCms" formControlName="heightInCms" (keydown.enter)="switchInput($event)"
+                placeholder="Height in CMS">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="wght">Weight</label>
+              <input type="text" class="form-control" name="weightInKg" formControlName="weightInKg" (keydown.enter)="switchInput($event)"
+                placeholder="Weight">
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="coachingCampDetail">Have you attended any Coaching Camp or Club earlier. If Yes, give details:</label>
+              <textarea name="coachingCampDetail" formControlName="coachingCampDetail" (keydown.enter)="switchInput($event)" class="form-control"
+                placeholder="Have you attended any Coaching Camp or Club earlier. If Yes, give details"></textarea>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="repSchoolTeam">Have you represented Scholl / Club Team. Yes / No Game Give details:</label>
+              <textarea name="repSchoolTeam" formControlName="repSchoolTeam" (keydown.enter)="switchInput($event)" class="form-control"
+                placeholder="Have you represented Scholl / Club Team. Yes / No Game Give details"></textarea>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="prevParticipation">Previous Participation in any other games and sports</label>
+              <input type="text" class="form-control" name="prevParticipation" formControlName="prevParticipation" (keydown.enter)="switchInput($event)"
+                placeholder="">
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="otehrAreaOfInterest">Other areas of Interest - Dance, Music, Drawing, Reading etc.</label>
+              <input type="text" class="form-control" name="otehrAreaOfInterest" formControlName="otehrAreaOfInterest" (keydown.enter)="switchInput($event)"
+                placeholder="Ex. Dance, Music, Drawing, Reading">
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-4 pb-3">
+              <label for="addincharge">Admission Incharge</label>
+              <input type="text" class="form-control" name="addincharge" formControlName="addincharge" (keydown.enter)="switchInput($event)"
+                placeholder="Admission Incharge">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="feespaed">Fees Paid</label>
+              <input type="number" class="form-control" name="feesPaid" formControlName="feesPaid" (keydown.enter)="switchInput($event)"
+                placeholder="Fees Paid">
+            </div>
+
+
+            <div class="col-sm-4 pb-3">
+              <label for="Coach">Coach</label>
+              <input type="text" class="form-control" name="coach" formControlName="coach" (keydown.enter)="switchInput($event)" placeholder="Coach">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="Secretary">Secretary</label>
+              <input type="text" class="form-control" name="secretary" formControlName="secretary" (keydown.enter)="switchInput($event)"
+                placeholder="Secretary">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="groundForm">
+      <form [formGroup]="groundregForm" autocomplete="off" novalidate>
+        <strong>Ground</strong>
+        <div class="mt-4">
+
+          <div class="row">
+            <div class="col-md-8 pb-3">
+              <div class="col-md-4 pb-3">
+                <label for="dateFromTo">Date &amp; Time (From to)</label>
+                <input type="text" class="form-control" name="dateFromTo" formControlName="dateFromTo" placeholder="Time">
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="firstname">First Name</label>
+              <input type="text" class="form-control" name="firstName" formControlName="firstName" (keydown.enter)="switchInput($event)"
+                placeholder="First Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="middlename">Middle Name</label>
+              <input type="text" class="form-control" name="middleName" formControlName="middleName" (keydown.enter)="switchInput($event)"
+                placeholder="Middle Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="lastname">Last Name</label>
+              <input type="text" class="form-control" name="lastName" formControlName="lastName" (keydown.enter)="switchInput($event)"
+                placeholder="Last Name">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
+          </div>
+          <h4>Point of Contact</h4>
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" formControlName="name" (keydown.enter)="switchInput($event)" placeholder="Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
+          </div>
+
+
+        </div>
+      </form>
+    </div>
+
+    <div class="col-sm-12" *ngIf="submited">
+      Form Submitted...
+    </div>
+    <div class="submit col-sm-12">
+      <button class="btn btn-success" (click)="register(false)">Save</button>
+      <button class="btn btn-success" (click)="register(true)">Save & Print</button>
+    </div>
+  </div>
+</div>
