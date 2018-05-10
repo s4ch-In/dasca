@@ -3,12 +3,7 @@ const Receipt = require('../models/receipt');
 module.exports.generate = (data, cb) => {
   let messages = []
   if (data) {
-    let receipt = new Receipt({
-      mode: data.mode,
-      narration: data.narration,
-      balance: data.balance,
-      amount: data.amount
-    })
+    let receipt = new Receipt(data)
     let errors = receipt.validateSync()
     if (errors) {
       for (let i in errors.errors) {

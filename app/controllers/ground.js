@@ -23,7 +23,8 @@ module.exports.create = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount
+            amountPaid: req.body.amountPaid,
+            name: (g.category == 'P') ? g.person.name : g.company.name
           }, (err, r) => {
             if (err) {
               return next(err)
@@ -41,14 +42,22 @@ module.exports.create = (req, res, next) => {
 
 module.exports.get = (req, res, next) => {
   Ground
-    .find({ name: new RegExp(req.query.key, 'i') })
-    .limit(limitPerPage)
-    .skip((parseInt(req.query.p) > 0 ? parseInt(req.query.p) : 0) * parseInt(limitPerPage))
-    .exec((err, g) => {
+    .count({ name: new RegExp(req.query.key, 'i') })
+    .exec((err, c) => {
       if (err) {
         return next(err);
       } else {
-        return res.json({ s: true, m: 'List of ground', d: g });
+        Ground
+          .find({ name: new RegExp(req.query.key, 'i') })
+          .limit(limitPerPage)
+          .skip((parseInt(req.query.p) > 0 ? parseInt(req.query.p) : 0) * parseInt(limitPerPage))
+          .exec((err, g) => {
+            if (err) {
+              return next(err);
+            } else {
+              return res.json({ s: true, m: 'List of ground', d: g, t: C });
+            }
+          })
       }
     })
 };

@@ -33,12 +33,12 @@ const groudSchema = new Schema({
     name: {
       type: String,
       uppercase: true,
-      required: true
+      // required: true
     },
     address: {
       type: String,
       uppercase: true,
-      required: true
+      // required: true
     },
     contactNo: {
       type: Number
@@ -48,7 +48,7 @@ const groudSchema = new Schema({
     name: {
       type: String,
       uppercase: true,
-      required: true
+      // required: true
     },
     contactNo: {
       type: Number
@@ -58,12 +58,12 @@ const groudSchema = new Schema({
     name: {
       type: String,
       uppercase: true,
-      required: true
+      // required: true
     },
     address: {
       type: String,
       uppercase: true,
-      required: true
+      // required: true
     },
     contactNo: {
       type: Number

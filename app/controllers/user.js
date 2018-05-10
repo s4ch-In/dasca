@@ -6,38 +6,45 @@ const limitPerPage = 10;
 module.exports.create = (req, res, next) => {
   const messages = [];
   req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
-  if (req.body) {
-    let f = new User(req.body)
-    f.save((err, user) => {
-      if (err) {
-        for (let i in err.errors) {
-          messages.push(err.errors[i].message)
-        }
-        return next(messages)
-      } else {
-        Receipt.generate({
-          mode: req.body.mode,
-          narration: req.body.narration,
-          balance: req.body.balance,
-          amount: req.body.amount
-        }, (err, r) => {
-          if (err) {
-            return next(err)
-          } else {
-            user.receipts.push(r._id)
-            user.save((err, u) => {
-              if (err) {
-                return next(err)
-              } else {
-                return res.json({ s: true, m: "User registered Successfully", d: { u, r } });
-              }
-            })
+  if (req.body.mode &&
+    req.body.balance.toString() &&
+    req.body.amount.toString()) {
+    if (req.body) {
+      let f = new User(req.body)
+      f.save((err, user) => {
+        if (err) {
+          for (let i in err.errors) {
+            messages.push(err.errors[i].message)
           }
-        })
-      }
-    })
+          return next(messages)
+        } else {
+          Receipt.generate({
+            mode: req.body.mode,
+            narration: req.body.narration,
+            balance: req.body.balance,
+            amount: req.body.amount,
+            name: user.firstName + ' ' + user.lastName
+          }, (err, r) => {
+            if (err) {
+              return next(err)
+            } else {
+              user.receipts.push(r._id)
+              user.save((err, u) => {
+                if (err) {
+                  return next(err)
+                } else {
+                  return res.json({ s: true, m: "User registered Successfully", d: { u, r } });
+                }
+              })
+            }
+          })
+        }
+      })
+    } else {
+      return next(new Error("Invalid Data"))
+    }
   } else {
-    return next(new Error("Invalid Data"))
+    return next(new Error('Invalid receipt data'))
   }
 };
 
@@ -105,7 +112,8 @@ module.exports.pay = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount
+            amountPaid: req.body.amountPaid,
+            name: user.firstName + ' ' + user.lastName
           }, (err, r) => {
             if (err) {
               return next(err)
@@ -136,7 +144,14 @@ module.exports.update = (req, res, next) => {
         if (err) {
           return next(err)
         } else {
-
+          user = req.body
+          user.save((err, u) => {
+            if (err) {
+              return next(err)
+            } else {
+              return res.json({ s: true, m: 'user updated successfully', d: u })
+            }
+          })
         }
       })
   } else {
