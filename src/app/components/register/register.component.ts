@@ -129,25 +129,26 @@ export class RegisterComponent implements OnInit {
 
     });
 
-    this.bal = this.tot - this.amp
+    // this.bal = this.tot - this.amp
     // console.log('this.groundregForm  : ', this.groundregForm.value);
 
     this.formControlValueChanged()
   }
 
   formControlValueChanged() {
-    const companyControl = this.groundregForm.get('company');
-    this.groundregForm.get('category').valueChanges.subscribe(
+    const balance = this.registerForm.get('balance');
+    this.registerForm.get('totalAmount').valueChanges.subscribe(
       (mode: string) => {
-        if (mode == 'c') {
-          companyControl.setValidators([Validators.required])
-        } else if (mode == 'p') {
-          companyControl.clearValidators()
-        }
+        // if (mode == 'c') {
+        //   balance.setValidators([Validators.required])
+        // } else if (mode == 'p') {
+        //   balance.clearValidators()
+        // }
+        balance.setValue(this.registerForm.get('totalAmount').value - this.registerForm.get('amountPaid').value)
+
       });
   }
   registerg() {
-    console.log('this.groundregForm  : ', this.groundregForm.value);
   }
   register(print: boolean) {
     // console.log('form.value :',form.value);
