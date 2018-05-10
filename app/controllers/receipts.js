@@ -1,6 +1,7 @@
 const moment = require('moment');
 const User = require('../models/user');
 const Receipt = require('../plugin/receipt');
+const Receipts = require('../models/receipt');
 const limitPerPage = 10;
 
 module.exports.create = (req, res, next) => {
@@ -23,8 +24,8 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.get = (req, res, next) => {
-  Receipt
-    .find()
+  Receipts
+    .find({})
     .limit(limitPerPage)
     .skip((parseInt(req.query.p) > 0 ? parseInt(req.query.p) : 0) * parseInt(limitPerPage))
     .exec((err, r) => {
