@@ -16,11 +16,12 @@ export class PrintComponent implements OnInit {
   ) {
     // console.log(amountToString(5346))
   }
-
+  printp: any = JSON.parse(localStorage.getItem('recData'))
   ngOnInit() {
-    this.service.api(this.globals.receipt).subscribe(res => {
-      console.log(res)
-    })
+    console.log(this.printp)
+    // this.service.api(this.globals.receipt).subscribe(res => {
+    //   console.log(res)
+    // })
   }
 
 }

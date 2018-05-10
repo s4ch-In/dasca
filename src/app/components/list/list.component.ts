@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 export class ListComponent implements OnInit {
   public list: any = [];
   public receipts: any = [];
+  public ground: any = [];
   // public page: number = 0;
   public maxSize: number = 10;
   public itemsPerPage: number = 10;
@@ -91,6 +92,15 @@ export class ListComponent implements OnInit {
       }
     })
   }
+  getGround(page: number) {
+    this.service.api(this.globals.groundList, { key: this.recText, p: (page - 1) }).subscribe(res => {
+      if (res.s) {
+        console.log(res)
+        // this.bigTotalItemsRec = res.t;
+        // this.ground = res.d;
+      }
+    })
+  }
   showErr(msg) {
     let toastopt = {
       timeOut: 3000,
@@ -128,6 +138,7 @@ export class ListComponent implements OnInit {
         this.bigCurrentPageRec = 1
         this.getReceipts(this.bigCurrentPageRec)
       })
+    this.getGround(1)
   }
 
   getData(i: number) {
@@ -135,6 +146,11 @@ export class ListComponent implements OnInit {
     let data = JSON.stringify(this.list[i].doc)
     localStorage.setItem('detail', data)
     this.router.navigate(['details'])
+  }
+  getRecData(i: number) {
+    let data = JSON.stringify(this.receipts[i])
+    localStorage.setItem('recData', data)
+    this.router.navigate(['print'])
   }
 
 }

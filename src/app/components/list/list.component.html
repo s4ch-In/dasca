@@ -142,8 +142,8 @@
               <!-- Material input -->
               <div style="max-width: 400px;" class="md-form form-group mt-5">
                 <div class="form-label-group">
-                  <input type="text" id="inputs" class="form-control" placeholder="Enter Student Name" autofocus="" formControlName="recField"
-                    name="recField" autocomplete="off">
+                  <input type="text" id="inputs" class="form-control" placeholder="Search By ID" autofocus="" formControlName="recField" name="recField"
+                    autocomplete="off">
                 </div>
               </div>
 
@@ -170,12 +170,12 @@
             <!--Table body-->
             <tbody>
               <tr *ngFor="let rec of receipts;let i = index;">
-                <td>{{itemsPerPage * (bigCurrentPage) + i }}</td>
+                <td>{{itemsPerPage * (bigCurrentPageRec - 1) + i + 1 }}</td>
                 <td>{{rec.receiptNo}}</td>
                 <td>{{rec.receiptId}}</td>
                 <td>{{rec.createdAt | date:'mediumDate'}}</td>
                 <td>
-                  <button class="btn btn-xs btn-success" (click)="getData(i)">view more</button>
+                  <button class="btn btn-xs btn-success" (click)="getRecData(i)">view more</button>
                 </td>
               </tr>
             </tbody>
