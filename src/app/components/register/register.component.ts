@@ -28,9 +28,7 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   groundregForm: FormGroup;
   submited: boolean = false;
-  bal: number
-  tot: number = 0
-  amp: number = 0
+
   totalAmount: FormControl
   @ViewChild('formDom') formDom: ElementRef;
   constructor(
@@ -66,8 +64,8 @@ export class RegisterComponent implements OnInit {
         ffullName: new FormControl('', Validators.required),
         foccupation: new FormControl(),
         anualIncome: new FormControl(),
-        mobileNo: new FormControl('', Validators.required),
-        resNo: new FormControl(),
+        fmobileNo: new FormControl('', Validators.required),
+        fresNo: new FormControl(),
       }),
       mother: new FormGroup({
         mfullName: new FormControl('', Validators.required),
@@ -78,6 +76,7 @@ export class RegisterComponent implements OnInit {
       currentClass: new FormControl('', Validators.required),
       school: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
+      mobileNo: new FormControl('', Validators.required),
       heightInCms: new FormControl(),
       weightInKg: new FormControl(),
       coachingCampDetail: new FormControl(),
@@ -135,23 +134,27 @@ export class RegisterComponent implements OnInit {
     this.formControlValueChanged()
   }
 
+
   formControlValueChanged() {
     const balance = this.registerForm.get('balance');
-    this.registerForm.get('totalAmount').valueChanges.subscribe(
+    this.registerForm.get('amountPaid').valueChanges.subscribe(
       (mode: string) => {
-        // if (mode == 'c') {
-        //   balance.setValidators([Validators.required])
-        // } else if (mode == 'p') {
-        //   balance.clearValidators()
-        // }
+
         balance.setValue(this.registerForm.get('totalAmount').value - this.registerForm.get('amountPaid').value)
+
+      });
+    const balanceg = this.groundregForm.get('balance');
+    this.groundregForm.get('amountPaid').valueChanges.subscribe(
+      (mode: string) => {
+
+        balanceg.setValue(this.groundregForm.get('totalAmount').value - this.groundregForm.get('amountPaid').value)
 
       });
   }
   registerg() {
   }
   register(print: boolean) {
-    // console.log('form.value :',form.value);
+    console.log('form.value :', this.registerForm.value);
     let toastopt = {
       timeOut: 3000,
       showProgressBar: true,

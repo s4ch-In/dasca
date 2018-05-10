@@ -125,16 +125,16 @@
             </div>
             <div class="col-sm-4 pb-3">
               <label for="mobile">Mobile Number</label>
-              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
+              <input type="text" class="form-control" name="fmobileNo" formControlName="fmobileNo" (keydown.enter)="switchInput($event)"
                 placeholder="Mobile Number">
             </div>
             <div class="col-sm-4 pb-3">
               <label for="resno">Residential Number</label>
-              <input type="text" class="form-control" name="resNo" formControlName="resNo" (keydown.enter)="switchInput($event)" placeholder="Residential Number">
+              <input type="text" class="form-control" name="fresNo" formControlName="fresNo" (keydown.enter)="switchInput($event)" placeholder="Residential Number">
             </div>
           </div>
           <h5 class="mt-4">Mother's Information</h5>
-          <div class="row" formGroupName="mother">
+          <div class="row mb-4" formGroupName="mother">
             <div class="col-sm-4 pb-3">
               <label for="mfullname">Mothers's Name</label>
               <input type="text" class="form-control" name="mfullName" formControlName="mfullName" (keydown.enter)="switchInput($event)"
@@ -153,7 +153,6 @@
             </div>
 
           </div>
-
           <div class="row mt-4">
             <div class="col-sm-4 pb-3">
               <label for="dob">Date of Birth</label>
@@ -177,6 +176,11 @@
           </div>
 
           <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="mmobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mobileNo" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
             <div class="col-sm-4 pb-3">
               <label for="height">Height in CMS</label>
               <input type="text" class="form-control" name="heightInCms" formControlName="heightInCms" (keydown.enter)="switchInput($event)"
@@ -255,7 +259,7 @@
 
             <div class="col-sm-4 pb-3">
               <label for="ta">Total Amount</label>
-              <input type="text" class="form-control" id="ta" name="totalAmount" [(ngModel)]="tot" formControlName="totalAmount" placeholder="Total Amount">
+              <input type="text" class="form-control" id="ta" name="totalAmount" formControlName="totalAmount" placeholder="Total Amount">
               <!-- <div *ngIf="totalAmount.invalid &&  (totalAmount.dirty ||totalAmount.touched)" class="error-msg">
                 <div *ngIf="totalAmount.errors" class="alert alert-danger">
                   Total amount required
@@ -265,7 +269,7 @@
 
             <div class="col-sm-4 pb-3">
               <label for="mobile">Amount Paid</label>
-              <input type="number" class="form-control" name="amountPaid" [(ngModel)]="amp" formControlName="amountPaid" placeholder="Amount Paid">
+              <input type="number" class="form-control" name="amountPaid" formControlName="amountPaid" placeholder="Amount Paid">
               <!-- <div *ngIf="amountPaid.invalid &&  (amountPaid.dirty || amountPaid.touched)" class="error-msg">
                 <div *ngIf="amountPaid.errors" class="alert alert-danger">
                   Amount Paid is required
@@ -288,12 +292,6 @@
               <input type="text" class="form-control" name="addincharge" formControlName="addincharge" (keydown.enter)="switchInput($event)"
                 placeholder="Admission Incharge">
             </div>
-            <div class="col-sm-4 pb-3">
-              <label for="feespaed">Fees Paid</label>
-              <input type="number" class="form-control" name="feesPaid" formControlName="feesPaid" (keydown.enter)="switchInput($event)"
-                placeholder="Fees Paid">
-            </div>
-
 
             <div class="col-sm-4 pb-3">
               <label for="Coach">Coach</label>
@@ -422,7 +420,7 @@
 
             <div class="col-sm-4 pb-3">
               <label for="ta">Total Amount</label>
-              <input type="text" class="form-control" id="ta" name="totalAmount" [(ngModel)]="tot" formControlName="totalAmount" placeholder="Total Amount">
+              <input type="text" class="form-control" id="ta" name="totalAmount" formControlName="totalAmount" placeholder="Total Amount">
               <!-- <div *ngIf="totalAmount.invalid &&  (totalAmount.dirty ||totalAmount.touched)" class="error-msg">
           
               </div> -->
@@ -430,12 +428,11 @@
 
             <div class="col-sm-4 pb-3">
               <label for="mobile">Amount Paid</label>
-              <input type="number" class="form-control" name="amountPaid" [(ngModel)]="amp" formControlName="amountPaid" placeholder="Amount Paid">
+              <input type="number" class="form-control" name="amountPaid" formControlName="amountPaid" placeholder="Amount Paid">
             </div>
             <div class="col-sm-4 pb-3">
               <label for="mobile">Balance</label>
-              <input type="text" class="form-control" [(ngModel)]="bal" name="balance" formControlName="balance" value="{{tot - amp}}"
-                placeholder="Balance">
+              <input type="text" class="form-control" name="balance" formControlName="balance" placeholder="Balance">
             </div>
             <div class="col-sm-4 pb-3">
               <label for="narration">Narration</label>
