@@ -31,7 +31,7 @@ const receiptSchema = new Schema({
     status: Boolean,
     amount: Number
   },
-  amount: {
+  amountPaid: {
     type: Number,
     required: [true, 'Please enter payable amount']
   }

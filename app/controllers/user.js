@@ -6,9 +6,6 @@ const limitPerPage = 10;
 module.exports.create = (req, res, next) => {
   const messages = [];
   req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
-  console.log(req.body.mode)
-  console.log(req.body.balance)
-  console.log(req.body.amount)
   if (req.body.mode &&
     req.body.balance.toString() &&
     req.body.amount.toString()) {
@@ -147,7 +144,14 @@ module.exports.update = (req, res, next) => {
         if (err) {
           return next(err)
         } else {
-
+          user = req.body
+          user.save((err, u) => {
+            if (err) {
+              return next(err)
+            } else {
+              return res.json({ s: true, m: 'user updated successfully', d: u })
+            }
+          })
         }
       })
   } else {

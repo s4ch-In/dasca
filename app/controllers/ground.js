@@ -23,7 +23,7 @@ module.exports.create = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount,
+            amountPaid: req.body.amountPaid,
             name: (g.category == 'P') ? g.person.name : g.company.name
           }, (err, r) => {
             if (err) {
