@@ -52,10 +52,22 @@ export class RegisterComponent implements OnInit {
       batch: new FormControl('MORNING'),
       time: new FormControl(),
       membership: new FormGroup({
-        q1: new FormControl(''),
-        q2: new FormControl(''),
-        q3: new FormControl(''),
-        q4: new FormControl(''),
+        q1: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+        }),
+        q2: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+        }),
+        q3: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+        }),
+        q4: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl((this.dy + 1) + '-' + (this.dy + 2)),
+        }),
       }),
       firstName: new FormControl('', Validators.required),
       middleName: new FormControl(),
@@ -63,7 +75,7 @@ export class RegisterComponent implements OnInit {
       father: new FormGroup({
         ffullName: new FormControl('', Validators.required),
         foccupation: new FormControl(),
-        anualIncome: new FormControl(),
+        fanualIncome: new FormControl(),
         fmobileNo: new FormControl('', Validators.required),
         fresNo: new FormControl(),
       }),
@@ -100,6 +112,9 @@ export class RegisterComponent implements OnInit {
     this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
     // console.log('route : ', );
   }
+  date: Date = new Date
+  dy: number = this.date.getFullYear()
+  currentMonth = this.date.getMonth() + 1
   ngOnInit() {
 
     this.groundregForm = this.formBuilder.group({
@@ -134,8 +149,30 @@ export class RegisterComponent implements OnInit {
     this.formControlValueChanged()
   }
 
+  checkMonth(month) {
 
+  }
   formControlValueChanged() {
+
+    this.registerForm.get('membership').valueChanges.subscribe(mode => {
+      // let date: Date = new Date
+      // let dy = date.getFullYear()
+      // let currentMonth = date.getMonth() + 1
+
+      // if (mode.q1 == true) {
+      //   console.log(dy + '-' + (dy + 1))
+      // }
+      // if (mode.q2 == true) {
+      //   console.log(dy + '-' + (dy + 1))
+      // }
+      // if (mode.q3 == true) {
+      //   console.log(dy + '-' + (dy + 1))
+      // }
+      // if (mode.q4 == true) {
+      //   console.log((dy - 1) + '-' + dy)
+
+      // }
+    })
     const balance = this.registerForm.get('balance');
     this.registerForm.get('amountPaid').valueChanges.subscribe(
       (mode: string) => {
@@ -151,6 +188,7 @@ export class RegisterComponent implements OnInit {
 
       });
   }
+
   registerg() {
   }
   register(print: boolean) {

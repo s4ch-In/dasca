@@ -54,32 +54,32 @@
             <h6>Select Membership</h6>
 
             <div class="col-md-4 pb-3 ml-4" formGroupName="membership">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="q1" formControlName="q1" value="April May June" id="amj">
+              <div class="form-check" formGroupName="q1">
+                <input class="form-check-input" type="checkbox" name="q1" formControlName="status" value="April May June" id="amj">
                 <label class="form-check-label" for="amj">
                   <span class="tile">April</span>
                   <span class="tile">May</span>
                   <span class="tile">June</span>
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" name="q2" formControlName="q2" type="checkbox" value="July August September" id="jas">
+              <div class="form-check" formGroupName="q2">
+                <input class="form-check-input" name="q2" formControlName="status" type="checkbox" value="July August September" id="jas">
                 <label class="form-check-label" for="jas">
                   <span class="tile">July</span>
                   <span class="tile">August</span>
                   <span class="tile">September</span>
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="q3" formControlName="q3" value="October November December" id="ond">
+              <div class="form-check" formGroupName="q3">
+                <input class="form-check-input" type="checkbox" name="q3" formControlName="status" value="October November December" id="ond">
                 <label class="form-check-label" for="ond">
                   <span class="tile">October</span>
                   <span class="tile">November</span>
                   <span class="tile">December</span>
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="q4" formControlName="q4" value="January February March" id="jfm">
+              <div class="form-check" formGroupName="q4">
+                <input class="form-check-input" type="checkbox" name="q4" formControlName="status" value="January February March" id="jfm">
                 <label class="form-check-label" for="jfm">
                   <span class="tile">January</span>
                   <span class="tile">February</span>
@@ -120,7 +120,7 @@
             </div>
             <div class="col-sm-4 pb-3">
               <label for="annualincome">Annual Income</label>
-              <input type="text" class="form-control" name="anualIncome" formControlName="anualIncome" (keydown.enter)="switchInput($event)"
+              <input type="text" class="form-control" name="fanualIncome" formControlName="fanualIncome" (keydown.enter)="switchInput($event)"
                 placeholder="Annual Income">
             </div>
             <div class="col-sm-4 pb-3">
@@ -260,11 +260,12 @@
             <div class="col-sm-4 pb-3">
               <label for="ta">Total Amount</label>
               <input type="text" class="form-control" id="ta" name="totalAmount" formControlName="totalAmount" placeholder="Total Amount">
-              <!-- <div *ngIf="totalAmount.invalid &&  (totalAmount.dirty ||totalAmount.touched)" class="error-msg">
+              <div *ngIf="registerForm.controls.totalAmount.invalid &&  (registerForm.controls.totalAmount.dirty ||registerForm.controls.totalAmount.touched)"
+                class="error-msg">
                 <div *ngIf="totalAmount.errors" class="alert alert-danger">
                   Total amount required
                 </div>
-              </div> -->
+              </div>
             </div>
 
             <div class="col-sm-4 pb-3">

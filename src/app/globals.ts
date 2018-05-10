@@ -9,7 +9,7 @@ export class Globals {
   // url: string = '192.168.0.102:1191'; //niraj netgear
   webSocketUrl: string = 'ws://' + this.url + '/';
   api: string = 'http://' + this.url + '/';
-  register: object = { url: this.api + 'register', method: "POST" };
+  register: object = { url: this.api + 'user', method: "POST" };
   list: object = { url: this.api + 'user', method: "GET" };
 
 }
