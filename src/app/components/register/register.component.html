@@ -313,7 +313,7 @@
     </div>
 
     <div *ngIf="!sportsForm">
-      <form [formGroup]="groundregForm" autocomplete="off" (ngSubmit)="registerg()">
+      <form [formGroup]="groundregForm" autocomplete="off" (ngSubmit)="registerg()" novalidate>
         <strong>Ground</strong>
         <div class="mt-4">
 
@@ -328,11 +328,11 @@
           <div class="col-md-8 pb-3">
             <div class="row">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="typep" checked name="category" formControlName="category" value="p" (click)="type('p')">
+                <input class="form-check-input" type="radio" id="typep" checked name="category" formControlName="category" value="P" (click)="type('p')">
                 <label class="form-check-label" for="typep">Personal</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="typec" name="category" formControlName="category" value="c" (click)="type('c')">
+                <input class="form-check-input" type="radio" id="typec" name="category" formControlName="category" value="C" (click)="type('c')">
                 <label class="form-check-label" for="typec">Company</label>
               </div>
             </div>

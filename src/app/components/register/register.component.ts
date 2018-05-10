@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
         name: new FormControl('', Validators.required),
         contactNo: new FormControl()
       }),
-      category: new FormControl('p', Validators.required),
+      category: new FormControl('P', Validators.required),
       mode: new FormControl('CASH', Validators.required)
 
     });
@@ -187,9 +187,72 @@ export class RegisterComponent implements OnInit {
         balanceg.setValue(this.groundregForm.get('totalAmount').value - this.groundregForm.get('amountPaid').value)
 
       });
+
+    this.groundregForm.get('category').valueChanges.subscribe(mode => {
+      if (mode == 'c') {
+        let val = this.groundregForm.get('personal') as FormArray
+        // val.clearValidators()
+        val.get('name').clearValidators()
+        val.get('name').updateValueAndValidity()
+
+        console.log(val.get('name')
+        )
+      }
+    })
+
   }
 
-  registerg() {
+  registerg(print: boolean) {
+    let toastopt = {
+      timeOut: 3000,
+      showProgressBar: true,
+      pauseOnHover: false,
+      clickToClose: true,
+      maxLength: 50
+    };
+    if (confirm('Are you want to really submit form')) {
+      this.service.api(this.globals.ground, this.groundregForm.value).subscribe(res => {
+        console.log('res : ', res);
+        if (res.s) {
+          // this.submited=true;
+          // setTimeout(() => {
+          //   this.submited = false;
+          // }, 1000*5);
+          this.notif.success(
+            'Success',
+            'Form Submitted...',
+            toastopt
+          );
+          this.registerForm.reset();
+          if (this.elt.isElectronApp && print) {
+            let ipcR = this.elt.ipcRenderer;
+            ipcR.on('wrote-pdf', (event, path) => {
+              // console.log(event);
+              // console.log(path);
+            });
+            ipcR.send('print-to-pdf');
+          } else {
+            console.log("Print Not Trigger")
+          }
+        } else {
+          console.error('Somethisg went Wrong! Please check server responce.')
+        }
+      }, (error) => {
+        // console.log('error', error);
+        if (error.d && error.d.length > 0) {
+          error.d.forEach((msg: string) => {
+
+            this.notif.error(
+              'Error',
+              msg,
+              toastopt
+            );
+          });
+        }
+      });
+    } else {
+      console.log("*msg cancel btn pressed");
+    }
   }
   register(print: boolean) {
     console.log('form.value :', this.registerForm.value);
