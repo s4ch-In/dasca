@@ -112,7 +112,7 @@ module.exports.pay = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount,
+            amountPaid: req.body.amountPaid,
             name: user.firstName + ' ' + user.lastName
           }, (err, r) => {
             if (err) {

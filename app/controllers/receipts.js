@@ -10,7 +10,8 @@ module.exports.create = (req, res, next) => {
       mode: req.body.mode,
       narration: req.body.narration,
       balance: req.body.balance,
-      amountPaid: req.body.amountPaid,
+      name: user.firstName + ' ' + user.lastName,
+      amountPaid: req.body.amountPaid
     }, (err, r) => {
       if (err) {
         return next(err)
