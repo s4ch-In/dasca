@@ -12,7 +12,7 @@ import { ElectronService } from 'ngx-electron';
 export class DetailsComponent implements OnInit {
   registerForm: FormGroup;
   edit: boolean = false
-  localdata:any
+  localdata: any
   constructor(
     private formBuilder: FormBuilder,
     // private service: MasterService,
@@ -57,14 +57,14 @@ export class DetailsComponent implements OnInit {
     });
 
     this.localdata = JSON.parse(localStorage.getItem('detail'));
-    this.registerForm.patchValue(this.localdata);
+    // this.registerForm.patchValue(this.localdata);
     console.log('data', this.localdata)
 
   }
 
   ngOnInit() {
   }
-  register(print:boolean) {
+  register(print: boolean) {
     // console.log('form.value :',form.value);
     let toastopt = {
       timeOut: 3000,
@@ -73,23 +73,23 @@ export class DetailsComponent implements OnInit {
       clickToClose: true,
       maxLength: 50
     };
-    
+
     localStorage.setItem("formData", JSON.stringify(this.registerForm.value));
     if (confirm('Are you want to really print form')) {
       if (this.elt.isElectronApp && print) {
-            let ipcR = this.elt.ipcRenderer;
-            ipcR.on('wrote-pdf', (event, path) => {
-              // console.log(event);
-              // console.log(path);
-            });
-            ipcR.send('print-to-pdf');
-          }else{
-            console.log("Print Not Trigger")
-          }
+        let ipcR = this.elt.ipcRenderer;
+        ipcR.on('wrote-pdf', (event, path) => {
+          // console.log(event);
+          // console.log(path);
+        });
+        ipcR.send('print-to-pdf');
+      } else {
+        console.log("Print Not Trigger")
+      }
       // this.service.api(this.globals.register, this.registerForm.value).subscribe(res=>{
       //   console.log('res : ', res);
       //   if(res.s){
-         
+
       //     this.notif.success(
       //       'Success',
       //       'Form Submitted...',
@@ -113,7 +113,7 @@ export class DetailsComponent implements OnInit {
       //   // console.log('error', error);
       //   if(error.d && error.d.length>0){
       //     error.d.forEach((msg:string) => {
-            
+
       //       this.notif.error(
       //         'Error',
       //         msg,
@@ -122,7 +122,7 @@ export class DetailsComponent implements OnInit {
       //     });
       //   }
       // });
-    }else{
+    } else {
       console.log("*msg cancel btn pressed");
     }
   }

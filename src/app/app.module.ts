@@ -13,6 +13,7 @@ import { NgxElectronModule } from 'ngx-electron';
 import { PrintComponent } from './components/print/print.component';
 import { ListComponent } from './components/list/list.component';
 
+import { TabsModule } from 'ngx-bootstrap/tabs';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     NgxElectronModule,
+    TabsModule.forRoot(),
     PaginationModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,

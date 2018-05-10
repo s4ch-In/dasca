@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-weight: 500;
-  font-size: 25px;
+  font-size: 16px;
   -webkit-print-color-adjust: exact;
   box-sizing: border-box;
   font-family: 'Helvetica', Times, serif;
@@ -15,7 +15,14 @@ body {
 h3 {
   color: #000000;
 }
-
+.page .header{
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  -webkit-transform-origin: left top;
+  transform-origin: 56% 40%;
+  width: 59%;
+  height: 820px;
+}
 .page {
   position: relative;
   height: 210mm;
@@ -30,6 +37,8 @@ h3 {
     margin: 0;
     height: 100%;
     width: 100%;
+    /* height: 210mm;
+  width: 297mm; */
     page-break-after: auto;
   }
   .page.three {
@@ -116,7 +125,7 @@ h3 {
   width: 100%;
   padding-bottom: 25px;
   margin-top: 20px;
-  font-size: 22px;
+  font-size: 16px;
   position: relative;
 }
 
@@ -129,7 +138,9 @@ h3 {
   align-items: center;
   justify-content: center;
 }
-
+.row h1{
+  font-size: 1.4rem
+}
 .row p,
 .row h1 {
   margin: 0;
@@ -166,7 +177,7 @@ h3 {
 
 .headt td,
 .headt th {
-  font-size: 22px;
+  font-size: 16px;
 }
 
 .descriptive thead {
@@ -175,7 +186,7 @@ h3 {
 }
 
 .descriptive tbody td {
-  font-size: 20px;
+  font-size: 16px;
   vertical-align: top;
 }
 
