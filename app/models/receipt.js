@@ -8,6 +8,10 @@ const receiptSchema = new Schema({
   receiptNo: {
     type: Number
   },
+  name: {
+    type: String,
+    uppercase: true
+  },
   mode: {
     type: String,
     uppercase: true,

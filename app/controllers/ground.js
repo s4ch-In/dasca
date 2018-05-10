@@ -23,7 +23,8 @@ module.exports.create = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount
+            amount: req.body.amount,
+            name: (g.category == 'P') ? g.person.name : g.company.name
           }, (err, r) => {
             if (err) {
               return next(err)

@@ -6,10 +6,12 @@ const limitPerPage = 10;
 module.exports.create = (req, res, next) => {
   const messages = [];
   req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
+  console.log(req.body.mode)
+  console.log(req.body.balance)
+  console.log(req.body.amount)
   if (req.body.mode &&
-    req.body.narration &&
-    req.body.balance &&
-    req.body.amount) {
+    req.body.balance.toString() &&
+    req.body.amount.toString()) {
     if (req.body) {
       let f = new User(req.body)
       f.save((err, user) => {
@@ -23,7 +25,8 @@ module.exports.create = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount
+            amount: req.body.amount,
+            name: user.firstName + ' ' + user.lastName
           }, (err, r) => {
             if (err) {
               return next(err)
@@ -112,7 +115,8 @@ module.exports.pay = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount
+            amount: req.body.amount,
+            name: user.firstName + ' ' + user.lastName
           }, (err, r) => {
             if (err) {
               return next(err)
