@@ -3,7 +3,7 @@ const Config = require('../config/config').get(process.env.NODE_ENV);
 const connection = mongoose.createConnection(Config.database);
 const Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
-
+const mongooseHistory = require('mongoose-history')
 const userSchema = new Schema({
   userId: {
     type: Number,
@@ -36,8 +36,8 @@ const userSchema = new Schema({
     uppercase: true
   },
   mobileNo: {
-    type: String,
-    required: [true, "Please enter mobile number"]
+    type: String
+    // required: [true, "Please enter mobile number"]
   },
   father: {
     ffullName: {
@@ -129,7 +129,7 @@ const userSchema = new Schema({
     type: Number,
     required: [true, "Please enter Fees Paid"]
   },
-  addincharge: {
+  addIncharge: {
     type: String,
     required: [true, "Please enter Admission incharge"],
     uppercase: true
@@ -157,5 +157,14 @@ userSchema.plugin(autoIncrement.plugin, {
   incrementBy: 1
 });
 
+userSchema.pre('save', function(next) {
+  return next()
+  // if (!this.isNew) {
+  //   if (this.isModified('userId') || this.isModified('addincharge') || this.isModified('receipts'))
+  // }
+});
 
-module.exports = mongoose.model('Form', userSchema);
+userSchema.plugin(mongooseHistory)
+
+
+module.exports = mongoose.model('User', userSchema);

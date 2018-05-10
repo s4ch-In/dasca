@@ -11,7 +11,8 @@ const receiptSchema = new Schema({
   mode: {
     type: String,
     uppercase: true,
-    enum: ['CASH', 'CHEQUE', 'DD', 'CARD', 'ONLINE']
+    enum: ['CASH', 'CHEQUE', 'DD', 'CARD', 'ONLINE'],
+    required: [true, 'Please specify mode of payment']
   },
   receiptId: {
     type: String,
@@ -27,7 +28,8 @@ const receiptSchema = new Schema({
     amount: Number
   },
   amount: {
-    type: Number
+    type: Number,
+    required: [true, 'Please enter payable amount']
   }
 
 }, {
@@ -45,7 +47,8 @@ receiptSchema.pre('save', function(next) {
   if (this.isNew) {
     let d = new Date();
     let y = d.getMonth() < 3 ? d.getYear() - 1 : d.getYear();
-    this.receiptId = y.toString() + this.receiptNo.toString()
+    this.receiptId = y.toString() + this.receiptNo.toString();
+    return next()
   } else {
     return next()
   }

@@ -3,6 +3,7 @@ const Sport = require('../models/sports');
 const limitPerPage = 10;
 
 module.exports.create = (req, res, next) => {
+  let messages = []
   if (req.body) {
     let s = new Sport(req.body)
     let errors = s.validateSync()

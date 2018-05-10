@@ -1,10 +1,11 @@
 const moment = require('moment');
 const User = require('../models/user');
+const Receipt = require('../plugin/receipt');
 const limitPerPage = 10;
 
 module.exports.create = (req, res, next) => {
   const messages = [];
-  req.body.dob = moment(req.body.dob).format('L')
+  req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
   if (req.body) {
     let f = new User(req.body)
     f.save((err, user) => {
@@ -92,6 +93,53 @@ module.exports.get = (req, res, next) => {
     })
 }
 
-module.exports.update = (req, res, next) => {
+module.exports.pay = (req, res, next) => {
+  if (req.body.userId) {
+    User
+      .findOne({ userId: req.body.userId })
+      .exec((err, user) => {
+        if (err) {
+          return next(err)
+        } else {
+          Receipt.generate({
+            mode: req.body.mode,
+            narration: req.body.narration,
+            balance: req.body.balance,
+            amount: req.body.amount
+          }, (err, r) => {
+            if (err) {
+              return next(err)
+            } else {
+              user.receipts.push(r._id)
+              user.save((err, u) => {
+                if (err) {
+                  return next(err)
+                } else {
+                  return res.json({ s: true, m: "User registered Successfully", d: { u, r } });
+                }
+              })
+            }
+          })
+        }
+      });
+  } else {
+    return next(new Error('Insufficient data'))
+  }
+}
 
+module.exports.update = (req, res, next) => {
+  if (req.body.userId) {
+    User
+      .findOne({ userId: req.body.userId })
+      .populate('receipts')
+      .exec((err, user) => {
+        if (err) {
+          return next(err)
+        } else {
+
+        }
+      })
+  } else {
+    return next(new Error('Insufficient Data'))
+  }
 };

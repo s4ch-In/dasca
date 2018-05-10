@@ -1,6 +1,7 @@
 const Receipt = require('../models/receipt');
 
 module.exports.generate = (data, cb) => {
+  let messages = []
   if (data) {
     let receipt = new Receipt({
       mode: data.mode,
@@ -8,12 +9,12 @@ module.exports.generate = (data, cb) => {
       balance: data.balance,
       amount: data.amount
     })
-    let errors = receipt.validaateSync()
+    let errors = receipt.validateSync()
     if (errors) {
       for (let i in errors.errors) {
         messages.push(errors.errors[i].message)
       }
-      return cb(messages)
+      cb(messages)
     } else {
       receipt.save((err, r) => {
         if (err) {
@@ -24,6 +25,6 @@ module.exports.generate = (data, cb) => {
       })
     }
   } else {
-    return cb({ type: 'Error', message: "Can't ready any property of null" })
+    cb({ type: 'Error', message: "Can't ready any property of null" })
   }
 }
