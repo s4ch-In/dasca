@@ -30,6 +30,9 @@ export class RegisterComponent implements OnInit {
   submited: boolean = false;
 
   totalAmount: FormControl
+
+  get quarters(): FormArray { return this.registerForm.get('membership').get('quarters') as FormArray; }
+
   @ViewChild('formDom') formDom: ElementRef;
   constructor(
     private formBuilder: FormBuilder,
@@ -69,6 +72,7 @@ export class RegisterComponent implements OnInit {
           FY: new FormControl((this.dy + 1) + '-' + (this.dy + 2)),
         }),
       }),
+
       firstName: new FormControl('', Validators.required),
       middleName: new FormControl(),
       lastName: new FormControl('', Validators.required),
@@ -95,7 +99,7 @@ export class RegisterComponent implements OnInit {
       repSchoolTeam: new FormControl(),
       prevParticipation: new FormControl(),
       otehrAreaOfInterest: new FormControl(),
-      addincharge: new FormControl('', Validators.required),
+      addIncharge: new FormControl('', Validators.required),
       feesPaid: new FormControl('', Validators.required),
       coach: new FormControl(),
       secretary: new FormControl(),
@@ -103,11 +107,13 @@ export class RegisterComponent implements OnInit {
       amountPaid: new FormControl(0, Validators.required),
       balance: new FormControl(0, Validators.required),
       narration: new FormControl('', Validators.required),
-      mode: new FormControl('CASH', Validators.required)
-
+      mode: new FormControl('CASH', Validators.required),
+      sport: new FormControl('Cricket', Validators.required)
     });
 
+
   }
+
   ngAfterViewInit() {
     this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
     // console.log('route : ', );
@@ -124,7 +130,7 @@ export class RegisterComponent implements OnInit {
       balance: new FormControl(),
       totalAmount: new FormControl(0, Validators.required),
       amountPaid: new FormControl(0, Validators.required),
-      personal: new FormGroup({
+      person: new FormGroup({
         name: new FormControl('', Validators.required),
         contactNo: new FormControl('', Validators.required),
         address: new FormControl('', Validators.required),
@@ -149,30 +155,35 @@ export class RegisterComponent implements OnInit {
     this.formControlValueChanged()
   }
 
-  checkMonth(month) {
 
-  }
   formControlValueChanged() {
+    // const fy = this.registerForm.get('membership').get('FY');
+    // console.log(this.registerForm.get('quarter'))
+    // this.registerForm.get('membership').valueChanges.subscribe(mode => {
+    // console.log(mode.quarter)
+    // let date: Date = new Date
+    // let dy = date.getFullYear()
+    // let currentMonth = date.getMonth() + 1
 
-    this.registerForm.get('membership').valueChanges.subscribe(mode => {
-      // let date: Date = new Date
-      // let dy = date.getFullYear()
-      // let currentMonth = date.getMonth() + 1
+    // if (mode.quarter == 'q1') {
+    //   console.log(dy + '-' + (dy + 1))
+    //   // fy.setValue(dy + '-' + (dy + 1))
+    // }
+    // if (mode.quarter == 'q2') {
+    //   console.log(dy + '-' + (dy + 1))
+    //   // fy.setValue(dy + '-' + (dy + 1))
 
-      // if (mode.q1 == true) {
-      //   console.log(dy + '-' + (dy + 1))
-      // }
-      // if (mode.q2 == true) {
-      //   console.log(dy + '-' + (dy + 1))
-      // }
-      // if (mode.q3 == true) {
-      //   console.log(dy + '-' + (dy + 1))
-      // }
-      // if (mode.q4 == true) {
-      //   console.log((dy - 1) + '-' + dy)
+    // }
+    // if (mode.quarter == 'q3') {
+    //   console.log(dy + '-' + (dy + 1))
+    //   // fy.setValue(dy + '-' + (dy + 1))
+    // }
+    // if (mode.quarter == 'q4') {
+    //   console.log((dy - 1) + '-' + dy)
+    //   // fy.setValue((dy - 1) + '-' + dy)
 
-      // }
-    })
+    // }
+    // })
     const balance = this.registerForm.get('balance');
     this.registerForm.get('amountPaid').valueChanges.subscribe(
       (mode: string) => {

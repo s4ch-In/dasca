@@ -29,6 +29,7 @@ export class ListComponent implements OnInit {
   public textString: string = '';
   public listForm: FormGroup;
   public recForm: FormGroup;
+  public groundForm: FormGroup
   constructor(
     private service: MasterService,
     private globals: Globals,
@@ -49,9 +50,14 @@ export class ListComponent implements OnInit {
     this.recForm = new FormGroup({
       recField: new FormControl(),
     });
+    this.groundForm = new FormGroup({
+      groundField: new FormControl(),
+    });
+
     this.lodingPage = true;
     this.getPage(this.bigCurrentPage);
     this.getReceipts(this.bigCurrentPageRec);
+    this.getGround(this.bigCurrentPageGround);
   }
   // loadmore(){
   //   this.lodingPage = true;
@@ -67,6 +73,11 @@ export class ListComponent implements OnInit {
   pageChangedR(page: number) {
     this.bigCurrentPageRec = page
     this.getReceipts(this.bigCurrentPageRec)
+  }
+  bigCurrentPageGround: number = 1
+  pageChangedG(page: number) {
+    this.bigCurrentPageGround = page
+    this.getGround(this.bigCurrentPageGround)
   }
 
   getPage(page: number) {
@@ -92,12 +103,16 @@ export class ListComponent implements OnInit {
       }
     })
   }
+  bigTotalItemsGround: number
+  groundText: string = ''
+
   getGround(page: number) {
-    this.service.api(this.globals.groundList, { key: this.recText, p: (page - 1) }).subscribe(res => {
+    this.service.api(this.globals.groundList, { key: this.groundText, p: (page - 1) }).subscribe(res => {
       if (res.s) {
-        console.log(res)
-        // this.bigTotalItemsRec = res.t;
-        // this.ground = res.d;
+        console.log(res.d)
+        this.bigTotalItemsGround = res.t;
+        this.ground = res.d;
+
       }
     })
   }
@@ -119,6 +134,7 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     let searchField = this.listForm.get('searchField') as FormControl;
     let recField = this.recForm.get('recField') as FormControl;
+    let groundField = this.groundForm.get('groundField') as FormControl;
 
     searchField.valueChanges
       .do((ele) => {
@@ -138,19 +154,38 @@ export class ListComponent implements OnInit {
         this.bigCurrentPageRec = 1
         this.getReceipts(this.bigCurrentPageRec)
       })
-    this.getGround(1)
+
+    groundField.valueChanges
+      .do((ele) => {
+        this.ground = [];
+      }).subscribe((query) => {
+        this.groundText = query
+        this.bigCurrentPageGround = 1
+        this.getGround(this.bigCurrentPageGround)
+      })
+
   }
 
   getData(i: number) {
     // console.log('view', this.list[i].doc);
     let data = JSON.stringify(this.list[i].doc)
     localStorage.setItem('detail', data)
+    localStorage.setItem('formState', 'sports')
+
     this.router.navigate(['details'])
   }
   getRecData(i: number) {
     let data = JSON.stringify(this.receipts[i])
     localStorage.setItem('recData', data)
-    this.router.navigate(['print'])
+    localStorage.setItem('formState', 'receipt')
+    this.router.navigate(['details'])
+    // this.router.navigate(['print'])
+  }
+  getGroundData(i: number) {
+    let data = JSON.stringify(this.ground[i])
+    localStorage.setItem('groundData', data)
+    localStorage.setItem('formState', 'ground')
+    this.router.navigate(['details'])
   }
 
 }

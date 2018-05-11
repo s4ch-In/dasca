@@ -15,209 +15,467 @@
 
     <h3>Details </h3>
     <hr class="my-3">
+    <div *ngIf="formState=='receipt'">
 
-    <form class="detailForm" [formGroup]="registerForm" autocomplete="off" novalidate #formDom>
-      <div class="mt-4">
-        <label style="font-size: 25px; color:#000; font-weight: bold;">Reg Number :
-          <span class="text-danger">{{localdata.registrationNo}}</span>
-        </label>
-        <div class="row">
-          <div class="col-md-8 pb-3">
-
-
-            <label for="batch">Batch</label>
-            <div class="form-group medium">
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="batch" [disableControl]="!edit" formControlName="batch" (keydown.enter)="switchInput($event)"
-                    value="MORNING"> Morning
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <label class="form-check-label">
-                  <input class="form-check-input" type="radio" name="batch" [disableControl]="!edit" formControlName="batch" (keydown.enter)="switchInput($event)"
-                    value="EVENING"> Evening
-                </label>
-              </div>
-
-            </div>
-          </div>
-          <div class="col-md-4 pb-3">
-            <label for="time">Time</label>
-            <input type="time" class="form-control" name="time" [disableControl]="!edit" formControlName="time" (keydown.enter)="switchInput($event)"
-              placeholder="Time">
-          </div>
-        </div>
+    </div>
+    <div *ngIf="formState=='ground'">
+      <div *ngIf="groundata.category=='C'">
+        <h4>Company</h4>
+        <hr style="border-color:#ccc">
         <div class="row">
           <div class="col-sm-4 pb-3">
-            <label for="firstname">First Name</label>
-            <input type="text" class="form-control" name="firstName" [disableControl]="!edit" formControlName="firstName" (keydown.enter)="switchInput($event)"
-              placeholder="First Name">
+            <label for="firstname">
+              <strong>Name</strong>
+            </label>
+            <div>{{groundata.company.name}}</div>
           </div>
           <div class="col-sm-4 pb-3">
-            <label for="middlename">Middle Name</label>
-            <input type="text" class="form-control" name="middleName" [disableControl]="!edit" formControlName="middleName" (keydown.enter)="switchInput($event)"
-              placeholder="Middle Name">
+            <label>
+              <strong>Contact Number</strong>
+            </label>
+            <div>{{groundata.company.contactNo}}</div>
           </div>
-          <div class="col-sm-4 pb-3">
-            <label for="lastname">Last Name</label>
-            <input type="text" class="form-control" name="lastName" [disableControl]="!edit" formControlName="lastName" (keydown.enter)="switchInput($event)"
-              placeholder="Last Name">
-          </div>
-        </div>
-        <h5 class="mt-4">Father's Information</h5>
-        <div class="row" formGroupName="father">
-          <div class="col-sm-8 pb-3">
-            <label for="fullname">Father's Name</label>
-            <input type="text" class="form-control" name="ffullName" [disableControl]="!edit" formControlName="ffullName" (keydown.enter)="switchInput($event)"
-              placeholder="Father's Full Name">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="occ">Occupation</label>
-            <input type="text" class="form-control" name="foccupation" [disableControl]="!edit" formControlName="foccupation" (keydown.enter)="switchInput($event)"
-              placeholder="Occupation">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="annualincome">Annual Income</label>
-            <input type="text" class="form-control" name="anualIncome" [disableControl]="!edit" formControlName="anualIncome" (keydown.enter)="switchInput($event)"
-              placeholder="Annual Income">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="mobile">Mobile Number</label>
-            <input type="text" class="form-control" name="mobileNo" [disableControl]="!edit" formControlName="mobileNo" (keydown.enter)="switchInput($event)"
-              placeholder="Mobile Number">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="resno">Residential Number</label>
-            <input type="text" class="form-control" name="resNo" [disableControl]="!edit" formControlName="resNo" (keydown.enter)="switchInput($event)"
-              placeholder="Residential Number">
-          </div>
-        </div>
-        <h5 class="mt-4">Mother's Information</h5>
-        <div class="row" formGroupName="mother">
-          <div class="col-sm-4 pb-3">
-            <label for="mfullname">Mothers's Name</label>
-            <input type="text" class="form-control" name="mfullName" [disableControl]="!edit" formControlName="mfullName" (keydown.enter)="switchInput($event)"
-              placeholder="Mothers's Full Name">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="mocc">Occupation</label>
-            <input type="text" class="form-control" name="moccupation" [disableControl]="!edit" formControlName="moccupation" (keydown.enter)="switchInput($event)"
-              placeholder="Occupation">
-          </div>
-
-          <div class="col-sm-4 pb-3">
-            <label for="mmobile">Mobile Number</label>
-            <input type="text" class="form-control" name="mmobileNo" [disableControl]="!edit" formControlName="mmobileNo" (keydown.enter)="switchInput($event)"
-              placeholder="Mobile Number">
-          </div>
-
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-sm-4 pb-3">
-            <label for="dob">Date of Birth</label>
-            <input type="date" class="form-control" name="dob" [disableControl]="!edit" formControlName="dob" (keydown.enter)="switchInput($event)"
-              placeholder="Date of Birth">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="cclass">Class in which studying</label>
-            <input type="text" class="form-control" name="currentClass" [disableControl]="!edit" formControlName="currentClass" (keydown.enter)="switchInput($event)"
-              placeholder="Class in which studying">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="school">Name of School</label>
-            <input type="text" class="form-control" name="school" [disableControl]="!edit" formControlName="school" (keydown.enter)="switchInput($event)"
-              placeholder="School">
-          </div>
-        </div>
-        <div class="row">
           <div class="col-sm-12 pb-3">
-            <label for="addr">Address of correspondence</label>
-            <textarea name="address" [disableControl]="!edit" formControlName="address" (keydown.enter)="switchInput($event)" class="form-control"
-              placeholder="Address"></textarea>
+            <label>
+              <strong>Address</strong>
+            </label>
+            <div>{{groundata.company.address}}</div>
           </div>
         </div>
+        <hr style="border-color:#ccc">
+
+        <h4>Point of Contact</h4>
+        <hr style="border-color:#ccc">
 
         <div class="row">
           <div class="col-sm-4 pb-3">
-            <label for="height">Height in CMS</label>
-            <input type="text" class="form-control" name="heightInCms" [disableControl]="!edit" formControlName="heightInCms" (keydown.enter)="switchInput($event)"
-              placeholder="Height in CMS">
+            <label for="firstname">
+              <strong>Name</strong>
+            </label>
+            <div>{{groundata.poc.name}}</div>
           </div>
           <div class="col-sm-4 pb-3">
-            <label for="wght">Weight</label>
-            <input type="text" class="form-control" name="weightInKg" [disableControl]="!edit" formControlName="weightInKg" (keydown.enter)="switchInput($event)"
-              placeholder="Weight">
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-sm-12 pb-3">
-            <label for="coachingCampDetail">Have you attended any Coaching Camp or Club earlier. If Yes, give details:</label>
-            <textarea name="coachingCampDetail" [disableControl]="!edit" formControlName="coachingCampDetail" (keydown.enter)="switchInput($event)"
-              class="form-control" placeholder="Have you attended any Coaching Camp or Club earlier. If Yes, give details"></textarea>
-          </div>
-        </div>
-        <div class="row mt-4">
-          <div class="col-sm-12 pb-3">
-            <label for="repSchoolTeam">Have you represented Scholl / Club Team. Yes / No Game Give details:</label>
-            <textarea name="repSchoolTeam" [disableControl]="!edit" formControlName="repSchoolTeam" (keydown.enter)="switchInput($event)"
-              class="form-control" placeholder="Have you represented Scholl / Club Team. Yes / No Game Give details"></textarea>
-          </div>
-        </div>
-        <div class="row mt-4">
-          <div class="col-sm-12 pb-3">
-            <label for="prevParticipation">Previous Participation in any other games and sports</label>
-            <input type="text" class="form-control" name="prevParticipation" [disableControl]="!edit" formControlName="prevParticipation"
-              (keydown.enter)="switchInput($event)" placeholder="">
-          </div>
-        </div>
-        <div class="row mt-4">
-          <div class="col-sm-12 pb-3">
-            <label for="otehrAreaOfInterest">Other areas of Interest - Dance, Music, Drawing, Reading etc.</label>
-            <input type="text" class="form-control" name="otehrAreaOfInterest" [disableControl]="!edit" formControlName="otehrAreaOfInterest"
-              (keydown.enter)="switchInput($event)" placeholder="Ex. Dance, Music, Drawing, Reading">
-          </div>
-        </div>
-
-        <div class="row mt-4">
-          <div class="col-sm-4 pb-3">
-            <label for="addincharge">Admission Incharge</label>
-            <input type="text" class="form-control" name="addincharge" [disableControl]="!edit" formControlName="addincharge" (keydown.enter)="switchInput($event)"
-              placeholder="Admission Incharge">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="feespaed">Fees Paid</label>
-            <input type="number" class="form-control" name="feesPaid" [disableControl]="!edit" formControlName="feesPaid" (keydown.enter)="switchInput($event)"
-              placeholder="Fees Paid">
-          </div>
-
-
-          <div class="col-sm-4 pb-3">
-            <label for="Coach">Coach</label>
-            <input type="text" class="form-control" name="coach" [disableControl]="!edit" formControlName="coach" (keydown.enter)="switchInput($event)"
-              placeholder="Coach">
-          </div>
-          <div class="col-sm-4 pb-3">
-            <label for="Secretary">Secretary</label>
-            <input type="text" class="form-control" name="secretary" [disableControl]="!edit" formControlName="secretary" (keydown.enter)="switchInput($event)"
-              placeholder="Secretary">
+            <label>
+              <strong>Contact Number</strong>
+            </label>
+            <div>{{groundata.poc.contactNo}}</div>
           </div>
         </div>
       </div>
-    </form>
-    <div class="col-sm-12" *ngIf="submited">
-      Form Submitted...
+      <div *ngIf="groundata.category=='P'">
+        <h4>Personal</h4>
+        <hr style="border-color:#ccc">
+        <div class="row">
+          <div class="col-sm-4 pb-3">
+            <label for="firstname">
+              <strong>Name</strong>
+            </label>
+            <div>{{groundata.person.name}}</div>
+          </div>
+          <div class="col-sm-4 pb-3">
+            <label>
+              <strong>Contact Number</strong>
+            </label>
+            <div>{{groundata.person.contactNo}}</div>
+          </div>
+          <div class="col-sm-12 pb-3">
+            <label>
+              <strong>Address</strong>
+            </label>
+            <div>{{groundata.person.address}}</div>
+          </div>
+        </div>
+        <hr style="border-color:#ccc">
+
+      </div>
+      <div>
+        <h4>Payment Details</h4>
+        <hr style="border-color:#ccc">
+        <div class="row">
+          <div class="col-sm-4 pb-3">
+            <label>
+              <strong>Amount</strong>
+            </label>
+            <div>{{groundata.totalAmount}}</div>
+          </div>
+          <div class="col-sm-4 pb-3">
+            <label>
+              <strong>Amount Paid</strong>
+            </label>
+            <div>{{groundata.amountPaid}}</div>
+          </div>
+          <div class="col-sm-4 pb-3">
+            <label>
+              <strong>Balance Amount</strong>
+            </label>
+            <div>{{groundata.balance}}</div>
+          </div>
+          <div class="col-sm-12 pb-3">
+            <label>
+              <strong>Narration</strong>
+            </label>
+            <div>{{groundata.narration}}</div>
+          </div>
+        </div>
+
+      </div>
+      <nav class="navbar fixed-bottom navbar-light bg-light">
+        <a class="navbar-brand text-primary" style="font-size: 14px" href="#">© Vestanam Pvt. Ltd </a>
+        <div class="btn-group text-right ">
+          <!-- <button class="pull-right btn btn-primary" (click)="register(true)">Print</button> -->
+          <button *ngIf="payBtn" class="pull-right btn btn-success" (click)="openModal(template)">Pay Balance</button>
+          <!-- <button class="pull-right btn btn-warning" (click)="register(true)">Add new Reciept</button> -->
+        </div>
+      </nav>
+      <ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Payment</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="paymentForm" novalidate autocomplete="off">
+            <div class="row">
+              <div class="col-sm-12 pb-3">
+                <label for="mobile">Total Amount</label>
+                <input type="number" class="form-control" name="balance" value="{{groundata.balance}}" formControlName="totalAmount" placeholder="Total Balance">
+
+              </div>
+              <div class="col-sm-12 pb-3">
+                <label for="mobile">Amount Paid</label>
+                <input type="number" class="form-control" name="balance" formControlName="amountPaid" placeholder="Amount Paid">
+
+              </div>
+              <div class="col-sm-12 pb-3">
+                <label for="mobile">Total Amount</label>
+                <input type="number" class="form-control" name="balance" formControlName="balance" placeholder="Balance">
+
+              </div>
+              <div class="col-sm-12 pb-3">
+                <label for="narration">Narration</label>
+                <input type="text" class="form-control" name="narration" formControlName="narration" placeholder="Narration">
+              </div>
+              <div class="col-md-12 pb-3">
+                <label for="batch">Mode of Payment</label>
+                <div class="form-group medium" formGroupControl="mode">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" checked formControlName="mode" (keydown.enter)="switchInput($event)"
+                        value="CASH"> CASH
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="CHEQUE"> CHEQUE
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="DD"> DD
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="CARD"> CARD
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="ONLINE"> ONLINE
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button class="btn btn-info " (click)="modalRef.hide()">Cancel</button>
+          <button class="btn btn-success" (click)="pay()">Pay</button>
+        </div>
+
+      </ng-template>
     </div>
+    <div *ngIf="formState=='sports'">
+      <form class="detailForm" [formGroup]="registerForm" autocomplete="off" novalidate #formDom>
+        <div class="mt-4">
+          <label style="font-size: 25px; color:#000; font-weight: bold;">Reg Number :
+            <span class="text-danger">{{localdata.userId}}</span>
+          </label>
+          <div class="row">
+            <div class="col-md-8 pb-3">
+
+
+              <label for="batch">Batch</label>
+              <div class="form-group medium">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="batch" [disableControl]="!edit" formControlName="batch" (keydown.enter)="switchInput($event)"
+                      value="MORNING"> Morning
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="batch" [disableControl]="!edit" formControlName="batch" (keydown.enter)="switchInput($event)"
+                      value="EVENING"> Evening
+                  </label>
+                </div>
+
+              </div>
+            </div>
+            <div class="col-md-4 pb-3">
+              <label for="time">Time</label>
+              <input type="time" class="form-control" name="time" [disableControl]="!edit" formControlName="time" (keydown.enter)="switchInput($event)"
+                placeholder="Time">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="firstname">First Name</label>
+              <input type="text" class="form-control" name="firstName" [disableControl]="!edit" formControlName="firstName" (keydown.enter)="switchInput($event)"
+                placeholder="First Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="middlename">Middle Name</label>
+              <input type="text" class="form-control" name="middleName" [disableControl]="!edit" formControlName="middleName" (keydown.enter)="switchInput($event)"
+                placeholder="Middle Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="lastname">Last Name</label>
+              <input type="text" class="form-control" name="lastName" [disableControl]="!edit" formControlName="lastName" (keydown.enter)="switchInput($event)"
+                placeholder="Last Name">
+            </div>
+          </div>
+          <h5 class="mt-4">Father's Information</h5>
+          <div class="row" formGroupName="father">
+            <div class="col-sm-8 pb-3">
+              <label for="fullname">Father's Name</label>
+              <input type="text" class="form-control" name="ffullName" [disableControl]="!edit" formControlName="ffullName" (keydown.enter)="switchInput($event)"
+                placeholder="Father's Full Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="occ">Occupation</label>
+              <input type="text" class="form-control" name="foccupation" [disableControl]="!edit" formControlName="foccupation" (keydown.enter)="switchInput($event)"
+                placeholder="Occupation">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="annualincome">Annual Income</label>
+              <input type="text" class="form-control" name="anualIncome" [disableControl]="!edit" formControlName="fanualIncome" (keydown.enter)="switchInput($event)"
+                placeholder="Annual Income">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mobileNo" [disableControl]="!edit" formControlName="fmobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="resno">Residential Number</label>
+              <input type="text" class="form-control" name="resNo" [disableControl]="!edit" formControlName="fresNo" (keydown.enter)="switchInput($event)"
+                placeholder="Residential Number">
+            </div>
+          </div>
+          <h5 class="mt-4">Mother's Information</h5>
+          <div class="row" formGroupName="mother">
+            <div class="col-sm-4 pb-3">
+              <label for="mfullname">Mothers's Name</label>
+              <input type="text" class="form-control" name="mfullName" [disableControl]="!edit" formControlName="mfullName" (keydown.enter)="switchInput($event)"
+                placeholder="Mothers's Full Name">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mocc">Occupation</label>
+              <input type="text" class="form-control" name="moccupation" [disableControl]="!edit" formControlName="moccupation" (keydown.enter)="switchInput($event)"
+                placeholder="Occupation">
+            </div>
+
+            <div class="col-sm-4 pb-3">
+              <label for="mmobile">Mobile Number</label>
+              <input type="text" class="form-control" name="mmobileNo" [disableControl]="!edit" formControlName="mmobileNo" (keydown.enter)="switchInput($event)"
+                placeholder="Mobile Number">
+            </div>
+
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-4 pb-3">
+              <label for="dob">Date of Birth</label>
+              <input type="date" class="form-control" name="dob" [disableControl]="!edit" formControlName="dob" (keydown.enter)="switchInput($event)"
+                placeholder="Date of Birth">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="cclass">Class in which studying</label>
+              <input type="text" class="form-control" name="currentClass" [disableControl]="!edit" formControlName="currentClass" (keydown.enter)="switchInput($event)"
+                placeholder="Class in which studying">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="school">Name of School</label>
+              <input type="text" class="form-control" name="school" [disableControl]="!edit" formControlName="school" (keydown.enter)="switchInput($event)"
+                placeholder="School">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 pb-3">
+              <label for="addr">Address of correspondence</label>
+              <textarea name="address" [disableControl]="!edit" formControlName="address" (keydown.enter)="switchInput($event)" class="form-control"
+                placeholder="Address"></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4 pb-3">
+              <label for="height">Height in CMS</label>
+              <input type="text" class="form-control" name="heightInCms" [disableControl]="!edit" formControlName="heightInCms" (keydown.enter)="switchInput($event)"
+                placeholder="Height in CMS">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="wght">Weight</label>
+              <input type="text" class="form-control" name="weightInKg" [disableControl]="!edit" formControlName="weightInKg" (keydown.enter)="switchInput($event)"
+                placeholder="Weight">
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="coachingCampDetail">Have you attended any Coaching Camp or Club earlier. If Yes, give details:</label>
+              <textarea name="coachingCampDetail" [disableControl]="!edit" formControlName="coachingCampDetail" (keydown.enter)="switchInput($event)"
+                class="form-control" placeholder="Have you attended any Coaching Camp or Club earlier. If Yes, give details"></textarea>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="repSchoolTeam">Have you represented Scholl / Club Team. Yes / No Game Give details:</label>
+              <textarea name="repSchoolTeam" [disableControl]="!edit" formControlName="repSchoolTeam" (keydown.enter)="switchInput($event)"
+                class="form-control" placeholder="Have you represented Scholl / Club Team. Yes / No Game Give details"></textarea>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="prevParticipation">Previous Participation in any other games and sports</label>
+              <input type="text" class="form-control" name="prevParticipation" [disableControl]="!edit" formControlName="prevParticipation"
+                (keydown.enter)="switchInput($event)" placeholder="">
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12 pb-3">
+              <label for="otehrAreaOfInterest">Other areas of Interest - Dance, Music, Drawing, Reading etc.</label>
+              <input type="text" class="form-control" name="otehrAreaOfInterest" [disableControl]="!edit" formControlName="otehrAreaOfInterest"
+                (keydown.enter)="switchInput($event)" placeholder="Ex. Dance, Music, Drawing, Reading">
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-sm-4 pb-3">
+              <label for="addincharge">Admission Incharge</label>
+              <input type="text" class="form-control" name="addincharge" [disableControl]="!edit" formControlName="addIncharge" (keydown.enter)="switchInput($event)"
+                placeholder="Admission Incharge">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="feespaed">Fees Paid</label>
+              <input type="number" class="form-control" name="feesPaid" [disableControl]="!edit" formControlName="feesPaid" (keydown.enter)="switchInput($event)"
+                placeholder="Fees Paid">
+            </div>
+
+
+            <div class="col-sm-4 pb-3">
+              <label for="Coach">Coach</label>
+              <input type="text" class="form-control" name="coach" [disableControl]="!edit" formControlName="coach" (keydown.enter)="switchInput($event)"
+                placeholder="Coach">
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="Secretary">Secretary</label>
+              <input type="text" class="form-control" name="secretary" [disableControl]="!edit" formControlName="secretary" (keydown.enter)="switchInput($event)"
+                placeholder="Secretary">
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="col-sm-12" *ngIf="submited">
+        Form Submitted...
+      </div>
+      <nav class="navbar fixed-bottom navbar-light bg-light">
+        <a class="navbar-brand text-primary" style="font-size: 14px" href="#">© Vestanam Pvt. Ltd </a>
+        <div class="btn-group text-right ">
+          <!-- <button class="pull-right btn btn-primary" (click)="register(true)">Print</button> -->
+          <button *ngIf="payBtn" class="pull-right btn btn-success" (click)="openModal(stemplate)">Pay Balance</button>
+          <button class="pull-right btn btn-warning" (click)="register(true)">Add new Reciept</button>
+        </div>
+      </nav>
+      <ng-template #stemplate>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Payment</h4>
+          <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="paymentForm" novalidate autocomplete="off">
+            <div class="row">
+              <div class="col-sm-12 pb-3">
+                <label for="mobile">Total Amount</label>
+                <input type="number" class="form-control" name="balance" value="" formControlName="totalAmount" placeholder="Total Balance">
+
+              </div>
+              <div class="col-sm-12 pb-3">
+                <label for="mobile">Amount Paid</label>
+                <input type="number" class="form-control" name="balance" formControlName="amountPaid" placeholder="Amount Paid">
+
+              </div>
+              <div class="col-sm-12 pb-3">
+                <label for="mobile">Total Amount</label>
+                <input type="number" class="form-control" name="balance" formControlName="balance" placeholder="Balance">
+
+              </div>
+              <div class="col-sm-12 pb-3">
+                <label for="narration">Narration</label>
+                <input type="text" class="form-control" name="narration" formControlName="narration" placeholder="Narration">
+              </div>
+              <div class="col-md-12 pb-3">
+                <label for="batch">Mode of Payment</label>
+                <div class="form-group medium" formGroupControl="mode">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" checked formControlName="mode" (keydown.enter)="switchInput($event)"
+                        value="CASH"> CASH
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="CHEQUE"> CHEQUE
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="DD"> DD
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="CARD"> CARD
+                    </label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="ONLINE"> ONLINE
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button class="btn btn-info " (click)="modalRef.hide()">Cancel</button>
+          <button class="btn btn-success" (click)="pay()">Pay</button>
+        </div>
+
+      </ng-template>
+
+    </div>
+
 
   </div>
 </div>
-<nav class="navbar fixed-bottom navbar-light bg-light">
-  <a class="navbar-brand text-primary" style="font-size: 14px" href="#">© Vestanam Pvt. Ltd </a>
-  <div class="btn-group text-right ">
-    <!-- <button class="pull-right btn btn-primary" (click)="register(true)">Print</button> -->
-    <button class="pull-right btn btn-success" (click)="register(true)">Pay Balance</button>
-    <button class="pull-right btn btn-warning" (click)="register(true)">Add new Reciept</button>
-  </div>
-</nav>
