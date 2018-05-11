@@ -30,7 +30,15 @@ export class RegisterComponent implements OnInit {
   submited: boolean = false;
 
   totalAmount: FormControl
-
+  dateFromTo: FormControl
+  isDocument: boolean = false;
+  date: Date = new Date
+  dy: number = this.date.getFullYear()
+  currentMonth = this.date.getMonth() + 1
+  fyq1: any = this.dy + '-' + (this.dy + 1)
+  fyq2: any = this.dy + '-' + (this.dy + 1)
+  fyq3: any = this.dy + '-' + (this.dy + 1)
+  fyq4: any = (this.dy + 1) + '-' + (this.dy + 2)
   get quarters(): FormArray { return this.registerForm.get('membership').get('quarters') as FormArray; }
 
   @ViewChild('formDom') formDom: ElementRef;
@@ -51,25 +59,26 @@ export class RegisterComponent implements OnInit {
     //let todayDate = this.datePipe.transform(new Date(), 'shortTime');
     // this.totalAmount = new FormControl('', Validators.required)
     // this.amountPaid = new FormControl('', Validators.required)
+
     this.registerForm = this.formBuilder.group({
       batch: new FormControl('MORNING'),
       time: new FormControl(),
       membership: new FormGroup({
         q1: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+          FY: new FormControl(this.fyq1),
         }),
         q2: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+          FY: new FormControl(this.fyq2),
         }),
         q3: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+          FY: new FormControl(this.fyq3),
         }),
         q4: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl((this.dy + 1) + '-' + (this.dy + 2)),
+          FY: new FormControl(this.fyq4),
         }),
       }),
 
@@ -108,7 +117,15 @@ export class RegisterComponent implements OnInit {
       balance: new FormControl(0, Validators.required),
       narration: new FormControl('', Validators.required),
       mode: new FormControl('CASH', Validators.required),
-      sport: new FormControl('Cricket', Validators.required)
+      sport: new FormControl('Cricket', Validators.required),
+      document: new FormGroup({
+        no: new FormControl(),
+        bank: new FormControl(),
+        date: new FormControl()
+      }),
+      discountPercent: new FormControl(),
+      discountAmount: new FormControl(),
+      finalAmount: new FormControl()
     });
 
 
@@ -118,13 +135,12 @@ export class RegisterComponent implements OnInit {
     this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
     // console.log('route : ', );
   }
-  date: Date = new Date
-  dy: number = this.date.getFullYear()
-  currentMonth = this.date.getMonth() + 1
+
   ngOnInit() {
 
+
     this.groundregForm = this.formBuilder.group({
-      dateFromTo: new FormControl(),
+      dateFromTo: this.dateFromTo,
       regNo: new FormControl,
       narration: new FormControl(),
       balance: new FormControl(),
@@ -145,8 +161,15 @@ export class RegisterComponent implements OnInit {
         contactNo: new FormControl()
       }),
       category: new FormControl('P', Validators.required),
-      mode: new FormControl('CASH', Validators.required)
-
+      mode: new FormControl('CASH', Validators.required),
+      document: new FormGroup({
+        no: new FormControl(),
+        bank: new FormControl(),
+        date: new FormControl()
+      }),
+      discountPercent: new FormControl(),
+      discountAmount: new FormControl(),
+      finalAmount: new FormControl()
     });
 
     // this.bal = this.tot - this.amp
@@ -157,47 +180,99 @@ export class RegisterComponent implements OnInit {
 
 
   formControlValueChanged() {
-    // const fy = this.registerForm.get('membership').get('FY');
-    // console.log(this.registerForm.get('quarter'))
-    // this.registerForm.get('membership').valueChanges.subscribe(mode => {
-    // console.log(mode.quarter)
-    // let date: Date = new Date
-    // let dy = date.getFullYear()
-    // let currentMonth = date.getMonth() + 1
+    const discountPercent: any = this.registerForm.get('discountPercent')
+    const totalAmount: any = this.registerForm.get('totalAmount')
+    const finalAmount = this.registerForm.get('finalAmount')
+    const discountAmount = this.registerForm.get('discountAmount')
 
-    // if (mode.quarter == 'q1') {
-    //   console.log(dy + '-' + (dy + 1))
-    //   // fy.setValue(dy + '-' + (dy + 1))
-    // }
-    // if (mode.quarter == 'q2') {
-    //   console.log(dy + '-' + (dy + 1))
-    //   // fy.setValue(dy + '-' + (dy + 1))
-
-    // }
-    // if (mode.quarter == 'q3') {
-    //   console.log(dy + '-' + (dy + 1))
-    //   // fy.setValue(dy + '-' + (dy + 1))
-    // }
-    // if (mode.quarter == 'q4') {
-    //   console.log((dy - 1) + '-' + dy)
-    //   // fy.setValue((dy - 1) + '-' + dy)
-
-    // }
-    // })
     const balance = this.registerForm.get('balance');
-    this.registerForm.get('amountPaid').valueChanges.subscribe(
+    const amountPaid = this.registerForm.get('amountPaid');
+
+
+
+    discountPercent.valueChanges.subscribe(mode => {
+      let famt = (totalAmount.value * discountPercent.value) / 100
+      discountAmount.setValue(famt)
+      finalAmount.setValue(totalAmount.value - discountAmount.value)
+      balance.setValue(finalAmount.value - amountPaid.value)
+
+    })
+
+    totalAmount.valueChanges.subscribe((mode: string) => {
+      let famt = (totalAmount.value * discountPercent.value) / 100
+      discountAmount.setValue(famt)
+      finalAmount.setValue(totalAmount.value - discountAmount.value)
+      balance.setValue(finalAmount.value - amountPaid.value)
+    })
+
+    amountPaid.valueChanges.subscribe(
       (mode: string) => {
-
-        balance.setValue(this.registerForm.get('totalAmount').value - this.registerForm.get('amountPaid').value)
-
+        balance.setValue(finalAmount.value - amountPaid.value)
       });
+
+    const discountPercentG: any = this.groundregForm.get('discountPercent')
+    const totalAmountG: any = this.groundregForm.get('totalAmount')
+    const finalAmountG = this.groundregForm.get('finalAmount')
+    const discountAmountG = this.groundregForm.get('discountAmount')
+
     const balanceg = this.groundregForm.get('balance');
-    this.groundregForm.get('amountPaid').valueChanges.subscribe(
+    const amountPaidG = this.groundregForm.get('amountPaid');
+
+
+    discountPercentG.valueChanges.subscribe(mode => {
+      let famt = (totalAmountG.value * discountPercentG.value) / 100
+      discountAmountG.setValue(famt)
+      finalAmountG.setValue(totalAmountG.value - discountAmountG.value)
+      balanceg.setValue(finalAmountG.value - amountPaidG.value)
+
+    })
+
+    totalAmountG.valueChanges.subscribe((mode: string) => {
+      let famt = (totalAmountG.value * discountPercentG.value) / 100
+      discountAmountG.setValue(famt)
+      finalAmountG.setValue(totalAmountG.value - discountAmountG.value)
+      balanceg.setValue(finalAmountG.value - amountPaidG.value)
+    })
+
+    amountPaidG.valueChanges.subscribe(
       (mode: string) => {
-
-        balanceg.setValue(this.groundregForm.get('totalAmount').value - this.groundregForm.get('amountPaid').value)
-
+        balanceg.setValue(finalAmountG.value - amountPaidG.value)
       });
+
+
+
+    // this.groundregForm.get('amountPaid').valueChanges.subscribe(
+    //   (mode: string) => {
+
+    //     balanceg.setValue(this.groundregForm.get('totalAmount').value - this.groundregForm.get('amountPaid').value)
+
+    //   });
+
+    this.registerForm.get('mode').valueChanges.subscribe(
+      (mode: string) => {
+        if (mode == 'DD' || mode == 'CHEQUE' || mode == 'CARD' || mode == 'ONLINE') {
+          this.isDocument = true;
+        }
+        else {
+          this.isDocument = false
+        }
+      })
+    this.groundregForm.get('mode').valueChanges.subscribe(
+      (mode: string) => {
+        if (mode == 'DD' || mode == 'CHEQUE' || mode == 'CARD' || mode == 'ONLINE') {
+          this.isDocument = true;
+        }
+        else {
+          this.isDocument = false
+        }
+      })
+    const membership = this.registerForm.get('membership')
+    membership.valueChanges.subscribe(mode => {
+      membership.get('q1').get('FY').setValue(this.fyq1, { emitEvent: false })
+      membership.get('q2').get('FY').setValue(this.fyq2, { emitEvent: false })
+      membership.get('q3').get('FY').setValue(this.fyq3, { emitEvent: false })
+      membership.get('q4').get('FY').setValue(this.fyq4, { emitEvent: false })
+    })
 
     this.groundregForm.get('category').valueChanges.subscribe(mode => {
       if (mode == 'c') {
@@ -234,7 +309,7 @@ export class RegisterComponent implements OnInit {
             'Form Submitted...',
             toastopt
           );
-          this.registerForm.reset();
+          this.groundregForm.reset();
           if (this.elt.isElectronApp && print) {
             let ipcR = this.elt.ipcRenderer;
             ipcR.on('wrote-pdf', (event, path) => {
@@ -322,6 +397,7 @@ export class RegisterComponent implements OnInit {
   }
   changeForm(status) {
     this.sportsForm = status;
+    this.isDocument = false;
   }
   type(data) {
     if (data == 'p') {

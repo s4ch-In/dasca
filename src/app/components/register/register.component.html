@@ -60,11 +60,12 @@
                   <span class="tile">April</span>
                   <span class="tile">-</span>
                   <span class="tile">June</span>
-                  <span>
-                    <input class="fy" formControlName="FY">
-                  </span>
 
                 </label>
+                <span class="badge badge-warning float-right">
+                  <!-- <input readonly class="fy" formControlName="FY"> -->
+                  {{fyq1}}
+                </span>
               </div>
               <div class="form-check" formGroupName="q2">
                 <input class="form-check-input" name="q2" formControlName="status" type="checkbox" value="July August September" id="jas">
@@ -72,10 +73,12 @@
                   <span class="tile">July</span>
                   <span class="tile">-</span>
                   <span class="tile">September</span>
-                  <span>
-                    <input class="fy" formControlName="FY">
-                  </span>
+
                 </label>
+                <span class="badge badge-warning float-right">
+                  <!-- <input readonly class="fy" formControlName="FY"> -->
+                  {{fyq2}}
+                </span>
               </div>
               <div class="form-check" formGroupName="q3">
                 <input class="form-check-input" type="checkbox" name="q3" formControlName="status" value="October November December" id="ond">
@@ -83,10 +86,12 @@
                   <span class="tile">October</span>
                   <span class="tile">-</span>
                   <span class="tile">December</span>
-                  <span>
-                    <input class="fy" formControlName="FY">
-                  </span>
+
                 </label>
+                <span class="badge badge-warning float-right">
+                  <!-- <input readonly class="fy" formControlName="FY"> -->
+                  {{fyq3}}
+                </span>
               </div>
               <div class="form-check" formGroupName="q4">
                 <input class="form-check-input" type="checkbox" name="q4" formControlName="status" value="January February March" id="jfm">
@@ -94,10 +99,12 @@
                   <span class="tile">January</span>
                   <span class="tile">-</span>
                   <span class="tile">March</span>
-                  <span>
-                    <input class="fy" formControlName="FY">
-                  </span>
+
                 </label>
+                <span class="badge badge-warning float-right">
+                  <!-- <input readonly class="fy" formControlName="FY"> -->
+                  {{fyq4}}
+                </span>
               </div>
             </div>
             <div class="col-md-4 pb-3 ml-4">
@@ -214,33 +221,31 @@
           </div>
 
           <div class="row mt-4">
-            <div class="col-sm-12 pb-3">
+            <div class="col-sm-6 pb-3">
               <label for="coachingCampDetail">Have you attended any Coaching Camp or Club earlier. If Yes, give details:</label>
               <textarea name="coachingCampDetail" formControlName="coachingCampDetail" (keydown.enter)="switchInput($event)" class="form-control"
                 placeholder="Have you attended any Coaching Camp or Club earlier. If Yes, give details"></textarea>
             </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-sm-12 pb-3">
+            <div class="col-sm-6 pb-3">
               <label for="repSchoolTeam">Have you represented Scholl / Club Team. Yes / No Game Give details:</label>
               <textarea name="repSchoolTeam" formControlName="repSchoolTeam" (keydown.enter)="switchInput($event)" class="form-control"
                 placeholder="Have you represented Scholl / Club Team. Yes / No Game Give details"></textarea>
             </div>
           </div>
+
           <div class="row mt-4">
-            <div class="col-sm-12 pb-3">
+            <div class="col-sm-6 pb-3">
               <label for="prevParticipation">Previous Participation in any other games and sports</label>
               <input type="text" class="form-control" name="prevParticipation" formControlName="prevParticipation" (keydown.enter)="switchInput($event)"
                 placeholder="">
             </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-sm-12 pb-3">
+            <div class="col-sm-6 pb-3">
               <label for="otehrAreaOfInterest">Other areas of Interest - Dance, Music, Drawing, Reading etc.</label>
               <input type="text" class="form-control" name="otehrAreaOfInterest" formControlName="otehrAreaOfInterest" (keydown.enter)="switchInput($event)"
                 placeholder="Ex. Dance, Music, Drawing, Reading">
             </div>
           </div>
+
           <div class="row mt-4">
             <div class="col-md-8 pb-3">
               <label for="batch">Mode of Payment</label>
@@ -271,10 +276,31 @@
                     <input class="form-check-input" type="radio" name="mode" formControlName="mode" (keydown.enter)="switchInput($event)" value="ONLINE"> ONLINE
                   </label>
                 </div>
+              </div>
+              <div *ngIf="isDocument">
+                <div class="row" formGroupName="document">
 
+                  <div class="col-sm-4 pb-3">
+                    <label>Number</label>
+                    <input type="text" class="form-control" name="totalAmount" formControlName="no" placeholder="Number">
+                  </div>
+
+
+                  <div class="col-sm-4 pb-3">
+                    <label>Bank</label>
+                    <input type="text" class="form-control" name="amountPaid" formControlName="bank" placeholder="Bank Name">
+
+                  </div>
+                  <div class="col-sm-4 pb-3">
+                    <label>Date</label>
+                    <input type="date" class="form-control" name="balance" formControlName="date" placeholder="Date">
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
+
           <div class="row mt-4">
 
             <div class="col-sm-4 pb-3">
@@ -300,6 +326,30 @@
             <div class="col-sm-4 pb-3">
               <label for="mobile">Balance</label>
               <input readonly type="text" class="form-control" name="balance" formControlName="balance" placeholder="Balance">
+            </div>
+
+          </div>
+          <div class="row mt-4">
+
+            <div class="col-sm-4 pb-3">
+              <label for="ta">Discount Percent</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="ta" name="discountPercent" formControlName="discountPercent" placeholder="Discount Percent">
+                <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Discount Amount</label>
+              <input readonly type="number" class="form-control" name="discountAmount" formControlName="discountAmount" placeholder="Discount Amount">
+
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Final Amount</label>
+              <input readonly type="number" class="form-control" name="finalAmount" formControlName="finalAmount" placeholder="Final Amount">
             </div>
             <div class="col-sm-4 pb-3">
               <label for="narration">Narration</label>
@@ -340,8 +390,8 @@
           <div class="row">
             <div class="col-md-4 pb-3">
               <label for="dateFromTo">Date &amp; Time (From to)</label>
-              <input type="text" class="form-control" name="dateFromTo" #dpFull="bsDaterangepicker" bsDaterangepicker formControlName="dateFromTo"
-                [bsConfig]="{  dateInputFormat: 'DD-MM-YYYY'}">
+              <input type="text" class="form-control" #dpFull="bsDaterangepicker" bsDaterangepicker formControlName="dateFromTo">
+              <!-- <input type="text" class="form-control" (focus)="dpFull.toggle()" [value]="groundregForm.controls.totalAmount.value | async | date:'mediumDate'"> -->
             </div>
           </div>
 
@@ -435,6 +485,26 @@
                 </div>
 
               </div>
+              <div *ngIf="isDocument">
+                <div class="row" formGroupName="document">
+
+                  <div class="col-sm-4 pb-3">
+                    <label>Number</label>
+                    <input type="text" class="form-control" name="totalAmount" formControlName="no" placeholder="Number">
+                  </div>
+
+
+                  <div class="col-sm-4 pb-3">
+                    <label>Bank</label>
+                    <input type="text" class="form-control" name="amountPaid" formControlName="bank" placeholder="Bank Name">
+
+                  </div>
+                  <div class="col-sm-4 pb-3">
+                    <label>Date</label>
+                    <input type="date" class="form-control" name="balance" formControlName="date" placeholder="Date">
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="row">
@@ -453,7 +523,32 @@
             </div>
             <div class="col-sm-4 pb-3">
               <label for="mobile">Balance</label>
-              <input type="text" class="form-control" name="balance" formControlName="balance" placeholder="Balance">
+              <input readonly type="text" class="form-control" name="balance" formControlName="balance" placeholder="Balance">
+            </div>
+
+          </div>
+
+          <div class="row mt-4">
+
+            <div class="col-sm-4 pb-3">
+              <label for="ta">Discount Percent</label>
+              <div class="input-group">
+                <input type="number" class="form-control" id="ta" name="discountPercent" formControlName="discountPercent" placeholder="Discount Percent">
+                <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Discount Amount</label>
+              <input readonly type="number" class="form-control" name="discountAmount" formControlName="discountAmount" placeholder="Discount Amount">
+
+            </div>
+            <div class="col-sm-4 pb-3">
+              <label for="mobile">Final Amount</label>
+              <input readonly type="number" class="form-control" name="finalAmount" formControlName="finalAmount" placeholder="Final Amount">
             </div>
             <div class="col-sm-4 pb-3">
               <label for="narration">Narration</label>
