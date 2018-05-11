@@ -51,7 +51,7 @@
             <!--Table body-->
             <tbody>
               <tr *ngFor="let ls of list;let i = index;">
-                <td>{{itemsPerPage * (bigCurrentPage) + i }}</td>
+                <td>{{itemsPerPage * (bigCurrentPage -1) + i + 1 }}</td>
                 <td>{{ls.name}}</td>
                 <td>{{ls.doc.batch}}</td>
                 <td>{{ls.doc.dob | date:'mediumDate'}}</td>
@@ -77,13 +77,13 @@
         <div class="col-sm-12">
           <div>
             <!-- Material form group -->
-            <form [formGroup]="listForm">
+            <form [formGroup]="groundForm">
 
               <!-- Material input -->
               <div style="max-width: 400px;" class="md-form form-group mt-5">
                 <div class="form-label-group">
-                  <input type="text" id="inputs" class="form-control" placeholder="Enter Student Name" autofocus="" #itemInput formControlName="searchField"
-                    name="searchField" autocomplete="off">
+                  <input type="text" id="inputs" class="form-control" placeholder="Enter Student Name" autofocus="" #itemInput formControlName="groundField"
+                    name="groundField" autocomplete="off">
                 </div>
               </div>
 
@@ -99,9 +99,16 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Name</th>
-                <th>Batch</th>
-                <th>DOB</th>
+                <th>Registration No.</th>
+                <th>Registration Id.</th>
+                <th>Category</th>
+                <th>
+                  Detail
+                </th>
+                <th>
+                  Poc
+                </th>
+
                 <th>Reg. Date</th>
                 <th>More Details</th>
               </tr>
@@ -110,16 +117,47 @@
 
             <!--Table body-->
             <tbody>
-              <!-- <tr *ngFor="let ls of list;let i = index;">
-                <td>{{itemsPerPage * (bigCurrentPage) + i }}</td>
-                <td>{{ls.name}}</td>
-                <td>{{ls.doc.batch}}</td>
-                <td>{{ls.doc.dob | date:'mediumDate'}}</td>
-                <td>{{ls.doc.createdAt | date:'mediumDate'}}</td>
+              <tr *ngFor="let ls of ground;let i = index;">
+                <td>{{itemsPerPage * (bigCurrentPageGround - 1 ) + i +1 }}</td>
+                <td>{{ls.regNo}}</td>
+                <td>{{ls.regId}}</td>
                 <td>
-                  <button class="btn btn-xs btn-success" (click)="getData(i)">view more</button>
+                  <span *ngIf="ls.category == 'P'">Personal</span>
+                  <span *ngIf="ls.category == 'C'">Company</span>
                 </td>
-              </tr> -->
+                <td>
+                  <ul *ngIf="ls.category == 'P'">
+                    <li>
+                      <strong>Name</strong> : {{ls.person.name}}</li>
+                    <li>
+                      <strong>Address</strong> : {{ls.person.address}}</li>
+                    <li>
+                      <strong>Contact</strong> : {{ls.person.contactNo}}</li>
+                  </ul>
+                  <ul *ngIf="ls.category == 'C'">
+                    <li>
+                      <strong>Name</strong> : {{ls.company.name}}</li>
+                    <li>
+                      <strong>Address</strong> : {{ls.company.address}}</li>
+                    <li>
+                      <strong>Contact</strong> : {{ls.company.contactNo}}</li>
+                  </ul>
+                </td>
+                <td>
+                  <ul *ngIf="ls.category == 'C'">
+                    <li>
+                      <strong>Name</strong> : {{ls.poc.name}}</li>
+                    <li>
+                      <strong>Address</strong> : {{ls.poc.address}}</li>
+                    <li>
+                      <strong>Contact</strong> : {{ls.poc.contactNo}}</li>
+                  </ul>
+                </td>
+                <td>{{ls.createdAt | date:'mediumDate'}}</td>
+                <td>
+                  <button class="btn btn-xs btn-success" (click)="getGroundData(i)">view more</button>
+                </td>
+              </tr>
             </tbody>
             <!--Table body-->
           </table>
@@ -127,9 +165,9 @@
 
         </div>
         <div class="col-sm-12 text-center">
-          <!-- <pagination class="pagination-md" [maxSize]="maxSize" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [itemsPerPage]="itemsPerPage"
-            [boundaryLinks]="false" [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChanged($event.page)">
-          </pagination> -->
+          <pagination class="pagination-md" [maxSize]="maxSize" [totalItems]="bigTotalItemsGround" [(ngModel)]="bigCurrentPageGround"
+            [itemsPerPage]="itemsPerPage" [boundaryLinks]="false" [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChangedG($event.page)">
+          </pagination>
 
         </div>
       </tab>

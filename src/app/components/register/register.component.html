@@ -50,42 +50,62 @@
               <input type="time" class="form-control" name="time" formControlName="time" (keydown.enter)="switchInput($event)" placeholder="Time">
             </div>
           </div>
-          <div class="row">
-            <h6>Select Membership</h6>
+          <div class="row justify-content-between">
 
             <div class="col-md-4 pb-3 ml-4" formGroupName="membership">
+              <h6>Select Membership</h6>
               <div class="form-check" formGroupName="q1">
                 <input class="form-check-input" type="checkbox" name="q1" formControlName="status" value="April May June" id="amj">
                 <label class="form-check-label" for="amj">
                   <span class="tile">April</span>
-                  <span class="tile">May</span>
+                  <span class="tile">-</span>
                   <span class="tile">June</span>
+                  <span>
+                    <input class="fy" formControlName="FY">
+                  </span>
+
                 </label>
               </div>
               <div class="form-check" formGroupName="q2">
                 <input class="form-check-input" name="q2" formControlName="status" type="checkbox" value="July August September" id="jas">
                 <label class="form-check-label" for="jas">
                   <span class="tile">July</span>
-                  <span class="tile">August</span>
+                  <span class="tile">-</span>
                   <span class="tile">September</span>
+                  <span>
+                    <input class="fy" formControlName="FY">
+                  </span>
                 </label>
               </div>
               <div class="form-check" formGroupName="q3">
                 <input class="form-check-input" type="checkbox" name="q3" formControlName="status" value="October November December" id="ond">
                 <label class="form-check-label" for="ond">
                   <span class="tile">October</span>
-                  <span class="tile">November</span>
+                  <span class="tile">-</span>
                   <span class="tile">December</span>
+                  <span>
+                    <input class="fy" formControlName="FY">
+                  </span>
                 </label>
               </div>
               <div class="form-check" formGroupName="q4">
                 <input class="form-check-input" type="checkbox" name="q4" formControlName="status" value="January February March" id="jfm">
                 <label class="form-check-label" for="jfm">
                   <span class="tile">January</span>
-                  <span class="tile">February</span>
+                  <span class="tile">-</span>
                   <span class="tile">March</span>
+                  <span>
+                    <input class="fy" formControlName="FY">
+                  </span>
                 </label>
               </div>
+            </div>
+            <div class="col-md-4 pb-3 ml-4">
+              <h6>Select Sport</h6>
+              <select formControlName="sport" class="form-control">
+                <option value="Cricket">Cricket</option>
+                <option value="Table Tennis">Table Tennis</option>
+              </select>
             </div>
 
           </div>
@@ -290,7 +310,7 @@
           <div class="row mt-4">
             <div class="col-sm-4 pb-3">
               <label for="addincharge">Admission Incharge</label>
-              <input type="text" class="form-control" name="addincharge" formControlName="addincharge" (keydown.enter)="switchInput($event)"
+              <input type="text" class="form-control" name="addincharge" formControlName="addIncharge" (keydown.enter)="switchInput($event)"
                 placeholder="Admission Incharge">
             </div>
 
@@ -338,7 +358,7 @@
             </div>
           </div>
           <div *ngIf="personal">
-            <div class="row" formGroupName="personal">
+            <div class="row" formGroupName="person">
               <div class="col-sm-4 pb-3">
                 <label for="">Name</label>
                 <input type="text" required class="form-control" name="name" formControlName="name" placeholder="Name">
