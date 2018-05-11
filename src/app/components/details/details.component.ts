@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
@@ -21,11 +21,13 @@ export class DetailsComponent implements OnInit {
   edit: boolean = false
   localdata: any
   formState: string
-  groundata: any;
+  groundata: any = {};
   payBtn: boolean = false
   balance: any
   modalRef: BsModalRef;
   category: string
+  regId: any = ''
+  @ViewChild('template') payTemp: TemplateRef<any>
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
@@ -106,12 +108,14 @@ export class DetailsComponent implements OnInit {
     this.registerForm.patchValue(this.localdata);
     this.formState = localStorage.getItem('formState');
     this.groundata = JSON.parse(localStorage.getItem('groundData'));
-    console.log('data', this.localdata)
-
+    console.log('data', this.groundata)
+    // this.groundata.balance = 800
+    // localStorage.setItem('groundData', JSON.stringify(this.groundata))
 
     if (this.formState == 'ground') {
       this.category = "G"
       this.balance = this.groundata.balance
+      this.regId = this.groundata.regId
     }
     else {
       this.category = "S"
@@ -122,7 +126,7 @@ export class DetailsComponent implements OnInit {
       this.payBtn = true
     }
     this.paymentForm = this.formBuilder.group({
-      regId: new FormControl(this.groundata.regId),
+      regId: new FormControl(this.regId),
       totalAmount: new FormControl(this.balance, Validators.required),
       amountPaid: new FormControl(0, Validators.required),
       balance: new FormControl(0, Validators.required),
@@ -147,7 +151,10 @@ export class DetailsComponent implements OnInit {
       });
 
   }
+
   pay() {
+
+    this.modalRef.hide()
     let toastopt = {
       timeOut: 3000,
       showProgressBar: true,
@@ -167,15 +174,21 @@ export class DetailsComponent implements OnInit {
       } else {
         console.log("Print Not Trigger")
       }
-      this.service.api(this.globals.abc, this.paymentForm.value).subscribe(res => {
-        console.log('this')
+      this.service.api(this.globals.payb, this.paymentForm.value).subscribe(res => {
         if (res.s) {
+          //update groundata object
+          this.groundata.balance = this.paymentForm.value.balance
+          this.groundata.totalAmount = this.paymentForm.value.totalAmount
+          this.groundata.amountPaid = this.paymentForm.value.amountPaid
+          this.groundata.narration = this.paymentForm.value.narration
+          localStorage.setItem('groundData', JSON.stringify(this.groundata))
+
           this.notif.success(
             'Success',
             'Form Submitted...',
             toastopt
           );
-          this.registerForm.reset();
+          this.paymentForm.reset();
           if (this.elt.isElectronApp && print) {
             let ipcR = this.elt.ipcRenderer;
             ipcR.on('wrote-pdf', (event, path) => {

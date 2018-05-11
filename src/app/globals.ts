@@ -14,6 +14,8 @@ export class Globals {
   groundList: object = { url: this.api + 'ground', method: "GET" };
   list: object = { url: this.api + 'user', method: "GET" };
   receipt: object = { url: this.api + 'receipt', method: "GET" };
-  abc: object = { url: this.api + 'receipt', method: "POST" };
+  payb: object = { url: this.api + 'receipt', method: "POST" };
+  newReceipt: object = { url: this.api + 'register', method: "POST" };
+
 
 }
