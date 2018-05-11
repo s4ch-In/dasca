@@ -6,7 +6,7 @@ const autoIncrement = require('mongoose-auto-increment');
 const mongooseHistory = require('mongoose-history')
 const userSchema = new Schema({
   userId: {
-    type: Number,
+    type: String,
     unique: true,
     sparse: true,
     trim: true
@@ -26,6 +26,21 @@ const userSchema = new Schema({
     required: [true, 'Please enter first name'],
     uppercase: true
   },
+  membership: [{
+    registeredOn: {
+      type: Date,
+    },
+    sport: {
+      type: String
+    },
+    quarter: {
+      type: String,
+      enum: ['q1', 'q2', 'q3', 'q4']
+    },
+    FY: {
+      type: String
+    }
+  }],
   middleName: {
     type: String,
     uppercase: true
@@ -125,9 +140,17 @@ const userSchema = new Schema({
     type: String,
     uppercase: true
   },
-  feesPaid: {
+  amountPaid: {
     type: Number,
     required: [true, "Please enter Fees Paid"]
+  },
+  totalAmount: {
+    type: Number,
+    required: [true, "Please enter total amount"]
+  },
+  balance: {
+    type: Number,
+    // required: [true, "Please enter Fees Paid"]
   },
   addIncharge: {
     type: String,
@@ -150,21 +173,22 @@ userSchema.plugin(autoIncrement.plugin, {
   incrementBy: 1
 });
 
-userSchema.plugin(autoIncrement.plugin, {
-  model: 'User',
-  field: 'userId',
-  startAt: 1111,
-  incrementBy: 1
-});
+// userSchema.plugin(autoIncrement.plugin, {
+//   model: 'User',
+//   field: 'userId',
+//   startAt: 1111,
+//   incrementBy: 1
+// });
 
 userSchema.pre('save', function(next) {
-  return next()
-  // if (!this.isNew) {
-  //   if (this.isModified('userId') || this.isModified('addincharge') || this.isModified('receipts'))
-  // }
+  if (this.isNew) {
+    this.userId = new Date().getYear() + 'S' + this.registrationNo.toString();
+    return next()
+  } else {
+    return next()
+  }
 });
 
 userSchema.plugin(mongooseHistory)
-
 
 module.exports = mongoose.model('User', userSchema);

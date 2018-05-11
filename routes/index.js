@@ -6,6 +6,7 @@ const Receipt = require('../app/controllers/receipts')
 module.exports = (app) => {
   // user
   app.post('/user', Form.create)
+  app.post('/register', Form.pay)
   app.get('/user', Form.get)
   app.post('/user/update', Form.update)
 

@@ -20,7 +20,15 @@ module.exports.create = (req, res, next) => {
   }
 };
 module.exports.get = (req, res, next) => {
-
+  Sport
+    .find()
+    .exec((err, sports) => {
+      if (err) {
+        return next(err)
+      } else {
+        return res.json({ s: true, m: "Sports", d: sports })
+      }
+    })
 };
 module.exports.update = (req, res, next) => {
 

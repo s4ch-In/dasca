@@ -4,15 +4,26 @@ const Receipt = require('../plugin/receipt');
 const limitPerPage = 10;
 
 module.exports.create = (req, res, next) => {
+  console.log(req.body)
+  let memQuarters = []
   const messages = [];
-  req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
+  req.body.dob = moment.utc(req.body.dob, 'DD-MM-YYYY').toDate()
+  // req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
   if (req.body.mode &&
     req.body.balance.toString() &&
-    req.body.amount.toString()) {
+    req.body.amountPaid.toString() &&
+    req.body.totalAmount.toString() && req.body.membership) {
+    Object.keys(req.body.membership).forEach(function(key) {
+      if (req.body.membership[key].status) {
+        memQuarters.push({ sport: req.body.sport, quarter: key, FY: req.body.membership[key].FY, registeredOn: new Date() })
+      }
+    });
+    req.body.membership = memQuarters
     if (req.body) {
       let f = new User(req.body)
       f.save((err, user) => {
         if (err) {
+          console.log(err)
           for (let i in err.errors) {
             messages.push(err.errors[i].message)
           }
@@ -22,7 +33,10 @@ module.exports.create = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            amount: req.body.amount,
+            amountPaid: req.body.amountPaid,
+            sport: req.body.sport,
+            category: 'S',
+            user: user._id,
             name: user.firstName + ' ' + user.lastName
           }, (err, r) => {
             if (err) {
@@ -108,17 +122,26 @@ module.exports.pay = (req, res, next) => {
         if (err) {
           return next(err)
         } else {
+          Object.keys(req.body.membership).forEach(function(key) {
+            if (req.body.membership[key].status) {
+              user.membership.push({ sport: req.body.sport, quarter: key, FY: req.body.membership[key].FY })
+            }
+          });
           Receipt.generate({
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
             amountPaid: req.body.amountPaid,
+            sport: req.body.sport,
+            category: 'S',
+            user: user._id,
             name: user.firstName + ' ' + user.lastName
           }, (err, r) => {
             if (err) {
               return next(err)
             } else {
-              user.receipts.push(r._id)
+              user.balance = user.balance + r.balance;
+              user.receipts.push(r._id);
               user.save((err, u) => {
                 if (err) {
                   return next(err)

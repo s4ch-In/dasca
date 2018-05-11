@@ -8,9 +8,12 @@ const groudSchema = new Schema({
   regNo: {
     type: Number
   },
-  receiptId: {
+  regId: {
     type: String,
-    uppercase: true
+    uppercase: true,
+    unique: true,
+    sparse: true,
+    trim: true
   },
   narration: {
     type: String,
@@ -18,8 +21,7 @@ const groudSchema = new Schema({
     maxlength: 40
   },
   balance: {
-    status: Boolean,
-    amount: Number
+    type: Number
   },
   totalAmount: {
     type: Number,
@@ -41,7 +43,7 @@ const groudSchema = new Schema({
       // required: true
     },
     contactNo: {
-      type: Number
+      type: String
     }
   },
   poc: {
@@ -51,7 +53,7 @@ const groudSchema = new Schema({
       // required: true
     },
     contactNo: {
-      type: Number
+      type: String
     }
   },
   person: {
@@ -66,7 +68,7 @@ const groudSchema = new Schema({
       // required: true
     },
     contactNo: {
-      type: Number
+      type: String
     }
   },
   bookingDates: {
@@ -82,8 +84,11 @@ const groudSchema = new Schema({
     uppercase: true,
     required: true,
     enum: ['P', 'C']
-  }
-
+  },
+  receipts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Receipt'
+  }]
 }, {
   timestamps: true
 });
@@ -95,6 +100,15 @@ groudSchema.plugin(autoIncrement.plugin, {
   startAt: 1,
   incrementBy: 1
 });
+
+groudSchema.pre('save', function(next) {
+  if (this.isNew) {
+    this.regId = 'G' + this.regNo.toString();
+    return next()
+  } else {
+    return next()
+  }
+})
 
 
 

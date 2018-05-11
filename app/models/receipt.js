@@ -28,14 +28,27 @@ const receiptSchema = new Schema({
     maxlength: 40
   },
   balance: {
-    status: Boolean,
-    amount: Number
+    type: Number
+  },
+  sport: {
+    type: String
+  },
+  category: {
+    type: String,
+    enum: ['S', 'G']
   },
   amountPaid: {
     type: Number,
     required: [true, 'Please enter payable amount']
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  ground: {
+    type: Schema.Types.ObjectId,
+    ref: 'Ground'
   }
-
 }, {
   timestamps: true
 });
@@ -52,6 +65,8 @@ receiptSchema.pre('save', function(next) {
     let d = new Date();
     let y = d.getMonth() < 3 ? d.getYear() - 1 : d.getYear();
     this.receiptId = y.toString() + this.receiptNo.toString();
+    console.log(this.receiptId)
+    console.log(y)
     return next()
   } else {
     return next()
