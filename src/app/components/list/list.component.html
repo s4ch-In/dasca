@@ -2,7 +2,7 @@
   <a class="navbar-brand text-primary" href="#">
     <h2>DR. AMBEDKAR COLLEGE SPORTS ACADEMY</h2>
   </a>
-  <button routerLink="/register" class="btn btn-default">Register New</button>
+  <button routerLink="/register" class="btn btn-primary">Register New</button>
 
 </nav>
 
@@ -73,7 +73,124 @@
 
         </div>
       </tab>
-      <tab heading="GROUND"></tab>
+      <tab heading="GROUND">
+        <div class="col-sm-12">
+          <div>
+            <!-- Material form group -->
+            <form [formGroup]="listForm">
+
+              <!-- Material input -->
+              <div style="max-width: 400px;" class="md-form form-group mt-5">
+                <div class="form-label-group">
+                  <input type="text" id="inputs" class="form-control" placeholder="Enter Student Name" autofocus="" #itemInput formControlName="searchField"
+                    name="searchField" autocomplete="off">
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+
+
+          <!--Table-->
+          <table class="table table-bordered">
+
+            <!--Table head-->
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>DOB</th>
+                <th>Reg. Date</th>
+                <th>More Details</th>
+              </tr>
+            </thead>
+            <!--Table head-->
+
+            <!--Table body-->
+            <tbody>
+              <!-- <tr *ngFor="let ls of list;let i = index;">
+                <td>{{itemsPerPage * (bigCurrentPage) + i }}</td>
+                <td>{{ls.name}}</td>
+                <td>{{ls.doc.batch}}</td>
+                <td>{{ls.doc.dob | date:'mediumDate'}}</td>
+                <td>{{ls.doc.createdAt | date:'mediumDate'}}</td>
+                <td>
+                  <button class="btn btn-xs btn-success" (click)="getData(i)">view more</button>
+                </td>
+              </tr> -->
+            </tbody>
+            <!--Table body-->
+          </table>
+          <!--Table-->
+
+        </div>
+        <div class="col-sm-12 text-center">
+          <!-- <pagination class="pagination-md" [maxSize]="maxSize" [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [itemsPerPage]="itemsPerPage"
+            [boundaryLinks]="false" [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChanged($event.page)">
+          </pagination> -->
+
+        </div>
+      </tab>
+      <tab heading="RECEIPT">
+        <div class="col-sm-12">
+          <div>
+            <!-- Material form group -->
+            <form [formGroup]="recForm">
+
+              <!-- Material input -->
+              <div style="max-width: 400px;" class="md-form form-group mt-5">
+                <div class="form-label-group">
+                  <input type="text" id="inputs" class="form-control" placeholder="Search By ID" autofocus="" formControlName="recField" name="recField"
+                    autocomplete="off">
+                </div>
+              </div>
+
+            </form>
+
+          </div>
+
+
+          <!--Table-->
+          <table class="table table-bordered">
+
+            <!--Table head-->
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Receipt No.</th>
+                <th>Receipt Id</th>
+                <th>Reg. Date</th>
+                <th>More Details</th>
+              </tr>
+            </thead>
+            <!--Table head-->
+
+            <!--Table body-->
+            <tbody>
+              <tr *ngFor="let rec of receipts;let i = index;">
+                <td>{{itemsPerPage * (bigCurrentPageRec - 1) + i + 1 }}</td>
+                <td>{{rec.receiptNo}}</td>
+                <td>{{rec.receiptId}}</td>
+                <td>{{rec.createdAt | date:'mediumDate'}}</td>
+                <td>
+                  <button class="btn btn-xs btn-success" (click)="getRecData(i)">view more</button>
+                </td>
+              </tr>
+            </tbody>
+            <!--Table body-->
+          </table>
+          <!--Table-->
+
+        </div>
+        <div class="col-sm-12 text-center">
+          <pagination class="pagination-md" [maxSize]="maxSize" [totalItems]="bigTotalItemsRec" [(ngModel)]="bigCurrentPageRec" [itemsPerPage]="itemsPerPage"
+            [boundaryLinks]="false" [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChangedR($event.page)">
+          </pagination>
+
+        </div>
+      </tab>
     </tabset>
   </div>
 </div>

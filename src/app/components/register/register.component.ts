@@ -52,10 +52,22 @@ export class RegisterComponent implements OnInit {
       batch: new FormControl('MORNING'),
       time: new FormControl(),
       membership: new FormGroup({
-        q1: new FormControl(''),
-        q2: new FormControl(''),
-        q3: new FormControl(''),
-        q4: new FormControl(''),
+        q1: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+        }),
+        q2: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+        }),
+        q3: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(this.dy + '-' + (this.dy + 1)),
+        }),
+        q4: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl((this.dy + 1) + '-' + (this.dy + 2)),
+        }),
       }),
       firstName: new FormControl('', Validators.required),
       middleName: new FormControl(),
@@ -63,7 +75,7 @@ export class RegisterComponent implements OnInit {
       father: new FormGroup({
         ffullName: new FormControl('', Validators.required),
         foccupation: new FormControl(),
-        anualIncome: new FormControl(),
+        fanualIncome: new FormControl(),
         fmobileNo: new FormControl('', Validators.required),
         fresNo: new FormControl(),
       }),
@@ -100,6 +112,9 @@ export class RegisterComponent implements OnInit {
     this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
     // console.log('route : ', );
   }
+  date: Date = new Date
+  dy: number = this.date.getFullYear()
+  currentMonth = this.date.getMonth() + 1
   ngOnInit() {
 
     this.groundregForm = this.formBuilder.group({
@@ -123,7 +138,7 @@ export class RegisterComponent implements OnInit {
         name: new FormControl('', Validators.required),
         contactNo: new FormControl()
       }),
-      category: new FormControl('p', Validators.required),
+      category: new FormControl('P', Validators.required),
       mode: new FormControl('CASH', Validators.required)
 
     });
@@ -134,8 +149,30 @@ export class RegisterComponent implements OnInit {
     this.formControlValueChanged()
   }
 
+  checkMonth(month) {
 
+  }
   formControlValueChanged() {
+
+    this.registerForm.get('membership').valueChanges.subscribe(mode => {
+      // let date: Date = new Date
+      // let dy = date.getFullYear()
+      // let currentMonth = date.getMonth() + 1
+
+      // if (mode.q1 == true) {
+      //   console.log(dy + '-' + (dy + 1))
+      // }
+      // if (mode.q2 == true) {
+      //   console.log(dy + '-' + (dy + 1))
+      // }
+      // if (mode.q3 == true) {
+      //   console.log(dy + '-' + (dy + 1))
+      // }
+      // if (mode.q4 == true) {
+      //   console.log((dy - 1) + '-' + dy)
+
+      // }
+    })
     const balance = this.registerForm.get('balance');
     this.registerForm.get('amountPaid').valueChanges.subscribe(
       (mode: string) => {
@@ -150,8 +187,72 @@ export class RegisterComponent implements OnInit {
         balanceg.setValue(this.groundregForm.get('totalAmount').value - this.groundregForm.get('amountPaid').value)
 
       });
+
+    this.groundregForm.get('category').valueChanges.subscribe(mode => {
+      if (mode == 'c') {
+        let val = this.groundregForm.get('personal') as FormArray
+        // val.clearValidators()
+        val.get('name').clearValidators()
+        val.get('name').updateValueAndValidity()
+
+        console.log(val.get('name')
+        )
+      }
+    })
+
   }
-  registerg() {
+
+  registerg(print: boolean) {
+    let toastopt = {
+      timeOut: 3000,
+      showProgressBar: true,
+      pauseOnHover: false,
+      clickToClose: true,
+      maxLength: 50
+    };
+    if (confirm('Are you want to really submit form')) {
+      this.service.api(this.globals.ground, this.groundregForm.value).subscribe(res => {
+        console.log('res : ', res);
+        if (res.s) {
+          // this.submited=true;
+          // setTimeout(() => {
+          //   this.submited = false;
+          // }, 1000*5);
+          this.notif.success(
+            'Success',
+            'Form Submitted...',
+            toastopt
+          );
+          this.registerForm.reset();
+          if (this.elt.isElectronApp && print) {
+            let ipcR = this.elt.ipcRenderer;
+            ipcR.on('wrote-pdf', (event, path) => {
+              // console.log(event);
+              // console.log(path);
+            });
+            ipcR.send('print-to-pdf');
+          } else {
+            console.log("Print Not Trigger")
+          }
+        } else {
+          console.error('Somethisg went Wrong! Please check server responce.')
+        }
+      }, (error) => {
+        // console.log('error', error);
+        if (error.d && error.d.length > 0) {
+          error.d.forEach((msg: string) => {
+
+            this.notif.error(
+              'Error',
+              msg,
+              toastopt
+            );
+          });
+        }
+      });
+    } else {
+      console.log("*msg cancel btn pressed");
+    }
   }
   register(print: boolean) {
     console.log('form.value :', this.registerForm.value);

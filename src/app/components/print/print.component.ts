@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 // import { amountToString } from './print.helper';
+import { Globals } from './../../globals'
+import { MasterService } from '../../services/master.service';
+
 @Component({
   selector: 'app-print',
   templateUrl: './print.component.html',
@@ -7,11 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrintComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    public globals: Globals,
+    public service: MasterService
+  ) {
     // console.log(amountToString(5346))
   }
-
+  printp: any = JSON.parse(localStorage.getItem('recData'))
   ngOnInit() {
+    console.log(this.printp)
+    // this.service.api(this.globals.receipt).subscribe(res => {
+    //   console.log(res)
+    // })
   }
 
 }

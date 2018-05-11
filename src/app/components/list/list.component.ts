@@ -17,15 +17,18 @@ import { Router } from '@angular/router';
 })
 export class ListComponent implements OnInit {
   public list: any = [];
+  public receipts: any = [];
+  public ground: any = [];
   // public page: number = 0;
-  public maxSize: number = 6;
-  public itemsPerPage: number = 1;
+  public maxSize: number = 10;
+  public itemsPerPage: number = 10;
   public bigTotalItems: number = 0;
   public bigCurrentPage: number = 1;
   public numPages: number = 0;
   public lodingPage: boolean = false;
   public textString: string = '';
   public listForm: FormGroup;
+  public recForm: FormGroup;
   constructor(
     private service: MasterService,
     private globals: Globals,
@@ -43,8 +46,12 @@ export class ListComponent implements OnInit {
     this.listForm = new FormGroup({
       searchField: new FormControl(),
     });
+    this.recForm = new FormGroup({
+      recField: new FormControl(),
+    });
     this.lodingPage = true;
     this.getPage(this.bigCurrentPage);
+    this.getReceipts(this.bigCurrentPageRec);
   }
   // loadmore(){
   //   this.lodingPage = true;
@@ -55,6 +62,11 @@ export class ListComponent implements OnInit {
     this.lodingPage = true;
     this.bigCurrentPage = page;
     this.getPage(this.bigCurrentPage);
+  }
+  bigCurrentPageRec: number = 1
+  pageChangedR(page: number) {
+    this.bigCurrentPageRec = page
+    this.getReceipts(this.bigCurrentPageRec)
   }
 
   getPage(page: number) {
@@ -68,6 +80,26 @@ export class ListComponent implements OnInit {
           console.log('Error');
         }
       });
+  }
+  bigTotalItemsRec: number
+  recText: string = '';
+  getReceipts(page: number) {
+    this.service.api(this.globals.receipt, { key: this.recText, p: (page - 1) }).subscribe(res => {
+      if (res.s) {
+        console.log(this.recText)
+        this.bigTotalItemsRec = res.t;
+        this.receipts = res.d;
+      }
+    })
+  }
+  getGround(page: number) {
+    this.service.api(this.globals.groundList, { key: this.recText, p: (page - 1) }).subscribe(res => {
+      if (res.s) {
+        console.log(res)
+        // this.bigTotalItemsRec = res.t;
+        // this.ground = res.d;
+      }
+    })
   }
   showErr(msg) {
     let toastopt = {
@@ -86,6 +118,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     let searchField = this.listForm.get('searchField') as FormControl;
+    let recField = this.recForm.get('recField') as FormControl;
 
     searchField.valueChanges
       .do((ele) => {
@@ -96,6 +129,16 @@ export class ListComponent implements OnInit {
         this.bigCurrentPage = 1;
         this.getPage(this.bigCurrentPage);
       })
+
+    recField.valueChanges
+      .do((ele) => {
+        this.receipts = [];
+      }).subscribe((query) => {
+        this.recText = query
+        this.bigCurrentPageRec = 1
+        this.getReceipts(this.bigCurrentPageRec)
+      })
+    this.getGround(1)
   }
 
   getData(i: number) {
@@ -103,6 +146,11 @@ export class ListComponent implements OnInit {
     let data = JSON.stringify(this.list[i].doc)
     localStorage.setItem('detail', data)
     this.router.navigate(['details'])
+  }
+  getRecData(i: number) {
+    let data = JSON.stringify(this.receipts[i])
+    localStorage.setItem('recData', data)
+    this.router.navigate(['print'])
   }
 
 }
