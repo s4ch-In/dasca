@@ -18,6 +18,18 @@ const receiptSchema = new Schema({
     enum: ['CASH', 'CHEQUE', 'DD', 'CARD', 'ONLINE'],
     required: [true, 'Please specify mode of payment']
   },
+  document: {
+    no: {
+      type: String,
+      uppercase: true,
+    },
+    bank: {
+      type: String
+    },
+    date: {
+      type: Date
+    }
+  },
   receiptId: {
     type: String,
     uppercase: true
@@ -26,6 +38,20 @@ const receiptSchema = new Schema({
     type: String,
     uppercase: true,
     maxlength: 40
+  },
+  totalAmount: {
+    type: Number,
+    required: [true, "Please enter total amount"]
+  },
+  discountPercent: {
+    type: Number
+  },
+  discountAmount: {
+    type: Number
+  },
+  amountPaid: {
+    type: Number,
+    required: [true, 'Please enter payable amount']
   },
   balance: {
     type: Number
@@ -36,10 +62,6 @@ const receiptSchema = new Schema({
   category: {
     type: String,
     enum: ['S', 'G']
-  },
-  amountPaid: {
-    type: Number,
-    required: [true, 'Please enter payable amount']
   },
   user: {
     type: Schema.Types.ObjectId,
