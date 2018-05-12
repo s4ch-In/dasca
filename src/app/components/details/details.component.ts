@@ -18,8 +18,10 @@ import { NotificationsService } from 'angular2-notifications';
 export class DetailsComponent implements OnInit {
   registerForm: FormGroup;
   paymentForm: FormGroup;
+  newReceiptForm: FormGroup;
   edit: boolean = false
   localdata: any
+  receiptData: any
   formState: string
   groundata: any = {};
   payBtn: boolean = false
@@ -27,10 +29,27 @@ export class DetailsComponent implements OnInit {
   modalRef: BsModalRef;
   category: string
   regId: any = ''
+  userId: any = ''
+  isDocument: boolean = false
+  membership: any
+  userDob: any
   @ViewChild('template') payTemp: TemplateRef<any>
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
+  q1Status: boolean
+  q2Status: boolean
+  q3Status: boolean
+  q4Status: boolean
+  receiptList: any
+  date: Date = new Date
+  dy: number = this.date.getFullYear()
+  currentMonth = this.date.getMonth() + 1
+  fyq1: any = this.dy + '-' + (this.dy + 1)
+  fyq2: any = this.dy + '-' + (this.dy + 1)
+  fyq3: any = this.dy + '-' + (this.dy + 1)
+  fyq4: any = (this.dy + 1) + '-' + (this.dy + 2)
+  sdob: any
   constructor(
     private formBuilder: FormBuilder,
     // private service: MasterService,
@@ -45,25 +64,62 @@ export class DetailsComponent implements OnInit {
   ) {
     let todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
+
+    this.formState = localStorage.getItem('formState');
+
+
+
+    // this.groundata.balance = 800
+    // localStorage.setItem('groundData', JSON.stringify(this.groundata))
+
+    if (this.formState == 'ground') {
+      this.groundata = JSON.parse(localStorage.getItem('groundData'));
+      console.log(this.groundata.receipts)
+      this.category = "G"
+      this.balance = this.groundata.balance
+      this.regId = this.groundata.regId
+    }
+    else if (this.formState == 'sports') {
+      let combo = JSON.parse(localStorage.getItem('detail'))
+      this.localdata = Object.assign(combo.e, combo.doc)
+      this.localdata.dob = this.datePipe.transform(this.localdata.dob, 'dd-MM-yyyy')
+      this.sdob = this.localdata.dob
+      this.receiptList = this.localdata.r
+      this.category = "S"
+      this.balance = this.localdata.balance
+      this.userId = this.localdata.userId
+      this.membership = this.localdata.membership
+      // this.userDob = this.datePipe.transform(this.localdata.dob, 'dd-MM-yyyy')
+
+    }
+    else if (this.formState == 'receipt') {
+      this.receiptData = JSON.parse(localStorage.getItem('recData'));
+      console.log(this.receiptData)
+    }
+    else if (!this.formState) {
+      console.log('No formstate')
+    }
+
+
     this.registerForm = this.formBuilder.group({
       batch: new FormControl('MORNING'),
       time: new FormControl(),
       membership: new FormGroup({
         q1: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(),
+          FY: new FormControl(this.fyq1),
         }),
         q2: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(),
+          FY: new FormControl(this.fyq2),
         }),
         q3: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(),
+          FY: new FormControl(this.fyq3),
         }),
         q4: new FormGroup({
           status: new FormControl(false),
-          FY: new FormControl(),
+          FY: new FormControl(this.fyq4),
         }),
       }),
 
@@ -82,7 +138,7 @@ export class DetailsComponent implements OnInit {
         moccupation: new FormControl(),
         mmobileNo: new FormControl()
       }),
-      dob: new FormControl('', Validators.required),
+      dob: new FormControl(this.sdob, Validators.required),
       currentClass: new FormControl('', Validators.required),
       school: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
@@ -102,25 +158,18 @@ export class DetailsComponent implements OnInit {
       balance: new FormControl(0, Validators.required),
       narration: new FormControl('', Validators.required),
       mode: new FormControl('CASH', Validators.required),
+      sport: new FormControl('Cricket', Validators.required),
+      document: new FormGroup({
+        no: new FormControl(),
+        bank: new FormControl(),
+        date: new FormControl()
+      }),
+      discountPercent: new FormControl(),
+      discountAmount: new FormControl(),
+      finalAmount: new FormControl()
     });
-
-    this.localdata = JSON.parse(localStorage.getItem('detail'));
-    this.registerForm.patchValue(this.localdata);
-    this.formState = localStorage.getItem('formState');
-    this.groundata = JSON.parse(localStorage.getItem('groundData'));
-    console.log('data', this.groundata)
-    // this.groundata.balance = 800
-    // localStorage.setItem('groundData', JSON.stringify(this.groundata))
-
-    if (this.formState == 'ground') {
-      this.category = "G"
-      this.balance = this.groundata.balance
-      this.regId = this.groundata.regId
-    }
-    else {
-      this.category = "S"
-      this.balance = this.localdata.balance
-      console.log(this.balance)
+    if (this.formState == 'sports') {
+      this.registerForm.patchValue(this.localdata);
     }
     if (this.balance != '') {
       this.payBtn = true
@@ -133,9 +182,198 @@ export class DetailsComponent implements OnInit {
       narration: new FormControl('', Validators.required),
       mode: new FormControl('CASH', Validators.required),
       category: new FormControl(this.category),
-      userId: new FormControl(this.localdata.userId)
+      userId: new FormControl(this.userId),
+      finalAmount: new FormControl(this.balance, Validators.required),
+      document: new FormGroup({
+        no: new FormControl(),
+        bank: new FormControl(),
+        date: new FormControl()
+      }),
     })
+    // this.newReceiptInit()
+    this.newReceiptForm = this.formBuilder.group({
+      regId: new FormControl(this.regId),
+      membership: new FormGroup({
+        q1: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(),
+        }),
+        q2: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(),
+        }),
+        q3: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(),
+        }),
+        q4: new FormGroup({
+          status: new FormControl(false),
+          FY: new FormControl(),
+        }),
+      }),
+      sport: new FormControl('Cricket', Validators.required),
+      totalAmount: new FormControl(0, Validators.required),
+      amountPaid: new FormControl(0, Validators.required),
+      balance: new FormControl(0, Validators.required),
+      narration: new FormControl('', Validators.required),
+      mode: new FormControl('CASH', Validators.required),
+      category: new FormControl(this.category),
+      userId: new FormControl(this.userId),
+      document: new FormGroup({
+        no: new FormControl(),
+        bank: new FormControl(),
+        date: new FormControl()
+      }),
+      discountPercent: new FormControl(),
+      discountAmount: new FormControl(),
+      finalAmount: new FormControl()
+    })
+  }
 
+
+  findByKey(array, key, value) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i][key] === value) {
+        return array[i];
+      }
+    }
+    return null;
+  }
+
+  addNewReceipt() {
+    // console.log(this.newReceiptForm.value)
+    this.modalRef.hide()
+    let toastopt = {
+      timeOut: 3000,
+      showProgressBar: true,
+      pauseOnHover: false,
+      clickToClose: true,
+      maxLength: 50
+    };
+
+    if (confirm('Are you want to really print form')) {
+      if (this.elt.isElectronApp && print) {
+        let ipcR = this.elt.ipcRenderer;
+        ipcR.on('wrote-pdf', (event, path) => {
+          // console.log(event);
+          // console.log(path);
+        });
+        ipcR.send('print-to-pdf');
+      } else {
+        console.log("Print Not Trigger")
+      }
+      this.service.api(this.globals.newReceipt, this.newReceiptForm.value).subscribe(res => {
+        if (res.s) {
+          //update groundata object
+          this.localdata.balance = this.newReceiptForm.value.balance
+          this.localdata.finalAmount = this.newReceiptForm.value.finalAmount
+          this.localdata.amountPaid = this.newReceiptForm.value.amountPaid
+          this.localdata.narration = this.newReceiptForm.value.narration
+          localStorage.setItem('detail', JSON.stringify(this.localdata))
+          this.registerForm.patchValue(this.localdata);
+          this.notif.success(
+            'Success',
+            'Form Submitted...',
+            toastopt
+          );
+          this.newReceiptForm.reset();
+          if (this.elt.isElectronApp && print) {
+            let ipcR = this.elt.ipcRenderer;
+            ipcR.on('wrote-pdf', (event, path) => {
+              // console.log(event);
+              // console.log(path);
+            });
+            ipcR.send('print-to-pdf');
+          } else {
+            console.log("Print Not Trigger")
+          }
+        } else {
+          console.error('Somethisg went Wrong! Please chech server responce.')
+        }
+      }, (error) => {
+        // console.log('error', error);
+        if (error.d && error.d.length > 0) {
+          error.d.forEach((msg: string) => {
+
+            this.notif.error(
+              'Error',
+              msg,
+              toastopt
+            );
+          });
+        }
+      });
+    } else {
+      console.log("*msg cancel btn pressed");
+    }
+  }
+
+  paySport() {
+    this.modalRef.hide()
+    let toastopt = {
+      timeOut: 3000,
+      showProgressBar: true,
+      pauseOnHover: false,
+      clickToClose: true,
+      maxLength: 50
+    };
+
+    if (confirm('Are you want to really print form')) {
+      if (this.elt.isElectronApp && print) {
+        let ipcR = this.elt.ipcRenderer;
+        ipcR.on('wrote-pdf', (event, path) => {
+          // console.log(event);
+          // console.log(path);
+        });
+        ipcR.send('print-to-pdf');
+      } else {
+        console.log("Print Not Trigger")
+      }
+      this.service.api(this.globals.payb, this.paymentForm.value).subscribe(res => {
+        if (res.s) {
+          //update groundata object
+          this.localdata.balance = this.paymentForm.value.balance
+          this.localdata.finalAmount = this.paymentForm.value.finalAmount
+          this.localdata.amountPaid = this.paymentForm.value.amountPaid
+          this.localdata.narration = this.paymentForm.value.narration
+          this.balance = this.paymentForm.value.balance
+          localStorage.setItem('detail', JSON.stringify(this.localdata))
+          this.registerForm.patchValue(this.localdata);
+          this.notif.success(
+            'Success',
+            'Form Submitted...',
+            toastopt
+          );
+          this.paymentForm.reset();
+          if (this.elt.isElectronApp && print) {
+            let ipcR = this.elt.ipcRenderer;
+            ipcR.on('wrote-pdf', (event, path) => {
+              // console.log(event);
+              // console.log(path);
+            });
+            ipcR.send('print-to-pdf');
+          } else {
+            console.log("Print Not Trigger")
+          }
+        } else {
+          console.error('Somethisg went Wrong! Please chech server responce.')
+        }
+      }, (error) => {
+        // console.log('error', error);
+        if (error.d && error.d.length > 0) {
+          error.d.forEach((msg: string) => {
+
+            this.notif.error(
+              'Error',
+              msg,
+              toastopt
+            );
+          });
+        }
+      });
+    } else {
+      console.log("*msg cancel btn pressed");
+    }
   }
 
   ngOnInit() {
@@ -143,12 +381,69 @@ export class DetailsComponent implements OnInit {
   }
   formControlValueChanged() {
 
+    const discountPercent: any = this.newReceiptForm.get('discountPercent')
+    const totalAmount: any = this.newReceiptForm.get('totalAmount')
+    const finalAmount = this.newReceiptForm.get('finalAmount')
+    const discountAmount = this.newReceiptForm.get('discountAmount')
+
+    const balance = this.newReceiptForm.get('balance');
+    const amountPaid = this.newReceiptForm.get('amountPaid');
+
+
+
+    discountPercent.valueChanges.subscribe(mode => {
+      let famt = (totalAmount.value * discountPercent.value) / 100
+      discountAmount.setValue(famt)
+      finalAmount.setValue(totalAmount.value - discountAmount.value)
+      balance.setValue(finalAmount.value - amountPaid.value)
+
+    })
+
+    totalAmount.valueChanges.subscribe((mode: string) => {
+      let famt = (totalAmount.value * discountPercent.value) / 100
+      discountAmount.setValue(famt)
+      finalAmount.setValue(totalAmount.value - discountAmount.value)
+      balance.setValue(finalAmount.value - amountPaid.value)
+    })
+
+    amountPaid.valueChanges.subscribe(
+      (mode: string) => {
+        balance.setValue(finalAmount.value - amountPaid.value)
+      });
+
+    this.newReceiptForm.get('mode').valueChanges.subscribe(
+      (mode: string) => {
+
+        if (mode == 'DD' || mode == 'CHEQUE' || mode == 'CARD' || mode == 'ONLINE') {
+          this.isDocument = true;
+        }
+        else {
+          this.isDocument = false
+        }
+      })
+
+    this.paymentForm.get('mode').valueChanges.subscribe(
+      (mode: string) => {
+
+        if (mode == 'DD' || mode == 'CHEQUE' || mode == 'CARD' || mode == 'ONLINE') {
+          this.isDocument = true;
+        }
+        else {
+          this.isDocument = false
+        }
+      })
+
     const balanceg = this.paymentForm.get('balance');
     this.paymentForm.get('amountPaid').valueChanges.subscribe(
       (mode: string) => {
 
-        balanceg.setValue(this.paymentForm.get('totalAmount').value - this.paymentForm.get('amountPaid').value)
+        balanceg.setValue(this.paymentForm.get('finalAmount').value - this.paymentForm.get('amountPaid').value)
       });
+    // this.paymentForm.get('finalAmount').valueChanges.subscribe(
+    //   (mode: string) => {
+
+    //     balanceg.setValue(this.paymentForm.get('finalAmount').value - this.paymentForm.get('amountPaid').value)
+    //   });
 
   }
 

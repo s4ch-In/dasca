@@ -85,6 +85,8 @@ export class ListComponent implements OnInit {
       .subscribe(res => {
         this.lodingPage = false;
         if (res.s) {
+          console.log('Sport', res)
+
           this.bigTotalItems = res.d.t;
           this.list = res.d.u;
         } else {
@@ -97,7 +99,7 @@ export class ListComponent implements OnInit {
   getReceipts(page: number) {
     this.service.api(this.globals.receipt, { key: this.recText, p: (page - 1) }).subscribe(res => {
       if (res.s) {
-        console.log(this.recText)
+
         this.bigTotalItemsRec = res.t;
         this.receipts = res.d;
       }
@@ -109,7 +111,7 @@ export class ListComponent implements OnInit {
   getGround(page: number) {
     this.service.api(this.globals.groundList, { key: this.groundText, p: (page - 1) }).subscribe(res => {
       if (res.s) {
-        console.log(res.d)
+        console.log('Groundd', res.d)
         this.bigTotalItemsGround = res.t;
         this.ground = res.d;
 
@@ -131,7 +133,25 @@ export class ListComponent implements OnInit {
     );
   }
 
+  grdata: any = {}
   ngOnInit() {
+    if (localStorage.getItem('groundData')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('groundData')
+    }
+    if (localStorage.getItem('detail')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('detail')
+    }
+    if (localStorage.getItem('formState')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('formState')
+    }
+
+
     let searchField = this.listForm.get('searchField') as FormControl;
     let recField = this.recForm.get('recField') as FormControl;
     let groundField = this.groundForm.get('groundField') as FormControl;
