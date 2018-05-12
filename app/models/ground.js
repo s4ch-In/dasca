@@ -3,6 +3,7 @@ const Config = require('../config/config').get(process.env.NODE_ENV);
 const connection = mongoose.createConnection(Config.database);
 const Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
+const Float = require('mongoose-float').loadType(mongoose, 4);
 
 const groudSchema = new Schema({
   regNo: {
@@ -20,15 +21,25 @@ const groudSchema = new Schema({
     uppercase: true,
     maxlength: 40
   },
-  balance: {
-    type: Number
-  },
   totalAmount: {
-    type: Number,
+    type: Float,
     required: [true, "Please enter total amount"]
   },
+  discountPercent: {
+    type: Float
+  },
+  finalAmount: {
+    type: Float,
+    required: [true, "Please enter final amount "]
+  },
+  discountAmount: {
+    type: Float
+  },
+  balance: {
+    type: Float
+  },
   amountPaid: {
-    type: Number,
+    type: Float,
     required: [true, "Please enter amount paid"]
   },
   company: {

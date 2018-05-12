@@ -8,6 +8,9 @@ module.exports.create = (req, res, next) => {
   let memQuarters = []
   const messages = [];
   req.body.dob = moment.utc(req.body.dob, 'DD-MM-YYYY').toDate()
+  // if(req.body.document && req.body.document.date){
+
+  // }
   // req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
   if (req.body.mode &&
     req.body.balance.toString() &&
@@ -18,44 +21,54 @@ module.exports.create = (req, res, next) => {
         memQuarters.push({ sport: req.body.sport, quarter: key, FY: req.body.membership[key].FY, registeredOn: new Date() })
       }
     });
-    req.body.membership = memQuarters
-    if (req.body) {
-      let f = new User(req.body)
-      f.save((err, user) => {
-        if (err) {
-          console.log(err)
-          for (let i in err.errors) {
-            messages.push(err.errors[i].message)
-          }
-          return next(messages)
-        } else {
-          Receipt.generate({
-            mode: req.body.mode,
-            narration: req.body.narration,
-            balance: req.body.balance,
-            amountPaid: req.body.amountPaid,
-            sport: req.body.sport,
-            category: 'S',
-            user: user._id,
-            name: user.firstName + ' ' + user.lastName
-          }, (err, r) => {
-            if (err) {
-              return next(err)
-            } else {
-              user.receipts.push(r._id)
-              user.save((err, u) => {
-                if (err) {
-                  return next(err)
-                } else {
-                  return res.json({ s: true, m: "User registered Successfully", d: { u, r } });
-                }
-              })
+    if (memQuarters.length > 0) {
+      req.body.membership = memQuarters
+      if (req.body) {
+        req.body.totalAmount = parseFloat(req.body.totalAmount)
+        let f = new User(req.body)
+        f.save((err, user) => {
+          if (err) {
+            console.log(err)
+            for (let i in err.errors) {
+              messages.push(err.errors[i].message)
             }
-          })
-        }
-      })
+            return next(messages)
+          } else {
+            Receipt.generate({
+              mode: req.body.mode,
+              narration: req.body.narration,
+              balance: req.body.balance,
+              totalAmount: parseFloat(req.body.totalAmount),
+              document: req.body.document,
+              amountPaid: req.body.amountPaid,
+              sport: req.body.sport,
+              category: 'S',
+              user: user._id,
+              name: user.firstName + ' ' + user.lastName,
+              discountPercent: req.body.discountPercent,
+              discountAmount: req.body.discountAmount,
+              finalAmount: req.body.finalAmount
+            }, (err, r) => {
+              if (err) {
+                return next(err)
+              } else {
+                user.receipts.push(r._id)
+                user.save((err, u) => {
+                  if (err) {
+                    return next(err)
+                  } else {
+                    return res.json({ s: true, m: "User registered Successfully", d: { u, r } });
+                  }
+                })
+              }
+            })
+          }
+        })
+      } else {
+        return next(new Error("Invalid Data"))
+      }
     } else {
-      return next(new Error("Invalid Data"))
+      return next(new Error('Please provide quarter of registration'))
     }
   } else {
     return next(new Error('Invalid receipt data'))
@@ -131,6 +144,7 @@ module.exports.pay = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
+            totalAmount: req.body.totalAmount,
             amountPaid: req.body.amountPaid,
             sport: req.body.sport,
             category: 'S',

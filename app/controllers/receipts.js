@@ -22,6 +22,7 @@ module.exports.create = (req, res, next) => {
               name: u.firstName + ' ' + u.lastName,
               category: req.body.category,
               user: u._id,
+              totalAmount: req.body.totalAmount,
               amountPaid: req.body.amountPaid
             }, (err, r) => {
               if (err) {
@@ -54,6 +55,7 @@ module.exports.create = (req, res, next) => {
               narration: req.body.narration,
               balance: req.body.balance,
               amountPaid: req.body.amountPaid,
+              totalAmount: req.body.totalAmount,
               ground: g._id,
               category: 'G',
               name: (g.category == 'P') ? g.person.name : g.company.name

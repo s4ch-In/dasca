@@ -4,6 +4,7 @@ const connection = mongoose.createConnection(Config.database);
 const Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
 const mongooseHistory = require('mongoose-history')
+const Float = require('mongoose-float').loadType(mongoose, 4);
 const userSchema = new Schema({
   userId: {
     type: String,
@@ -25,6 +26,12 @@ const userSchema = new Schema({
     type: String,
     required: [true, 'Please enter first name'],
     uppercase: true
+  },
+  discountPercent: {
+    type: Float
+  },
+  discountAmount: {
+    type: Float
   },
   membership: [{
     registeredOn: {
@@ -141,15 +148,19 @@ const userSchema = new Schema({
     uppercase: true
   },
   amountPaid: {
-    type: Number,
+    type: Float,
     required: [true, "Please enter Fees Paid"]
   },
   totalAmount: {
-    type: Number,
+    type: Float,
     required: [true, "Please enter total amount"]
   },
+  finalAmount: {
+    type: Float,
+    required: [true, "Please enter final amount "]
+  },
   balance: {
-    type: Number,
+    type: Float,
     // required: [true, "Please enter Fees Paid"]
   },
   addIncharge: {

@@ -8,6 +8,10 @@ module.exports.create = (req, res, next) => {
   console.log(req.body)
   let messages = [];
   if (req.body) {
+    req.body.bookingDates = {};
+    req.body.bookingDates.from = req.body.dateFromTo[0]
+    req.body.bookingDates.to = req.body.dateFromTo[1]
+    req.body.totalAmount = parseFloat(req.body.totalAmount)
     let newGround = new Ground(req.body)
     let errors = newGround.validateSync()
     if (errors) {
@@ -24,10 +28,15 @@ module.exports.create = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
+            totalAmount: parseFloat(req.body.totalAmount),
             amountPaid: req.body.amountPaid,
+            document: req.body.document,
             ground: g._id,
             category: 'G',
-            name: (g.category == 'P') ? g.person.name : g.company.name
+            name: (g.category == 'P') ? g.person.name : g.company.name,
+            discountPercent: req.body.discountPercent,
+            discountAmount: req.body.discountAmount,
+            finalAmount: req.body.finalAmount
           }, (err, r) => {
             if (err) {
               return next(err)

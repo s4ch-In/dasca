@@ -4,35 +4,16 @@ const connection = mongoose.createConnection(Config.database);
 const Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
 const Float = require('mongoose-float').loadType(mongoose, 4);
-const receiptSchema = new Schema({
-  receiptNo: {
+const bookingSchema = new Schema({
+  bookingNo: {
     type: Number
   },
-  name: {
-    type: String,
-    uppercase: true
+  bookingId: {
+    type: String
   },
-  mode: {
+  category: {
     type: String,
-    uppercase: true,
-    enum: ['CASH', 'CHEQUE', 'DD', 'CARD', 'ONLINE'],
-    required: [true, 'Please specify mode of payment']
-  },
-  document: {
-    no: {
-      type: String,
-      uppercase: true,
-    },
-    bank: {
-      type: String
-    },
-    date: {
-      type: Date
-    }
-  },
-  receiptId: {
-    type: String,
-    uppercase: true
+    enum: ['S', 'G']
   },
   narration: {
     type: String,
@@ -62,9 +43,8 @@ const receiptSchema = new Schema({
   sport: {
     type: String
   },
-  category: {
-    type: String,
-    enum: ['S', 'G']
+  expireOn: {
+    type: Date
   },
   user: {
     type: Schema.Types.ObjectId,
@@ -79,17 +59,17 @@ const receiptSchema = new Schema({
 });
 
 autoIncrement.initialize(connection);
-receiptSchema.plugin(autoIncrement.plugin, {
-  model: 'From',
-  field: 'receiptNo',
+bookingSchema.plugin(autoIncrement.plugin, {
+  model: 'Booking',
+  field: 'bookingNo',
   startAt: 1,
   incrementBy: 1
 });
-receiptSchema.pre('save', function(next) {
+bookingSchema.pre('save', function(next) {
   if (this.isNew) {
     let d = new Date();
     let y = d.getMonth() < 3 ? d.getYear() - 1 : d.getYear();
-    this.receiptId = y.toString() + this.receiptNo.toString();
+    this.bookingId = y.toString() + this.bookingNo.toString();
     return next()
   } else {
     return next()
@@ -97,4 +77,4 @@ receiptSchema.pre('save', function(next) {
 })
 
 
-module.exports = mongoose.model('Receipt', receiptSchema);
+module.exports = mongoose.model('Booking', bookingSchema);
