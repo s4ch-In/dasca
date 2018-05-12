@@ -17,4 +17,6 @@ module.exports = (app) => {
   // receipts
   app.post('/receipt', Receipt.create)
   app.get('/receipt', Receipt.get)
+
+  app.get('/debitors', Receipt.debitors)
 }

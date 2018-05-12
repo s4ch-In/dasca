@@ -23,7 +23,11 @@ module.exports.create = (req, res, next) => {
               category: req.body.category,
               user: u._id,
               totalAmount: req.body.totalAmount,
-              amountPaid: req.body.amountPaid
+              amountPaid: req.body.amountPaid,
+              document: req.body.document,
+              discountPercent: req.body.discountPercent,
+              discountAmount: req.body.discountAmount,
+              finalAmount: req.body.finalAmount
             }, (err, r) => {
               if (err) {
                 return next(err)
@@ -58,7 +62,11 @@ module.exports.create = (req, res, next) => {
               totalAmount: req.body.totalAmount,
               ground: g._id,
               category: 'G',
-              name: (g.category == 'P') ? g.person.name : g.company.name
+              name: (g.category == 'P') ? g.person.name : g.company.name,
+              document: req.body.document,
+              discountPercent: req.body.discountPercent,
+              discountAmount: req.body.discountAmount,
+              finalAmount: req.body.finalAmount
             }, (err, r) => {
               if (err) {
                 return next(err)
@@ -110,3 +118,16 @@ module.exports.get = (req, res, next) => {
       }
     })
 };
+
+module.exports.debitors = (req, res, next) => {
+  User
+    .find({ balance: { $gt: 0 } })
+    // .populate()
+    .exec((err, u) => {
+      if (err) {
+        return next(err)
+      } else {
+        return res.json({ s: true, m: "Debitors list ", d: u })
+      }
+    })
+}
