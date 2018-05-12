@@ -23,6 +23,11 @@ table td ul{
     border: none;
     width: 80px;
     margin-left: 20px;
+    background: transparent;
+    color: #fff
+}
+.form-check{
+    margin-bottom: 1px;
 }
 /* .detailForm::-webkit-input-placeholder{
     color: rgb(255, 250, 221) !important;
