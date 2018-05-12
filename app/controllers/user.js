@@ -8,10 +8,6 @@ module.exports.create = (req, res, next) => {
   let memQuarters = []
   const messages = [];
   req.body.dob = moment.utc(req.body.dob, 'DD-MM-YYYY').toDate()
-  // if(req.body.document && req.body.document.date){
-
-  // }
-  // req.body.dob = moment(req.body.dob).format('DD-MM-YYYY')
   if (req.body.mode &&
     req.body.balance.toString() &&
     req.body.amountPaid.toString() &&
@@ -76,15 +72,25 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.get = (req, res, next) => {
-  const clausePagiNation = [{
+  const clausePagiNation = [
+    { $lookup: { from: 'receipts', localField: 'receipts', foreignField: '_id', as: 'r' } },
+    {
       $project: {
-        name: { $concat: ["$firstName", " ", "$lastName"] },
+        user: {
+          $arrayElemAt: ['$r', 0]
+        },
+        e: "$$ROOT"
+      }
+    },
+    {
+      $project: {
+        name: { $concat: ["$e.firstName", " ", "$e.lastName"] },
         doc: "$$ROOT"
       }
     },
     {
       $match: {
-        name: new RegExp(req.query.key, 'i'),
+        "name": new RegExp(req.query.key, 'i'),
       }
     },
     { $sort: { "doc.createdAt": -1 } },
@@ -92,15 +98,25 @@ module.exports.get = (req, res, next) => {
     { $limit: limitPerPage }
   ];
 
-  const clauseCount = [{
+  const clauseCount = [
+    { $lookup: { from: 'receipts', localField: 'receipts', foreignField: '_id', as: 'r' } },
+    {
       $project: {
-        name: { $concat: ["$firstName", " ", "$lastName"] },
+        user: {
+          $arrayElemAt: ['$r', 0]
+        },
+        e: "$$ROOT"
+      }
+    },
+    {
+      $project: {
+        name: { $concat: ["$e.firstName", " ", "$e.lastName"] },
         doc: "$$ROOT"
       }
     },
     {
       $match: {
-        name: new RegExp(req.query.key, 'i'),
+        "name": new RegExp(req.query.key, 'i'),
       }
     },
     { $group: { _id: null, count: { $sum: 1 } } }

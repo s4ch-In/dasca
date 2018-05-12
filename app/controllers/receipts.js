@@ -118,3 +118,16 @@ module.exports.get = (req, res, next) => {
       }
     })
 };
+
+module.exports.debitors = (req, res, next) => {
+  User
+    .find({ balance: { $gt: 0 } })
+    // .populate()
+    .exec((err, u) => {
+      if (err) {
+        return next(err)
+      } else {
+        return res.json({ s: true, m: "Debitors list ", d: u })
+      }
+    })
+}
