@@ -149,7 +149,11 @@ module.exports.pay = (req, res, next) => {
             sport: req.body.sport,
             category: 'S',
             user: user._id,
-            name: user.firstName + ' ' + user.lastName
+            name: user.firstName + ' ' + user.lastName,
+            document: req.body.document,
+            discountPercent: req.body.discountPercent,
+            discountAmount: req.body.discountAmount,
+            finalAmount: req.body.finalAmount
           }, (err, r) => {
             if (err) {
               return next(err)
