@@ -38,6 +38,7 @@ module.exports.create = (req, res, next) => {
                   if (err) {
                     return next(err)
                   } else {
+                    r.user = user
                     return res.json({ s: true, m: "User registered Successfully", d: r });
                   }
                 })
@@ -77,6 +78,7 @@ module.exports.create = (req, res, next) => {
                   if (err) {
                     return next(err)
                   } else {
+                    r.ground = user
                     return res.json({ s: true, m: "User registered Successfully", d: r });
                   }
                 })
