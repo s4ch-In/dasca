@@ -22,6 +22,10 @@ const userSchema = new Schema({
     type: String,
     uppercase: true
   },
+  caste: {
+    type: String,
+    uppercase: true
+  },
   firstName: {
     type: String,
     required: [true, 'Please enter first name'],

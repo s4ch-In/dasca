@@ -61,10 +61,13 @@ module.exports.create = (req, res, next) => {
           }
         })
       } else {
+
         return next(new Error("Invalid Data"))
       }
     } else {
-      return next(new Error('Please provide quarter of registration'))
+      let newEr = new Error()
+      newEr = ['Please provide quarter of registration']
+      return next(newEr)
     }
   } else {
     return next(new Error('Invalid receipt data'))
@@ -93,7 +96,7 @@ module.exports.get = (req, res, next) => {
         "name": new RegExp(req.query.key, 'i'),
       }
     },
-    { $sort: { "doc.createdAt": -1 } },
+    { $sort: { "doc.user.createdAt": -1 } },
     { $skip: (parseInt(req.query.p) > 0 ? parseInt(req.query.p) : 0) * parseInt(limitPerPage) },
     { $limit: limitPerPage }
   ];
