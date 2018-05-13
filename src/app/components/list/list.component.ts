@@ -145,9 +145,17 @@ export class ListComponent implements OnInit {
       // localStorage.setItem('groundData', this.grdata)
       localStorage.removeItem('detail')
     }
+    if (localStorage.getItem('recData')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('recData')
+    }
     if (localStorage.getItem('formState')) {
       // console.log(localStorage.getItem('groundData'))
       // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('formState')
+    }
+    if (localStorage.getItem('formData')) {
       localStorage.removeItem('formState')
     }
 

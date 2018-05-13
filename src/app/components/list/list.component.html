@@ -55,9 +55,9 @@
               <tr *ngFor="let ls of list;let i = index;">
                 <td>{{itemsPerPage * (bigCurrentPage -1) + i + 1 }}</td>
                 <td>{{ls.name}}</td>
-                <td>{{ls.doc.batch}}</td>
-                <td>{{ls.doc.dob | date:'mediumDate'}}</td>
-                <td>{{ls.doc.createdAt | date:'mediumDate'}}</td>
+                <td>{{ls.doc.e.batch}}</td>
+                <td>{{ls.doc.e.dob | date:'mediumDate'}}</td>
+                <td>{{ls.doc.user.createdAt | date:'mediumDate'}}</td>
                 <td>
                   <button class="btn btn-xs btn-success" (click)="getData(i)">view more</button>
                 </td>

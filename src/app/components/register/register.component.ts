@@ -125,7 +125,8 @@ export class RegisterComponent implements OnInit {
       }),
       discountPercent: new FormControl(),
       discountAmount: new FormControl(),
-      finalAmount: new FormControl()
+      finalAmount: new FormControl(),
+      caste: new FormControl(),
     });
 
 
@@ -137,6 +138,28 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if (localStorage.getItem('groundData')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('groundData')
+    }
+    if (localStorage.getItem('detail')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('detail')
+    }
+    if (localStorage.getItem('recData')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('recData')
+    }
+
+    if (localStorage.getItem('formState')) {
+      // console.log(localStorage.getItem('groundData'))
+      // localStorage.setItem('groundData', this.grdata)
+      localStorage.removeItem('formState')
+    }
 
 
     this.groundregForm = this.formBuilder.group({
@@ -341,7 +364,6 @@ export class RegisterComponent implements OnInit {
     }
   }
   register(print: boolean) {
-    console.log('form.value :', this.registerForm.value);
     let toastopt = {
       timeOut: 3000,
       showProgressBar: true,
@@ -350,7 +372,7 @@ export class RegisterComponent implements OnInit {
       maxLength: 50
     };
 
-    localStorage.setItem("formData", JSON.stringify(this.registerForm.value));
+
     if (confirm('Are you want to really submit form')) {
       this.service.api(this.globals.register, this.registerForm.value).subscribe(res => {
         console.log('res : ', res);
@@ -359,6 +381,8 @@ export class RegisterComponent implements OnInit {
           // setTimeout(() => {
           //   this.submited = false;
           // }, 1000*5);
+          let formData = Object.assign(res.d.r, res.d.u)
+          localStorage.setItem("formData", JSON.stringify(formData));
           this.notif.success(
             'Success',
             'Form Submitted...',

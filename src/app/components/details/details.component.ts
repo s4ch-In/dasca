@@ -265,6 +265,7 @@ export class DetailsComponent implements OnInit {
       this.service.api(this.globals.newReceipt, this.newReceiptForm.value).subscribe(res => {
         if (res.s) {
           //update groundata object
+          console.log(res)
           this.localdata.balance = this.newReceiptForm.value.balance
           this.localdata.finalAmount = this.newReceiptForm.value.finalAmount
           this.localdata.amountPaid = this.newReceiptForm.value.amountPaid
@@ -332,19 +333,23 @@ export class DetailsComponent implements OnInit {
       this.service.api(this.globals.payb, this.paymentForm.value).subscribe(res => {
         if (res.s) {
           //update groundata object
+          console.log(res)
           this.localdata.balance = this.paymentForm.value.balance
           this.localdata.finalAmount = this.paymentForm.value.finalAmount
           this.localdata.amountPaid = this.paymentForm.value.amountPaid
           this.localdata.narration = this.paymentForm.value.narration
           this.balance = this.paymentForm.value.balance
+          this.paymentForm.reset()
+          this.paymentForm.get('finalAmount').setValue(this.balance);
           localStorage.setItem('detail', JSON.stringify(this.localdata))
+          let formData = Object.assign({}, res.d.user, res.d)
+          localStorage.setItem("formData", JSON.stringify(formData));
           this.registerForm.patchValue(this.localdata);
           this.notif.success(
             'Success',
             'Form Submitted...',
             toastopt
           );
-          this.paymentForm.reset();
           if (this.elt.isElectronApp && print) {
             let ipcR = this.elt.ipcRenderer;
             ipcR.on('wrote-pdf', (event, path) => {
@@ -433,6 +438,7 @@ export class DetailsComponent implements OnInit {
         }
       })
 
+    //PaymentForm calculations
     const balanceg = this.paymentForm.get('balance');
     this.paymentForm.get('amountPaid').valueChanges.subscribe(
       (mode: string) => {
@@ -472,18 +478,24 @@ export class DetailsComponent implements OnInit {
       this.service.api(this.globals.payb, this.paymentForm.value).subscribe(res => {
         if (res.s) {
           //update groundata object
+          console.log(res)
           this.groundata.balance = this.paymentForm.value.balance
           this.groundata.totalAmount = this.paymentForm.value.totalAmount
+          // this.localdata.finalAmount = this.paymentForm.value.finalAmount
           this.groundata.amountPaid = this.paymentForm.value.amountPaid
           this.groundata.narration = this.paymentForm.value.narration
+          this.balance = this.paymentForm.value.balance
+          this.paymentForm.reset()
           localStorage.setItem('groundData', JSON.stringify(this.groundata))
-
+          console.log('resd', res.d)
+          let formData = Object.assign({}, res.d.ground.company, res.d.ground.person, res.d.ground, res.d)
+          localStorage.setItem("formData", JSON.stringify(formData));
+          this.paymentForm.get('finalAmount').setValue(this.balance);
           this.notif.success(
             'Success',
             'Form Submitted...',
             toastopt
           );
-          this.paymentForm.reset();
           if (this.elt.isElectronApp && print) {
             let ipcR = this.elt.ipcRenderer;
             ipcR.on('wrote-pdf', (event, path) => {

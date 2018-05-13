@@ -13,14 +13,14 @@ ipc.on('print-to-pdf', ev => {
 
   let printWin = new BrowserWindow({ show: false });
   printWin.loadURL('file://' + __dirname + '/dist/index.html#/print');
-  console.log(path.join('file://' + __dirname + '/dist/index.html#/print'));
+  // console.log(path.join('file://' + __dirname + '/dist/index.html#/print'));
   printWin.webContents.on('did-finish-load', () => {
-    
+
     // console.log('printers', printWin.webContents.getPrinters())
-    printWin.webContents.print({printBackground:true}, () => {
-      console.log('success');
-    })
-    printWin.webContents.printToPDF({printBackground:true}, (err, data) => {
+    // printWin.webContents.print({printBackground:true}, () => {
+    //   console.log('success');
+    // })
+    printWin.webContents.printToPDF({ printBackground: true }, (err, data) => {
       if (err) {
         console.error(err);
       } else {
