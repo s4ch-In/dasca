@@ -160,7 +160,7 @@ module.exports.pay = (req, res, next) => {
             mode: req.body.mode,
             narration: req.body.narration,
             balance: req.body.balance,
-            totalAmount: req.body.totalAmount,
+            totalAmount: parseFloat(req.body.totalAmount),
             amountPaid: req.body.amountPaid,
             sport: req.body.sport,
             category: 'S',
