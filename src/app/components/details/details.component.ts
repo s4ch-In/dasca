@@ -335,12 +335,19 @@ export class DetailsComponent implements OnInit {
           //update groundata object
           console.log(res)
           this.localdata.balance = this.paymentForm.value.balance
+
           this.localdata.finalAmount = this.paymentForm.value.finalAmount
+          this.localdata.totalAmount = this.paymentForm.value.finalAmount
           this.localdata.amountPaid = this.paymentForm.value.amountPaid
           this.localdata.narration = this.paymentForm.value.narration
           this.balance = this.paymentForm.value.balance
+          this.category = this.paymentForm.value.category
+          this.userId = this.paymentForm.value.userId
           this.paymentForm.reset()
+          this.paymentForm.get('totalAmount').setValue(this.localdata.totalAmount)
+          this.paymentForm.get('userId').setValue(this.userId)
           this.paymentForm.get('finalAmount').setValue(this.balance);
+          this.paymentForm.get('category').setValue(this.category);
           localStorage.setItem('detail', JSON.stringify(this.localdata))
           let formData = Object.assign({}, res.d.user, res.d)
           localStorage.setItem("formData", JSON.stringify(formData));
@@ -485,8 +492,14 @@ export class DetailsComponent implements OnInit {
           this.groundata.amountPaid = this.paymentForm.value.amountPaid
           this.groundata.narration = this.paymentForm.value.narration
           this.balance = this.paymentForm.value.balance
+          this.category = this.paymentForm.value.category
+          this.regId = this.paymentForm.value.regId
           this.paymentForm.reset()
+
+          this.paymentForm.get('totalAmount').setValue(this.groundata.finalAmount)
+          this.paymentForm.get('regId').setValue(this.regId)
           localStorage.setItem('groundData', JSON.stringify(this.groundata))
+          this.paymentForm.get('category').setValue(this.category);
           console.log('resd', res.d)
           let formData = Object.assign({}, res.d.ground.company, res.d.ground.person, res.d.ground, res.d)
           localStorage.setItem("formData", JSON.stringify(formData));

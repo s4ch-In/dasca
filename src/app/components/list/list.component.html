@@ -231,6 +231,118 @@
 
         </div>
       </tab>
+      <tab heading="DEBITORS">
+        <tabset>
+          <tab heading="Sport">
+            <div class="col-sm-12">
+              <div>
+                <!-- Material form group -->
+                <form [formGroup]="debsForm">
+
+                  <!-- Material input -->
+                  <div style="max-width: 400px;" class="md-form form-group mt-5">
+                    <div class="form-label-group">
+                      <input type="text" id="inputs" class="form-control" placeholder="Search" autofocus="" formControlName="debsFields" name="debsFields"
+                        autocomplete="off">
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+
+
+              <!--Table-->
+              <table class="table table-bordered">
+
+                <!--Table head-->
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Balance</th>
+
+                  </tr>
+                </thead>
+                <!--Table head-->
+
+                <!--Table body-->
+                <tbody>
+                  <tr *ngFor="let debs of debitors;let i = index;">
+                    <td>{{itemsPerPage * (bigCurrentPageDebs - 1) + i + 1 }}</td>
+                    <td>{{debs.name}}</td>
+                    <td>Rs. {{debs.doc.e.balance}}</td>
+
+                  </tr>
+                </tbody>
+                <!--Table body-->
+              </table>
+              <!--Table-->
+
+            </div>
+            <div class="col-sm-12 text-center">
+              <pagination class="pagination-md" [maxSize]="maxSize" [totalItems]="bigTotalItemsDebs" [(ngModel)]="bigCurrentPageDebs" [itemsPerPage]="itemsPerPage"
+                [boundaryLinks]="false" [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChangedD($event.page)">
+              </pagination>
+
+            </div>
+          </tab>
+          <tab heading="Ground">
+            <div class="col-sm-12">
+              <div>
+                <!-- Material form group -->
+                <form [formGroup]="debgForm">
+
+                  <!-- Material input -->
+                  <div style="max-width: 400px;" class="md-form form-group mt-5">
+                    <div class="form-label-group">
+                      <input type="text" id="inputs" class="form-control" placeholder="Search" autofocus="" formControlName="debgFields" name="debgFields"
+                        autocomplete="off">
+                    </div>
+                  </div>
+
+                </form>
+
+              </div>
+
+
+              <!--Table-->
+              <table class="table table-bordered">
+
+                <!--Table head-->
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Balance</th>
+
+                  </tr>
+                </thead>
+                <!--Table head-->
+
+                <!--Table body-->
+                <tbody>
+                  <tr *ngFor="let debg of debitorg;let i = index;">
+                    <td>{{itemsPerPage * (bigCurrentPageDebs - 1) + i + 1 }}</td>
+                    <td>{{debg.user.name}}</td>
+                    <td>Rs. {{debg.e.balance}}</td>
+
+                  </tr>
+                </tbody>
+                <!--Table body-->
+              </table>
+              <!--Table-->
+
+            </div>
+            <div class="col-sm-12 text-center">
+              <pagination class="pagination-md" [maxSize]="maxSize" [totalItems]="bigTotalItemsDebg" [(ngModel)]="bigCurrentPageDebg" [itemsPerPage]="itemsPerPage"
+                [boundaryLinks]="false" [rotate]="false" (numPages)="numPages = $event" (pageChanged)="pageChangedDg($event.page)">
+              </pagination>
+
+            </div>
+          </tab>
+        </tabset>
+      </tab>
     </tabset>
   </div>
 </div>

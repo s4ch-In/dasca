@@ -6,7 +6,7 @@ export class Globals {
   ) { }
   // url: string = 'localhost:1191';
   // url: string ='192.168.0.100:1191'; //netgear server
-  url: string = '192.168.0.102:1191'; //niraj netgear
+  url: string = '192.168.0.104:1191'; //niraj netgear
   webSocketUrl: string = 'ws://' + this.url + '/';
   api: string = 'http://' + this.url + '/';
   register: object = { url: this.api + 'user', method: "POST" };
@@ -16,6 +16,6 @@ export class Globals {
   receipt: object = { url: this.api + 'receipt', method: "GET" };
   payb: object = { url: this.api + 'receipt', method: "POST" };
   newReceipt: object = { url: this.api + 'register', method: "POST" };
-
+  debitors: object = { url: this.api + 'debitors', method: "GET" };
 
 }

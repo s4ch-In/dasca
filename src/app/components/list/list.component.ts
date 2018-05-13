@@ -30,6 +30,8 @@ export class ListComponent implements OnInit {
   public listForm: FormGroup;
   public recForm: FormGroup;
   public groundForm: FormGroup
+  public debsForm: FormGroup
+  public debgForm: FormGroup
   constructor(
     private service: MasterService,
     private globals: Globals,
@@ -53,11 +55,19 @@ export class ListComponent implements OnInit {
     this.groundForm = new FormGroup({
       groundField: new FormControl(),
     });
+    this.debsForm = new FormGroup({
+      debsFields: new FormControl(),
+    });
+    this.debgForm = new FormGroup({
+      debgFields: new FormControl(),
+    });
 
     this.lodingPage = true;
     this.getPage(this.bigCurrentPage);
     this.getReceipts(this.bigCurrentPageRec);
     this.getGround(this.bigCurrentPageGround);
+    this.getDebitors(this.bigCurrentPageDebs)
+    this.getDebitorg(this.bigCurrentPageDebg)
   }
   // loadmore(){
   //   this.lodingPage = true;
@@ -78,6 +88,43 @@ export class ListComponent implements OnInit {
   pageChangedG(page: number) {
     this.bigCurrentPageGround = page
     this.getGround(this.bigCurrentPageGround)
+  }
+  bigCurrentPageDebs: number = 1
+  pageChangedD(page: number) {
+    this.bigCurrentPageDebs = page
+    this.getGround(this.bigCurrentPageDebs)
+  }
+  bigCurrentPageDebg: number = 1
+  pageChangedDg(page: number) {
+    this.bigCurrentPageDebg = page
+    this.getDebitorg(this.bigCurrentPageDebg)
+  }
+  debitors: any
+  bigTotalItemsDebs: number
+  debsText: string = ""
+  getDebitors(page: number) {
+    this.service.api(this.globals.debitors, { c: 'S', key: this.debsText, p: (page - 1) })
+      .subscribe(res => {
+        if (res.s) {
+          // console.log('debitors G', res)
+          this.bigTotalItemsDebs = res.d.t;
+          this.debitors = res.d.u
+        }
+      })
+  }
+
+  debitorg: any
+  bigTotalItemsDebg: number
+  debgText: string = ""
+  getDebitorg(page: number) {
+    this.service.api(this.globals.debitors, { key: this.debgText, p: (page - 1) })
+      .subscribe(res => {
+        if (res.s) {
+          console.log('debitors G', res)
+          this.bigTotalItemsDebg = res.d.t;
+          this.debitorg = res.d.u
+        }
+      })
   }
 
   getPage(page: number) {
@@ -163,6 +210,8 @@ export class ListComponent implements OnInit {
     let searchField = this.listForm.get('searchField') as FormControl;
     let recField = this.recForm.get('recField') as FormControl;
     let groundField = this.groundForm.get('groundField') as FormControl;
+    let debsFields = this.debsForm.get('debsFields') as FormControl
+    let debgFields = this.debgForm.get('debgFields') as FormControl
 
     searchField.valueChanges
       .do((ele) => {
@@ -190,6 +239,23 @@ export class ListComponent implements OnInit {
         this.groundText = query
         this.bigCurrentPageGround = 1
         this.getGround(this.bigCurrentPageGround)
+      })
+
+    debsFields.valueChanges
+      .do((ele) => {
+        this.debitors = [];
+      }).subscribe((query) => {
+        this.debsText = query
+        this.bigCurrentPageDebs = 1
+        this.getDebitors(this.bigCurrentPageDebs)
+      })
+    debgFields.valueChanges
+      .do((ele) => {
+        this.debitorg = [];
+      }).subscribe((query) => {
+        this.debgText = query
+        this.bigCurrentPageDebg = 1
+        this.getDebitors(this.bigCurrentPageDebg)
       })
 
   }
