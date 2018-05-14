@@ -43,15 +43,11 @@ export class PrintComponent implements OnInit {
   }
   ngOnInit() {
 
-    if (localStorage.getItem('recData')) {
-      let recData = JSON.parse(localStorage.getItem('recData'))
-      this.rData = Object.assign(recData, recData.user)
-    }
-    else if (localStorage.getItem('formData')) {
+    if (localStorage.getItem('formData')) {
       // let recData = JSON.parse(localStorage.getItem('formData'))
       // this.rData = Object.assign(recData.r, recData.u)
       this.rData = JSON.parse(localStorage.getItem('formData'))
-      console.log('afterSub', this.rData)
+      // console.log('afterSub', this.rData)
     }
 
     if (this.rData) {
@@ -65,10 +61,19 @@ export class PrintComponent implements OnInit {
       this.recNo = this.rData.receiptId
       this.userId = this.rData.userId
       this.name = (this.rData.name) ? this.rData.name : this.rData.firstName + ' ' + this.rData.lastName
-      this.mobileNo = this.rData.mobileNo
+      if (this.rData.company) {
+        this.mobileNo = this.rData.company.contactNo
+      }
+      else if (this.rData.person) {
+        this.mobileNo = this.rData.person.contactNo
+      }
+      else {
+        this.mobileNo = this.rData.mobileNo
+      }
       this.dob = this.rData.dob
       this.caste = this.rData.caste
       this.school = this.rData.school
+      this.caste = this.rData.caste
       this.paidFor = this.rData.category
       this.totalAmount = this.rData.totalAmount
       this.discountAmount = this.rData.discountAmount

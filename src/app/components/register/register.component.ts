@@ -160,7 +160,10 @@ export class RegisterComponent implements OnInit {
       // localStorage.setItem('groundData', this.grdata)
       localStorage.removeItem('formState')
     }
-
+    if (localStorage.getItem('formData')) {
+      // console.log('remove', localStorage.getItem('formData'))
+      localStorage.removeItem('formData')
+    }
 
     this.groundregForm = this.formBuilder.group({
       dateFromTo: this.dateFromTo,
@@ -304,8 +307,7 @@ export class RegisterComponent implements OnInit {
         val.get('name').clearValidators()
         val.get('name').updateValueAndValidity()
 
-        console.log(val.get('name')
-        )
+        // console.log(val.get('name'))
       }
     })
 
@@ -321,7 +323,7 @@ export class RegisterComponent implements OnInit {
     };
     if (confirm('Are you want to really submit form')) {
       this.service.api(this.globals.ground, this.groundregForm.value).subscribe(res => {
-        console.log('res : ', res);
+        // console.log('res : ', res);
         if (res.s) {
           // this.submited=true;
           // setTimeout(() => {
@@ -341,8 +343,10 @@ export class RegisterComponent implements OnInit {
             });
             ipcR.send('print-to-pdf');
           } else {
-            console.log("Print Not Trigger")
+            // console.log("Print Not Trigger")
           }
+          window.scroll(0, 0);
+          this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
         } else {
           console.error('Somethisg went Wrong! Please check server responce.')
         }
@@ -360,7 +364,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     } else {
-      console.log("*msg cancel btn pressed");
+      // console.log("*msg cancel btn pressed");
     }
   }
   register(print: boolean) {
@@ -375,7 +379,7 @@ export class RegisterComponent implements OnInit {
 
     if (confirm('Are you want to really submit form')) {
       this.service.api(this.globals.register, this.registerForm.value).subscribe(res => {
-        console.log('res : ', res);
+        // console.log('res : ', res);
         if (res.s) {
           // this.submited=true;
           // setTimeout(() => {
@@ -397,8 +401,11 @@ export class RegisterComponent implements OnInit {
             });
             ipcR.send('print-to-pdf');
           } else {
-            console.log("Print Not Trigger")
+            // console.log("Print Not Trigger")
           }
+          window.scroll(0, 0);
+          this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
+
         } else {
           console.error('Somethisg went Wrong! Please check server responce.')
         }
@@ -416,7 +423,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     } else {
-      console.log("*msg cancel btn pressed");
+      // console.log("*msg cancel btn pressed");
     }
   }
   changeForm(status) {

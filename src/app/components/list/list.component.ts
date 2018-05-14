@@ -149,7 +149,7 @@ export class ListComponent implements OnInit {
 
         this.bigTotalItemsRec = res.t;
         this.receipts = res.d;
-        console.log('receipts', this.receipts)
+        // console.log('receipts', this.receipts)
       }
     })
   }
@@ -204,7 +204,7 @@ export class ListComponent implements OnInit {
       localStorage.removeItem('formState')
     }
     if (localStorage.getItem('formData')) {
-      localStorage.removeItem('formState')
+      localStorage.removeItem('formData')
     }
 
 

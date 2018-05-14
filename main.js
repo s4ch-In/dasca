@@ -21,7 +21,7 @@ ipc.on('print-to-pdf', ev => {
     //   console.log('success');
     // })
     console.log(printWin.webContents.getPrinters())
-    printWin.webContents.print({ printBackground: true, silent: true, deviceName: 'EPSON LX-300+ /II' }, (err, data) => {
+    printWin.webContents.print({ printBackground: true, silent: true }, (err, data) => {
       if (err) {
         console.error(err);
       } else {

@@ -210,6 +210,15 @@
 
       </div>
       <!--PrintEnd-->
+      <nav class="navbar fixed-bottom navbar-light bg-light">
+        <a class="navbar-brand text-primary" style="font-size: 14px" href="#">© Vestanam Pvt. Ltd </a>
+        <div class="btn-group text-right ">
+          <!-- <button class="pull-right btn btn-primary" (click)="register(true)">Print</button> -->
+          <button class="pull-right btn btn-success" (click)="printRec(true)">Print</button>
+          <!-- <button class="pull-right btn btn-warning" (click)="register(true)">Add new Reciept</button> -->
+        </div>
+      </nav>
+
     </div>
     <div *ngIf="!formState">
       <h1>Record Not Found</h1>
@@ -992,7 +1001,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button class="btn btn-info " (click)="modalRef.hide()">Cancel</button>
-          <button class="btn btn-success" (click)="addNewReceipt()">Pay</button>
+          <button class="btn btn-success" (click)="addNewReceipt(true)">Pay</button>
         </div>
 
       </ng-template>
