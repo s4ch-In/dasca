@@ -19,7 +19,197 @@
     <h3>Details </h3>
     <hr class="my-3">
     <div *ngIf="formState=='receipt'">
+      <!--print-->
+      <div class="page">
+        <!-- <hr style="color: #ccc;border-top: 2px dashed rgba(0,0,0,0.4); width: 100%; height: 1px; top: 49%; left: 0;  position: absolute;"> -->
+        <div class="header">
+          <strong>RCP DATE:
+            <span style="color: red">{{cDate |date : 'dd/MM/yyyy'}}</span>
+          </strong>
+          <div class="row" style="margin-right:0">
+            <div class=" text-center">
+              <p>Param Poojya Dr. Babasaheb Ambedkar Samrak Samiti's</p>
+              <h1>DR. AMBEDKAR COLLEGE SPORTS ACADEMY</h1>
+              <p>Deeksha Bhoomi, Nagpur - 440010</p>
 
+            </div>
+            <div class="">
+              <img src="{{img}}" alt="Logo">
+            </div>
+          </div>
+
+          <table class="headt">
+
+            <tr>
+              <td>
+                <label>REC NO: </label>
+
+              </td>
+              <td>
+                <strong>{{recId}}</strong>
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                <label>ID: </label>
+
+              </td>
+              <td colspan="">
+                <strong>{{recUserId}}</strong>
+              </td>
+
+
+            </tr>
+            <tr>
+              <td>
+                <label>NAME : </label>
+              </td>
+              <td colspan="3">
+                <strong>{{recName}}</strong>
+              </td>
+              <td>
+                <label>MOBILE No.: </label>
+              </td>
+              <td>
+                <strong>{{recMobile}}</strong>
+              </td>
+              <td>
+                <label>DOB : </label>
+              </td>
+              <td>
+                <strong>{{recDob | date : mediumDate}}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>CATEGORY : </label>
+              </td>
+              <td colspan="3">
+                <strong>{{recCaste}}</strong>
+              </td>
+              <td>
+                <label>School: </label>
+              </td>
+              <td>
+                <strong>{{recSchool}}</strong>
+              </td>
+            </tr>
+
+          </table>
+          <table class="headt">
+            <tr>
+              <td>
+                Paid for :
+                <strong *ngIf="recPaidFor=='G'">Ground</strong>
+                <strong *ngIf="recPaidFor=='S'">Sport</strong>
+              </td>
+
+              <td align="right">
+                <ul style="list-style: none">
+                  <li *ngIf="q1">{{q1.sport}} - April to June</li>
+                  <li *ngIf="q2">{{q2.sport}} - July to September</li>
+                  <li *ngIf="q3">{{q3.sport}} - October to December</li>
+                  <li *ngIf="q4">{{q4.sport}} - January to March</li>
+                </ul>
+              </td>
+            </tr>
+          </table>
+          <hr style="border-color: #999" />
+
+          <table class="headt bdy">
+            <tr>
+              <td>
+                Total Amount:
+
+              </td>
+              <td>
+                <strong>Rs. {{recTotalAmount}}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Discount Amount:
+
+              </td>
+              <td>
+                <strong>Rs. {{recDiscountAmount}}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Discount Percent:
+
+              </td>
+              <td>
+                <strong>{{recDiscountPercent}}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Final Amount:
+              </td>
+              <td>
+                <strong>Rs. {{recFinalAmount}}</strong>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Amount Received:
+              </td>
+              <td>
+                <strong>Rs. {{recAmountPaid}}</strong>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                In Words
+
+              </td>
+              <td>
+                <strong>
+                  <i style="text-transform: capitalize;border-bottom: solid 1px #000">Rs. {{recAmountPaid | numberToWords}} Only </i>
+                </strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Balance Amount:
+
+              </td>
+              <td>
+                <strong>Rs. {{recBalance}}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td> &nbsp; </td>
+            </tr>
+            <tr>
+              <td> &nbsp; </td>
+            </tr>
+            <tr>
+              <td> &nbsp; </td>
+            </tr>
+            <tr>
+              <td> &nbsp; </td>
+            </tr>
+            <tr>
+              <td> &nbsp; </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td align="right">
+                Signature
+              </td>
+            </tr>
+          </table>
+          <hr style="border-color: #000; margin: 30px 0 70px" />
+
+        </div>
+
+      </div>
+      <!--PrintEnd-->
     </div>
     <div *ngIf="!formState">
       <h1>Record Not Found</h1>

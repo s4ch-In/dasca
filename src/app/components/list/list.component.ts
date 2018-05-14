@@ -120,7 +120,7 @@ export class ListComponent implements OnInit {
     this.service.api(this.globals.debitors, { key: this.debgText, p: (page - 1) })
       .subscribe(res => {
         if (res.s) {
-          console.log('debitors G', res)
+          // console.log('debitors G', res)
           this.bigTotalItemsDebg = res.d.t;
           this.debitorg = res.d.u
         }
@@ -132,7 +132,7 @@ export class ListComponent implements OnInit {
       .subscribe(res => {
         this.lodingPage = false;
         if (res.s) {
-          console.log('Sport', res)
+          // console.log('Sport', res)
 
           this.bigTotalItems = res.d.t;
           this.list = res.d.u;
@@ -149,6 +149,7 @@ export class ListComponent implements OnInit {
 
         this.bigTotalItemsRec = res.t;
         this.receipts = res.d;
+        console.log('receipts', this.receipts)
       }
     })
   }
@@ -158,7 +159,7 @@ export class ListComponent implements OnInit {
   getGround(page: number) {
     this.service.api(this.globals.groundList, { key: this.groundText, p: (page - 1) }).subscribe(res => {
       if (res.s) {
-        console.log('Groundd', res.d)
+        // console.log('Groundd', res.d)
         this.bigTotalItemsGround = res.t;
         this.ground = res.d;
 
@@ -254,8 +255,9 @@ export class ListComponent implements OnInit {
         this.debitorg = [];
       }).subscribe((query) => {
         this.debgText = query
+        // console.log(this.debgText)
         this.bigCurrentPageDebg = 1
-        this.getDebitors(this.bigCurrentPageDebg)
+        this.getDebitorg(this.bigCurrentPageDebg)
       })
 
   }

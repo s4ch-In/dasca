@@ -26,7 +26,7 @@
     <div *ngIf="sportsForm">
       <strong>Sports</strong>
 
-      <form [formGroup]="registerForm" autocomplete="off" (ngSubmit)="register(false)" novalidate #formDom>
+      <form [formGroup]="registerForm" autocomplete="off" novalidate #formDom>
 
         <div class="mt-4">
 
@@ -375,14 +375,14 @@
           </div>
         </div>
         <div class="submit col-sm-12">
-          <button class="btn btn-success" type="submit">Save</button>
+          <button class="btn btn-success" (click)="register(false)">Save</button>
           <button class="btn btn-success" (click)="register(true)">Save & Print</button>
         </div>
       </form>
     </div>
 
     <div *ngIf="!sportsForm">
-      <form [formGroup]="groundregForm" autocomplete="off" (ngSubmit)="registerg()" novalidate>
+      <form [formGroup]="groundregForm" autocomplete="off" novalidate>
         <strong>Ground</strong>
         <div class="mt-4">
 
@@ -558,7 +558,7 @@
 
         </div>
         <div class="submit col-sm-12">
-          <button class="btn btn-success" type="submit">Save</button>
+          <button class="btn btn-success" (click)="register(false)">Save</button>
           <button class="btn btn-success" (click)="registerg(true)">Save & Print</button>
         </div>
       </form>
