@@ -20,7 +20,8 @@ ipc.on('print-to-pdf', ev => {
     // printWin.webContents.print({printBackground:true}, () => {
     //   console.log('success');
     // })
-    printWin.webContents.printToPDF({ printBackground: true }, (err, data) => {
+    console.log(printWin.webContents.getPrinters())
+    printWin.webContents.print({ printBackground: true, silent: true, deviceName: 'EPSON LX-300+ /II' }, (err, data) => {
       if (err) {
         console.error(err);
       } else {
@@ -55,7 +56,7 @@ function createWindow() {
   }))
 
   // Open the DevTools optionally:
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   // win.setFullScreen(true);
   win.maximize()
 

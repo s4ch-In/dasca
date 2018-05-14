@@ -78,15 +78,16 @@
       <tr>
         <td>
           Paid for :
-          <strong>{{paidFor}}</strong>
+          <strong *ngIf="paidFor=='G'">Ground</strong>
+          <strong *ngIf="paidFor=='S'">Sport</strong>
         </td>
 
         <td align="right">
           <ul style="list-style: none">
-            <li *ngIf="q1">April to June</li>
-            <li *ngIf="q2">July to September</li>
-            <li *ngIf="q3">October to December</li>
-            <li *ngIf="q4">January to March</li>
+            <li *ngIf="q1">{{q1.sport}} - April to June</li>
+            <li *ngIf="q2">{{q2.sport}} - July to September</li>
+            <li *ngIf="q3">{{q3.sport}} - October to December</li>
+            <li *ngIf="q4">{{q4.sport}} - January to March</li>
           </ul>
         </td>
       </tr>

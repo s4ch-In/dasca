@@ -69,7 +69,7 @@ export class PrintComponent implements OnInit {
       this.dob = this.rData.dob
       this.caste = this.rData.caste
       this.school = this.rData.school
-      this.paidFor = this.rData.sport
+      this.paidFor = this.rData.category
       this.totalAmount = this.rData.totalAmount
       this.discountAmount = this.rData.discountAmount
       this.discountPercent = this.rData.discountPercent

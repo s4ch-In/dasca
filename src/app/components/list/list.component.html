@@ -199,10 +199,12 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Receipt No.</th>
                 <th>Receipt Id</th>
                 <th>Reg. Date</th>
-                <th>More Details</th>
+                <th>Amount Paid</th>
+                <th>Paid For</th>
+                <th>Payment Mode</th>
+                <th>View More</th>
               </tr>
             </thead>
             <!--Table head-->
@@ -211,9 +213,14 @@
             <tbody>
               <tr *ngFor="let rec of receipts;let i = index;">
                 <td>{{itemsPerPage * (bigCurrentPageRec - 1) + i + 1 }}</td>
-                <td>{{rec.receiptNo}}</td>
                 <td>{{rec.receiptId}}</td>
                 <td>{{rec.createdAt | date:'mediumDate'}}</td>
+                <td>{{rec.amountPaid}}</td>
+                <td>
+                  <span *ngIf="rec.category=='G'">Ground</span>
+                  <span *ngIf="rec.category=='S'">Sport</span>
+                </td>
+                <td>{{rec.mode}}</td>
                 <td>
                   <button class="btn btn-xs btn-success" (click)="getRecData(i)">view more</button>
                 </td>
