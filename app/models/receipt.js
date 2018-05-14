@@ -44,10 +44,12 @@ const receiptSchema = new Schema({
     required: [true, "Please enter total amount"]
   },
   discountPercent: {
-    type: Float
+    type: Float,
+    default: 0
   },
   discountAmount: {
-    type: Float
+    type: Float,
+    default: 0
   },
   finalAmount: {
     type: Float,
