@@ -80,7 +80,7 @@ const userSchema = new Schema({
     },
     fmobileNo: {
       type: String,
-      required: [true, "Please enter Father's mobile number"]
+      // required: [true, "Please enter Father's mobile number"]
     },
     fresNo: {
       type: String
