@@ -347,20 +347,11 @@ export class DetailsComponent implements OnInit {
     };
 
     if (confirm('Are you want to really print form')) {
-      if (this.elt.isElectronApp && print) {
-        let ipcR = this.elt.ipcRenderer;
-        ipcR.on('wrote-pdf', (event, path) => {
-          // console.log(event);
-          // console.log(path);
-        });
-        ipcR.send('print-to-pdf');
-      } else {
-        // console.log("Print Not Trigger")
-      }
+     
       this.service.api(this.globals.newReceipt, this.newReceiptForm.value).subscribe(res => {
         if (res.s) {
           //update groundata object
-          // console.log(res)
+          console.log(res)
           this.localdata.balance = this.newReceiptForm.value.balance
           this.localdata.totalAmount = this.newReceiptForm.value.totalAmount
           this.localdata.finalAmount = this.newReceiptForm.value.finalAmount
@@ -379,7 +370,11 @@ export class DetailsComponent implements OnInit {
           this.newReceiptForm.get('membership').get('q4').get('FY').setValue(this.fyq4)
 
           localStorage.setItem('detail', JSON.stringify(this.localdata))
-          localStorage.setItem('formData', localStorage.getItem('detail'))
+          let mg = Object.assign({},res.d.u,res.d.r)
+          // let mg = JSON.parse(localStorage.getItem('detail'))
+          console.log('dekhlete',mg)
+          localStorage.setItem('formData', JSON.stringify(mg))
+
           // console.log('New Receipt Added Form Data', JSON.parse(localStorage.getItem('formData')))
           this.registerForm.patchValue(this.localdata);
           this.notif.success(
@@ -418,7 +413,7 @@ export class DetailsComponent implements OnInit {
     }
   }
 
-  paySport() {
+  paySport(print:boolean) {
     this.modalRef.hide()
     let toastopt = {
       timeOut: 3000,
@@ -562,7 +557,7 @@ export class DetailsComponent implements OnInit {
 
   }
 
-  pay() {
+  pay(print:boolean) {
 
     this.modalRef.hide()
     let toastopt = {
@@ -574,16 +569,7 @@ export class DetailsComponent implements OnInit {
     };
 
     if (confirm('Are you want to really print form')) {
-      if (this.elt.isElectronApp && print) {
-        let ipcR = this.elt.ipcRenderer;
-        ipcR.on('wrote-pdf', (event, path) => {
-          // console.log(event);
-          // console.log(path);
-        });
-        ipcR.send('print-to-pdf');
-      } else {
-        // console.log("Print Not Trigger")
-      }
+
       this.service.api(this.globals.payb, this.paymentForm.value).subscribe(res => {
         if (res.s) {
           //update groundata object

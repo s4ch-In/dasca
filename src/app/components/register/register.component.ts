@@ -323,12 +323,15 @@ export class RegisterComponent implements OnInit {
     };
     if (confirm('Are you want to really submit form')) {
       this.service.api(this.globals.ground, this.groundregForm.value).subscribe(res => {
-        // console.log('res : ', res);
         if (res.s) {
           // this.submited=true;
           // setTimeout(() => {
           //   this.submited = false;
           // }, 1000*5);
+          // console.log(res.d)
+        // console.log('res : ', res);
+          let formData = Object.assign(res.d.gr, res.d.r)
+          localStorage.setItem("formData", JSON.stringify(formData));
           this.notif.success(
             'Success',
             'Form Submitted...',
