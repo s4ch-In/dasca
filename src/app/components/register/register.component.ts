@@ -7,6 +7,7 @@ import { MasterService } from '../../services/master.service';
 import { DatePipe } from '@angular/common';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { NotificationsService } from 'angular2-notifications';
+import { PrintService } from '../../services/print.service';
 
 // var path = require('path');
 // const fs = require('fs');
@@ -49,12 +50,35 @@ export class RegisterComponent implements OnInit {
     private globals: Globals,
     private elt: ElectronService,
     private routes: Router,
+    private printService: PrintService,
     // private toast :ToastsManager,
     // vcr: ViewContainerRef
     private notif: NotificationsService,
   ) {
     // this.toast.setRootViewContainerRef(vcr);
-
+    let formD = {
+      receiptId: '123455',
+      userId: '123455',
+      name: 'KUndan Prasad',
+      mobileNo: '123455',
+      dob: '123455',
+      caste: '123455',
+      school: '123455',
+      paidFor: '123455',
+      membership: {
+        q1: 'q1',
+        q2: 'q1',
+        q3: 'q1',
+        q4: 'q1',
+      },
+      totalAmount: '123455',
+      discountAmount: '123455',
+      discountPercent: '123455',
+      finalAmount: '123455',
+      amountPaid: '123455',
+      balance: '123455'
+    }
+    this.printService.print(formD)
     // console.log('printer : ', printer);
     //let todayDate = this.datePipe.transform(new Date(), 'shortTime');
     // this.totalAmount = new FormControl('', Validators.required)
@@ -131,6 +155,7 @@ export class RegisterComponent implements OnInit {
 
 
   }
+
 
   ngAfterViewInit() {
     this.formDom.nativeElement.querySelector(".form-control[name='firstName']").focus();
@@ -329,7 +354,7 @@ export class RegisterComponent implements OnInit {
           //   this.submited = false;
           // }, 1000*5);
           // console.log(res.d)
-        // console.log('res : ', res);
+          // console.log('res : ', res);
           let formData = Object.assign(res.d.gr, res.d.r)
           localStorage.setItem("formData", JSON.stringify(formData));
           this.notif.success(

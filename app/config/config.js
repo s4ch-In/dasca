@@ -8,6 +8,7 @@ const config = {
         // database: 'mongodb://192.168.1.6:27017/medit',
         // database: 'mongodb://192.168.0.100:27017/medit',
         database: 'mongodb://localhost:27017/dacsa',
+        // database: 'mongodb://dascauser:dasca@123@ds123500.mlab.com:23500/dasca',
     }
 }
 

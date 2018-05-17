@@ -6,6 +6,10 @@ const fs = require('fs');
 
 // var printer = require('printer');
 // console.log('printer : ',printer);
+const isDev = require('electron-is-dev');  // this is required to check if the app is running in development mode. 
+const { appUpdater } = require('./autoupdater');
+
+
 
 let ipc = ipcMain;
 ipc.on('print-to-pdf', ev => {
@@ -42,23 +46,46 @@ ipc.on('print-to-pdf', ev => {
 
 
 app.showExitPrompt = true;
+// if (require('electron-squirrel-startup')) {
+//   app.quit();
+// }
+
 
 let win
 
-function createWindow() {
-  win = new BrowserWindow({ width: 800, height: 600, backgroundColor: '#2e2c29', minimumFontSize: 72, defaultFontSize: 72, defaultMonospaceFontSize: 72 })
 
+function isWindowsOrmacOS() {
+  return process.platform === 'darwin' || process.platform === 'win32';
+}
+
+
+function createWindow() {
+  win = new BrowserWindow({
+    show: false, width: 800, height: 600, backgroundColor: '#2e2c29', minimumFontSize: 72, defaultFontSize: 72, defaultMonospaceFontSize: 72
+  })
+
+  // create a new `splash`-Window 
+  splash = new BrowserWindow({ width: 810, height: 610, transparent: true, frame: false, resizable: false, movable: false, alwaysOnTop: true });
+  splash.loadURL(path.join(__dirname, '/splash.html'));
+  // mainWindow.loadURL(`file://${__dirname}/index.html`);
   // load the dist folder from Angular
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'dist/index.html'),
     protocol: 'file:',
     slashes: true
   }))
+  // if main window is ready to show, then destroy the splash window and show up the main window
+  win.once('ready-to-show', () => {
+    // splash.destroy();
+    splash.close();
+    win.show();
+    win.maximize()
+  });
+
 
   // Open the DevTools optionally:
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
   // win.setFullScreen(true);
-  win.maximize()
 
   win.on('closed', () => {
     win = null
@@ -83,11 +110,23 @@ function createWindow() {
   })
 
 
+  const page = win.webContents;
+
+  page.once('did-frame-finish-load', () => {
+    const checkOS = isWindowsOrmacOS();
+    if (checkOS && !isDev) {
+      // Initate auto-updates on macOs and windows
+      appUpdater();
+    }
+  });
+
   // console.log('printer', printer)
 }
 
 app.on('ready', createWindow)
-
+app.on('browser-window-created', function (e, window) {
+  window.setMenu(null);
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

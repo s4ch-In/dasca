@@ -20,10 +20,16 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { DetailsComponent } from './components/details/details.component';
 import { DisableDirective } from './directives/disable.directive';
 import { NumberToWordsPipe } from './components/pipes/number-to-words.pipe';
+import { PrintService } from './services/print.service';
+import { LoginComponent } from './components/login/login.component';
+import { LoginService } from './services/login.service';
 
 const appRoutes: Routes = [
   {
-    path: '', redirectTo: 'register', pathMatch: 'full'
+    path: '', redirectTo: 'login', pathMatch: 'full'
+  },
+  {
+    path: 'login', component: LoginComponent,
   },
   {
     path: 'register', component: RegisterComponent,
@@ -46,7 +52,8 @@ const appRoutes: Routes = [
     ListComponent,
     DetailsComponent,
     DisableDirective,
-    NumberToWordsPipe
+    NumberToWordsPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +74,7 @@ const appRoutes: Routes = [
     BsDatepickerModule.forRoot(),
     HttpModule
   ],
-  providers: [Globals, MasterService, DatePipe],
+  providers: [Globals, MasterService, DatePipe, PrintService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
